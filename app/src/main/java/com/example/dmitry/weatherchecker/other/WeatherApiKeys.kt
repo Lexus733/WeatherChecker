@@ -1,0 +1,12 @@
+package com.example.dmitry.weatherchecker.other
+
+class WeatherApiKeys {
+    companion object {
+        const val API_KEY: String = ""
+        const val CITY_ID: Int = 479123
+        const val CNT: Int = 1
+        const val LANGUAGE: String = "en"
+        const val METRIC_UNITS: String = "metric"
+        const val BASE_URL: String = "http://api.openweathermap.org/data/2.5/"
+    }
+}
