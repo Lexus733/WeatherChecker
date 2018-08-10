@@ -1,6 +1,7 @@
 package com.example.dmitry.weatherchecker
 
 import android.app.Application
+import com.example.dmitry.weatherchecker.database.WeatherDataBase
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router

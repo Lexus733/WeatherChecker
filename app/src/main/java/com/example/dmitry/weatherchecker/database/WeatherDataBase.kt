@@ -8,7 +8,7 @@ import com.example.dmitry.weatherchecker.dao.WeatherDataDao
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.DataBaseKeys
 
-@Database(entities = [WeatherDataModel::class], version = 1)
+@Database(entities = [WeatherDataModel::class], version = 2)
 abstract class WeatherDataBase : RoomDatabase() {
     abstract fun weatherDataDao(): WeatherDataDao
 

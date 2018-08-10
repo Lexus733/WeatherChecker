@@ -1,6 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/today_weather_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="@string/city_name"
+        android:textSize="@dimen/today_weather_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/today_weather_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="@dimen/today_weather_margin_top"
+        android:text="@string/temp"
+        android:textSize="@dimen/today_weather_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/today_weather_city_name" />
+
+    <ImageView
+        android:id="@+id/today_weather_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="100dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintLeft_toLeftOf="@id/today_weather_temp"
+        app:layout_constraintRight_toRightOf="@id/today_weather_temp"
+        app:layout_constraintTop_toTopOf="@id/today_weather_temp" />
+
+    <TextView
+        android:id="@+id/today_weather_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/today_weather_margin_top"
+        android:text="@string/description"
+        android:textSize="@dimen/today_weather_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/today_weather_temp" />
+
+    <TextView
+        android:id="@+id/today_weather_wind_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="@dimen/today_weather_margin_top"
+        android:text="@string/wind"
+        android:textSize="@dimen/today_weather_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/today_weather_description"
+        app:layout_constraintTop_toTopOf="@id/today_weather_description" />
+
+    <ImageView
+        android:id="@+id/today_weather_wind_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/today_weather_wind_speed"
+        app:layout_constraintTop_toTopOf="@id/today_weather_wind_speed" />
+
+    <ImageView
+        android:id="@+id/today_weather_humidity_icon"
+        android:layout_width="@dimen/today_weather_icon_size"
+        android:layout_height="@dimen/today_weather_icon_size"
+        android:layout_marginLeft="32dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintLeft_toRightOf="@id/today_weather_wind_speed"
+        app:layout_constraintTop_toTopOf="@id/today_weather_wind_icon" />
+
+    <TextView
+        android:id="@+id/today_weather_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="@string/humidity"
+        android:textSize="@dimen/today_weather_text_size"
+        app:layout_constraintLeft_toRightOf="@id/today_weather_humidity_icon"
+        app:layout_constraintTop_toTopOf="@id/today_weather_wind_speed" />
 </android.support.constraint.ConstraintLayout>

@@ -2,12 +2,10 @@ package com.example.dmitry.weatherchecker.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "weatherData")
-data class WeatherDataModel(@PrimaryKey(autoGenerate = true) val id: Long?,
-                            @ColumnInfo(name = "dt") val dt: Long,
+data class WeatherDataModel(@ColumnInfo(name = "dt") val dt: Int,
                             @ColumnInfo(name = "temp") val temp: Double,
                             @ColumnInfo(name = "temp_min") val temp_min: Double,
                             @ColumnInfo(name = "temp_max") val temp_max: Double,
@@ -22,6 +20,8 @@ data class WeatherDataModel(@PrimaryKey(autoGenerate = true) val id: Long?,
                             @ColumnInfo(name = "clouds_all") val clouds_all: Int,
                             @ColumnInfo(name = "wind_speed") val wind_speed: Double,
                             @ColumnInfo(name = "wind_deg") val wind_deg: Double,
-                            @ColumnInfo(name = "dt_text") val dt_text: String) {
-    constructor() : this(null, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0, "", "", "", 0, 0.0, 0.0, "")
+                            @ColumnInfo(name = "dt_text") val dt_text: String,
+                            @ColumnInfo(name = "city_name") val city_name: String,
+                            @ColumnInfo(name = "city_country") val city_contry: String) {
+    @PrimaryKey(autoGenerate = true) var id: Int? = null
 }
