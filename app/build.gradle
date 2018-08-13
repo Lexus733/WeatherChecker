@@ -44,6 +44,7 @@ dependencies {
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation "org.jetbrains.anko:anko:0.10.5"
     implementation "com.squareup.retrofit2:retrofit:2.3.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:2.3.0"

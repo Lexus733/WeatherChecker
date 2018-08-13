@@ -14,10 +14,7 @@ import kotlinx.android.synthetic.main.today_weather_fragment.*
 class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
-    @ProvidePresenter
-    fun providedPresenter(): TodayWeatherPresenter {
-        return TodayWeatherPresenter(context!!.applicationContext)
-    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.today_weather_fragment, container, false)
@@ -28,9 +25,9 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
     }
 
     override fun initView(weatherDataModel: ArrayList<WeatherDataModel>) {
-        today_weather_city_name.text = weatherDataModel[0].city_name
-        today_weather_description.text = weatherDataModel[0].weather_description
-        today_weather_humidity.text = weatherDataModel[0].humidity.toString()
-        today_weather_wind_speed.text = weatherDataModel[0].wind_speed.toString()
+        today_weather_city_name.text = weatherDataModel[weatherDataModel.size - 1].id.toString()
+        today_weather_description.text = weatherDataModel[weatherDataModel.size - 1].weather_description
+        today_weather_humidity.text = weatherDataModel[weatherDataModel.size - 1].humidity.toString()
+        today_weather_wind_speed.text = weatherDataModel[weatherDataModel.size - 1].wind_speed.toString()
     }
 }
