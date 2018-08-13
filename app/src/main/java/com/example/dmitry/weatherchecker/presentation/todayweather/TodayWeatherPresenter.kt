@@ -5,7 +5,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.repos.Repos
-import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.doAsyncResult
 import org.jetbrains.anko.uiThread
 
 @InjectViewState
@@ -17,7 +17,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         repos = Repos()
-        doAsync {
+        doAsyncResult {
             list = repos.getData()
             uiThread {
                 handler.post({ viewState.initView(list) })

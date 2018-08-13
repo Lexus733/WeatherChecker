@@ -12,7 +12,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class Repos() : IRepos {
+class Repos : IRepos {
     private lateinit var retrofit: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
 

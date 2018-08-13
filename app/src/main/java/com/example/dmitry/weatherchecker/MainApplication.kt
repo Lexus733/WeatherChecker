@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Intent
 import com.example.dmitry.weatherchecker.database.WeatherDataBase
 import com.example.dmitry.weatherchecker.services.ServiceForApi
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.doAsyncResult
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
