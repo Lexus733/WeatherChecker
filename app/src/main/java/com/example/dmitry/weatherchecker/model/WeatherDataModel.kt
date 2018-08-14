@@ -20,7 +20,7 @@ data class WeatherDataModel(@ColumnInfo(name = "dt") val dt: Int,
                             @ColumnInfo(name = "clouds_all") val clouds_all: Int,
                             @ColumnInfo(name = "wind_speed") val wind_speed: Double,
                             @ColumnInfo(name = "wind_deg") val wind_deg: Double,
-                            @ColumnInfo(name = "dt_text") val dt_text: String,
+                            @ColumnInfo(name = "dt_text")  val dt_text: String,
                             @ColumnInfo(name = "city_name") val city_name: String,
                             @ColumnInfo(name = "city_country") val city_contry: String) {
     @PrimaryKey(autoGenerate = true) var id: Int? = null

@@ -2,10 +2,9 @@ package com.example.dmitry.weatherchecker
 
 import android.app.Application
 import android.content.Intent
+import android.os.Build
 import com.example.dmitry.weatherchecker.database.WeatherDataBase
 import com.example.dmitry.weatherchecker.services.ServiceForApi
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.doAsyncResult
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -15,12 +14,16 @@ class MainApplication : Application() {
         super.onCreate()
         cicerone = Cicerone.create()
         db = WeatherDataBase.getInstance(this)
-        startService(Intent(this,ServiceForApi::class.java))
+        if(Build.VERSION.SDK_INT >= 26){
+            startForegroundService(Intent(this,ServiceForApi::class.java))
+        } else {
+            startService(Intent(this, ServiceForApi::class.java))
+        }
     }
 
     companion object {
         private var cicerone: Cicerone<Router>? = null
-        private var db:WeatherDataBase? = null
+        private var db: WeatherDataBase? = null
 
         fun getDb() = db!!.weatherDataDao()
 

@@ -9,13 +9,12 @@ import java.util.concurrent.TimeUnit
 class ServiceForApi : Service() {
     private lateinit var repos: Repos
     private val time: Int = 1
-
     override fun onCreate() {
         super.onCreate()
         repos = Repos()
-        Thread(Runnable { insertDataToDb() })
+        Thread(Runnable { insertDataToDb() }).start()
         Thread(Runnable { while(time == 1){
-                TimeUnit.MINUTES.sleep(1)
+                TimeUnit.MINUTES.sleep(60)
                 insertDataToDb()
             }}).start()
     }
@@ -29,6 +28,6 @@ class ServiceForApi : Service() {
     }
 
     private fun insertDataToDb() {
-        repos.insertOneDataToDbFromApi()
+        repos.insertEverythingToDbFromApi()
     }
 }
