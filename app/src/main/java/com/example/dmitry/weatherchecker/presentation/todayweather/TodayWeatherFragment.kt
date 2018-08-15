@@ -19,15 +19,21 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         return inflater.inflate(R.layout.today_weather_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView(event: WeatherDataModel) {
+        today_weather_city_name.text = event.id.toString()
+        today_weather_temp.text = event.temp.toString() + " C"
+        today_weather_description.text = event.weather_description
+        today_weather_humidity.text = event.humidity.toString() + " %"
+        today_weather_wind_speed.text = event.wind_speed.toString()+ " m/s"
     }
 
-    override fun initView(weatherDataModel: ArrayList<WeatherDataModel>) {
-        today_weather_city_name.text = weatherDataModel[0].id.toString()
-        today_weather_temp.text = weatherDataModel[0].temp.toString() + " C"
-        today_weather_description.text = weatherDataModel[0].weather_description
-        today_weather_humidity.text = weatherDataModel[0].humidity.toString() + " %"
-        today_weather_wind_speed.text = weatherDataModel[0].wind_speed.toString()+ " m/s"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.subs()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsub()
     }
 }

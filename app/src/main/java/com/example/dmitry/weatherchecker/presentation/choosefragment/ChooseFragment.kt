@@ -9,16 +9,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import kotlinx.android.synthetic.main.choose_fragment.*
 
-class ChooseFragment : MvpAppCompatFragment(),IChooseFragment {
+class ChooseFragment : MvpAppCompatFragment(), IChooseFragment {
     @InjectPresenter
-    lateinit var presenter:ChooseFragmentPresenter
+    lateinit var presenter: ChooseFragmentPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.choose_fragment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun initView(onClickListenerGoToTodayWeatherFragment: View.OnClickListener, onClickListenerGoToWeatherGraphs: View.OnClickListener) {

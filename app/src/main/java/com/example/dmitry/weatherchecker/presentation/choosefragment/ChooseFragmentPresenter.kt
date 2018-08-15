@@ -11,10 +11,10 @@ class ChooseFragmentPresenter : MvpPresenter<IChooseFragment>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.initView(onClickListenerGoToTodayWeatherFragment
-                ,onClickListenerGoToWeatherGraphs)
+                , onClickListenerGoToWeatherGraphs)
     }
 
-    private var onClickListenerGoToTodayWeatherFragment: View.OnClickListener  = View.OnClickListener {
+    private var onClickListenerGoToTodayWeatherFragment: View.OnClickListener = View.OnClickListener {
         MainApplication.getRouter().navigateTo(ScreenKeys.TODAY_WEATHER)
     }
 

@@ -1,12 +1,12 @@
 package com.example.dmitry.weatherchecker.repos
 
 import android.util.Log
-import android.widget.Toast
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +21,7 @@ class Repos : IRepos {
         val weatherDataModel = ArrayList<WeatherDataModel>()
         Thread(Runnable {
             weatherDataModel.addAll(MainApplication.getDb().getLastData())
+            EventBus.getDefault().post(weatherDataModel[0])
         }).start()
         return weatherDataModel
     }
@@ -42,7 +43,6 @@ class Repos : IRepos {
     }
 
 
-
     override fun insertOneDataToDbFromApi() {
         retrofit = Retrofit.Builder().baseUrl(WeatherApiKeys.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -59,10 +59,10 @@ class Repos : IRepos {
 
             override fun onResponse(call: Call<WeatherData>?, response: Response<WeatherData>?) {
                 response?.let {
-                    var weatherDataModelDb = getLastData()
+                    val weatherDataModelDb = getLastData()
 
                     response.body()!!.list.map {
-                        if (it.dt_txt != weatherDataModelDb[0].dt_text){
+                        if (it.dt_txt != weatherDataModelDb[0].dt_text) {
                             val weatherDataModel = WeatherDataModel(it.dt,
                                     it.main.temp,
                                     it.main.temp_min,
@@ -84,7 +84,7 @@ class Repos : IRepos {
 
                             insertWeatherDataInDb(weatherDataModel)
                         } else {
-                            Log.d("DataFromApi","It has exist")
+                            Log.d("DataFromApi", "It has exist")
                         }
                     }
                 }

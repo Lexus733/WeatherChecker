@@ -4,5 +4,5 @@ import com.arellomobile.mvp.MvpView
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 
 interface ITodayWeather : MvpView {
-    fun initView(weatherDataModel: ArrayList<WeatherDataModel>)
+    fun initView(event: WeatherDataModel)
 }

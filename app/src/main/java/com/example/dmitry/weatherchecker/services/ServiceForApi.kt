@@ -4,19 +4,13 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.example.dmitry.weatherchecker.repos.Repos
-import java.util.concurrent.TimeUnit
 
 class ServiceForApi : Service() {
     private lateinit var repos: Repos
-    private val time: Int = 1
     override fun onCreate() {
         super.onCreate()
         repos = Repos()
         Thread(Runnable { insertDataToDb() }).start()
-        Thread(Runnable { while(time == 1){
-                TimeUnit.MINUTES.sleep(60)
-                insertDataToDb()
-            }}).start()
     }
 
     override fun onBind(intent: Intent): IBinder? {
