@@ -7,4 +7,7 @@
     <string name="humidity">humidity</string>
     <string name="today_weather_now">Weather now</string>
     <string name="graphs_weather">Weather graphs</string>
+    <string name="get_data_from_api">Getting data from servers every 1 minute</string>
+    <string name="last_date_update">Date the last update:</string>
+    <string name="stop_service">Stop service</string>
 </resources>

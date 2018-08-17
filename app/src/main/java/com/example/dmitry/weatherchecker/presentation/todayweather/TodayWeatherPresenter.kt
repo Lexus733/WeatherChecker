@@ -1,5 +1,6 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
+import android.os.Handler
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
@@ -11,16 +12,18 @@ import org.greenrobot.eventbus.Subscribe
 class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     private lateinit var repos: Repos
     private lateinit var list: ArrayList<WeatherDataModel>
+    private lateinit var handler: Handler
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         repos = Repos()
+        handler = Handler()
         list = repos.getLastData()
     }
 
     @Subscribe
     fun onEvent(event: WeatherDataModel) {
-        viewState.initView(event)
+        handler.post { viewState.initView(event) }
     }
 
     fun subs() = EventBus.getDefault().register(this)

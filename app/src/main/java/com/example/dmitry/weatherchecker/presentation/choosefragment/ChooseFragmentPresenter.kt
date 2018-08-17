@@ -11,7 +11,7 @@ class ChooseFragmentPresenter : MvpPresenter<IChooseFragment>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.initView(onClickListenerGoToTodayWeatherFragment
-                , onClickListenerGoToWeatherGraphs)
+                , onClickListenerGoToWeatherGraphs,onClickListenerStopService)
     }
 
     private var onClickListenerGoToTodayWeatherFragment: View.OnClickListener = View.OnClickListener {
@@ -20,5 +20,9 @@ class ChooseFragmentPresenter : MvpPresenter<IChooseFragment>() {
 
     private var onClickListenerGoToWeatherGraphs: View.OnClickListener = View.OnClickListener {
         MainApplication.getRouter().navigateTo(ScreenKeys.WEATHER_GRAPHS)
+    }
+
+    private var onClickListenerStopService: View.OnClickListener = View.OnClickListener {
+        viewState.stopService(MainApplication.getIntent())
     }
 }

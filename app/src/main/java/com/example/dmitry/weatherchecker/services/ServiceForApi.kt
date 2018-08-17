@@ -18,7 +18,8 @@ class ServiceForApi : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_STICKY
+        stopSelf()
+        return START_NOT_STICKY
     }
 
     private fun insertDataToDb() {

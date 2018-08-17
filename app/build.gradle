@@ -42,7 +42,9 @@ dependencies {
     implementation 'com.arello-mobile:moxy-app-compat:1.5.5'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.5'
     kapt 'com.arello-mobile:moxy-compiler:1.5.5'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'ru.terrakok.cicerone:cicerone:3.0.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
     implementation "org.jetbrains.anko:anko:0.10.5"
