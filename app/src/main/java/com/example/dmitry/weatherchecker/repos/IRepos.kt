@@ -8,4 +8,5 @@ interface IRepos {
     fun getData(): ArrayList<WeatherDataModel>
     fun getLastData(): ArrayList<WeatherDataModel>
     fun insertEverythingToDbFromApi()
+    fun getLast10Data(): ArrayList<WeatherDataModel>
 }

@@ -17,6 +17,16 @@ class Repos : IRepos {
     private lateinit var retrofit: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
 
+    override fun getLast10Data(): ArrayList<WeatherDataModel> {
+        val weatherDataModel = ArrayList<WeatherDataModel>()
+        Thread(Runnable {
+            weatherDataModel.addAll(MainApplication.getDb().getLast10Data())
+            EventBus.getDefault().post(weatherDataModel)
+        }).start()
+        return weatherDataModel
+    }
+
+
     override fun getLastData(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
         Thread(Runnable {

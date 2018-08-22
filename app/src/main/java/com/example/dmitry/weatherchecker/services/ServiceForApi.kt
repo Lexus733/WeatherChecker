@@ -23,6 +23,6 @@ class ServiceForApi : Service() {
     }
 
     private fun insertDataToDb() {
-        repos.insertEverythingToDbFromApi()
+        repos.insertOneDataToDbFromApi()
     }
 }

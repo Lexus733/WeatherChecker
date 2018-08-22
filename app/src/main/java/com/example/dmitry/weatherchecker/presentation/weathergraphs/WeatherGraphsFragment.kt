@@ -7,12 +7,32 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
+import kotlinx.android.synthetic.main.weather_graphs_fragment.*
 
 class WeatherGraphsFragment : MvpAppCompatFragment(), IWeatherGraphs {
     @InjectPresenter
     lateinit var presenter: WeatherGraphsPresenter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.subs()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsub()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.weather_graphs_fragment, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun initview(dataArray: FloatArray) {
+        graph_view.setDataPoints(dataArray)
+    }
+
 }
