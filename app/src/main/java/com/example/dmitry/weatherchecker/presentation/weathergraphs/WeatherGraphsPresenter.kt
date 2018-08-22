@@ -9,11 +9,14 @@ import org.greenrobot.eventbus.Subscribe
 
 @InjectViewState
 class WeatherGraphsPresenter : MvpPresenter<IWeatherGraphs>() {
-    private val repos: Repos = Repos()
-    private var dataArray = ArrayList<WeatherDataModel>()
+    private lateinit var repos: Repos
+    private lateinit var list: ArrayList<WeatherDataModel>
 
-    init {
-        dataArray.addAll(repos.getLast10Data())
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        repos = Repos()
+        list = ArrayList()
+        list.addAll(repos.getLast10Data())
     }
 
     @Subscribe
@@ -28,8 +31,9 @@ class WeatherGraphsPresenter : MvpPresenter<IWeatherGraphs>() {
                 , event[7].temp.toFloat()
                 , event[8].temp.toFloat()
                 , event[9].temp.toFloat())
-        var floatArray2 = floatArrayOf(100F,200F,300F,150F,-100F)
-        viewState.initview(floatArray2)
+        var floatArray2 = floatArrayOf(100F, 200F, -300F, 150F, -100F)
+
+        viewState.initview(floatArray)
     }
 
     fun subs() = EventBus.getDefault().register(this)

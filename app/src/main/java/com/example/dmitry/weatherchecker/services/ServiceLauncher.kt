@@ -14,7 +14,8 @@ class ServiceLauncher : Service() {
         super.onCreate()
         alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         pendingIntent = PendingIntent.getService(this, 0, Intent(this, ServiceForApi::class.java), 0)!!
-        alarmManager.setRepeating(AlarmManager.RTC, 5, 1000, pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC,5,60000,pendingIntent)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC,1000,pendingIntent)
     }
 
     override fun onBind(intent: Intent): IBinder? {

@@ -6,7 +6,8 @@ interface IRepos {
     fun insertOneDataToDbFromApi()
     fun getDataById(id: Int): ArrayList<WeatherDataModel>
     fun getData(): ArrayList<WeatherDataModel>
-    fun getLastData(): ArrayList<WeatherDataModel>
+    fun getLastData()
     fun insertEverythingToDbFromApi()
     fun getLast10Data(): ArrayList<WeatherDataModel>
+    fun getLastDataWithoutBus(): ArrayList<WeatherDataModel>
 }

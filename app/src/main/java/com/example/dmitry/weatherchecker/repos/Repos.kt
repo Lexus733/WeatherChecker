@@ -12,6 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class Repos : IRepos {
     private lateinit var retrofit: Retrofit
@@ -27,11 +28,18 @@ class Repos : IRepos {
     }
 
 
-    override fun getLastData(): ArrayList<WeatherDataModel> {
+    override fun getLastData() {
         val weatherDataModel = ArrayList<WeatherDataModel>()
         Thread(Runnable {
             weatherDataModel.addAll(MainApplication.getDb().getLastData())
             EventBus.getDefault().post(weatherDataModel[0])
+        }).start()
+    }
+
+    override fun getLastDataWithoutBus(): ArrayList<WeatherDataModel> {
+        val weatherDataModel = ArrayList<WeatherDataModel>()
+        Thread(Runnable {
+            weatherDataModel.addAll(MainApplication.getDb().getLastData())
         }).start()
         return weatherDataModel
     }
@@ -69,8 +77,8 @@ class Repos : IRepos {
 
             override fun onResponse(call: Call<WeatherData>?, response: Response<WeatherData>?) {
                 response?.let {
-                    val weatherDataModelDb = getLastData()
-
+                    val weatherDataModelDb = getLastDataWithoutBus()
+                    TimeUnit.SECONDS.sleep(2)
                     response.body()!!.list.map {
                         if (it.dt_txt != weatherDataModelDb[0].dt_text) {
                             val weatherDataModel = WeatherDataModel(it.dt,
@@ -137,6 +145,7 @@ class Repos : IRepos {
                                 it.dt_txt,
                                 response.body()!!.city.name,
                                 response.body()!!.city.country)
+
                         insertWeatherDataInDb(weatherDataModel)
                     }
                 }
