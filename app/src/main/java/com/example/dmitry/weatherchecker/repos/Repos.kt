@@ -78,7 +78,7 @@ class Repos : IRepos {
             override fun onResponse(call: Call<WeatherData>?, response: Response<WeatherData>?) {
                 response?.let {
                     val weatherDataModelDb = getLastDataWithoutBus()
-                    TimeUnit.SECONDS.sleep(2)
+                    TimeUnit.SECONDS.sleep(1)
                     response.body()!!.list.map {
                         if (it.dt_txt != weatherDataModelDb[0].dt_text) {
                             val weatherDataModel = WeatherDataModel(it.dt,

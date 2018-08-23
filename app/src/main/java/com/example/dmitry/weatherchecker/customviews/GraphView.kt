@@ -24,10 +24,10 @@ class GraphView(context: Context, attributeSet: AttributeSet) : View(context, at
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         heightM = View.MeasureSpec.getSize(heightMeasureSpec)
         widthM = View.MeasureSpec.getSize(widthMeasureSpec)
-        rightM = right
-        leftM = left
-        topM = top
-        bottomM = bottom
+        rightM = View.MeasureSpec.getSize(right)
+        leftM = View.MeasureSpec.getSize(left)
+        topM = View.MeasureSpec.getSize(top)
+        bottomM = View.MeasureSpec.getSize(bottom)
 
     }
 

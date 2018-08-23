@@ -18,6 +18,7 @@ class ServiceForApi : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        stopSelf()
         return START_STICKY
     }
 
