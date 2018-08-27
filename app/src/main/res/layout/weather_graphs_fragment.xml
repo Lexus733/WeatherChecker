@@ -3,10 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <com.example.dmitry.weatherchecker.customviews.GraphView
+        <com.example.dmitry.weatherchecker.customviews.GraphViewDemo
             android:id="@+id/graph_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
             android:padding="10dp"
-            android:background="@android:color/background_dark" />
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
 </android.support.constraint.ConstraintLayout>

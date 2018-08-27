@@ -22,7 +22,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     @Subscribe
     fun onEvent(event: WeatherDataModel) {
-       handler.post { viewState.initView(event) }
+        handler.post { viewState.initView(event) }
     }
 
     fun subs() = EventBus.getDefault().register(this)

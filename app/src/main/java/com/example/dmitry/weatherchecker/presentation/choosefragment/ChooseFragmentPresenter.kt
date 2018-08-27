@@ -11,7 +11,7 @@ class ChooseFragmentPresenter : MvpPresenter<IChooseFragment>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.initView(onClickListenerGoToTodayWeatherFragment
-                , onClickListenerGoToWeatherGraphs,onClickListenerStopService)
+                , onClickListenerGoToWeatherGraphs, onClickListenerStopService)
     }
 
     private var onClickListenerGoToTodayWeatherFragment: View.OnClickListener = View.OnClickListener {

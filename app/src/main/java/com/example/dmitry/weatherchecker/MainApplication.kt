@@ -13,7 +13,7 @@ class MainApplication : Application() {
         super.onCreate()
         cicerone = Cicerone.create()
         db = WeatherDataBase.getInstance(this)
-        intent = Intent(this,ServiceLauncher::class.java)
+        intent = Intent(this, ServiceLauncher::class.java)
         startService(intent)
     }
 

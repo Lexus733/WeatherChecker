@@ -27,8 +27,8 @@ class WeatherGraphsFragment : MvpAppCompatFragment(), IWeatherGraphs {
         return inflater.inflate(R.layout.weather_graphs_fragment, container, false)
     }
 
-    override fun initview(event: FloatArray) {
-        graph_view.setDataPoints(event)
+    override fun initView(floatArray: FloatArray) {
+        graph_view.setData(floatArray.reversedArray())
     }
 
 

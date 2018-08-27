@@ -31,9 +31,8 @@ class WeatherGraphsPresenter : MvpPresenter<IWeatherGraphs>() {
                 , event[7].temp.toFloat()
                 , event[8].temp.toFloat()
                 , event[9].temp.toFloat())
-        var floatArray2 = floatArrayOf(100F, 200F, -300F, 150F, -100F)
 
-        viewState.initview(floatArray)
+        viewState.initView(floatArray)
     }
 
     fun subs() = EventBus.getDefault().register(this)

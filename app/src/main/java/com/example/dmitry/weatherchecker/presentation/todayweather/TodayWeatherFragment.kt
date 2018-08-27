@@ -21,18 +21,18 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
 
     override fun initView(event: WeatherDataModel) {
         today_weather_dt.text = event.dt_text
-        today_weather_clouds.text = event.clouds_all.toString() + " %"
+        today_weather_clouds.text = "${event.clouds_all} %"
         today_weather_ground_level.text = event.grnd_level.toString()
         today_weather_sea_level.text = event.sea_level.toString()
         today_weather_city_county.text = event.city_contry
-        today_weather_pressure.text = event.pressure.toString() + " gPa"
+        today_weather_pressure.text = "${event.pressure} gPa"
         today_weather_tempmax.text = event.temp_max.toString()
         today_weather_tempmin.text = event.temp_min.toString()
         today_weather_city_name.text = event.id.toString()
         today_weather_temp.text = event.temp.toString()
         today_weather_description.text = event.weather_description
-        today_weather_humidity.text = event.humidity.toString() + " %"
-        today_weather_wind_speed.text = event.wind_speed.toString() + " m/s"
+        today_weather_humidity.text = "${event.humidity} %"
+        today_weather_wind_speed.text = "${event.wind_speed} m/s"
         today_weather_icon.setImageResource(this.setIcon(event.weather_icon)!!)
     }
 
