@@ -28,7 +28,7 @@ class WeatherGraphsFragment : MvpAppCompatFragment(), IWeatherGraphs {
     }
 
     override fun initView(floatArray: FloatArray) {
-        graph_view.setData(floatArray.reversedArray())
+        graph_view.setData(floatArray)
     }
 
 

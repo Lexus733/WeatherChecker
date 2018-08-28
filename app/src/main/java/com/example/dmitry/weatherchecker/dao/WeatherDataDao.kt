@@ -22,7 +22,7 @@ interface WeatherDataDao {
     fun deleteOne(id: Int)
 
     @Query("SELECT * FROM weatherData WHERE id=:id")
-    fun getOne(id: Int): List<WeatherDataModel>
+    fun getOneById(id: Int): List<WeatherDataModel>
 
     @Query("SELECT * FROM weatherData order by id DESC LIMIT 1")
     fun getLastData(): List<WeatherDataModel>

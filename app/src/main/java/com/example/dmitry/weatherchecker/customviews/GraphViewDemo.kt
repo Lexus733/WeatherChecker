@@ -36,42 +36,53 @@ class GraphViewDemo(context: Context, attributeSet: AttributeSet) : View(context
 
     override fun onDraw(canvas: Canvas?) {
         TimeUnit.SECONDS.sleep(1)
-        paint.strokeWidth = 3F
+        paint.strokeWidth = 2F
         paint.style = Paint.Style.STROKE
         paint.color = Color.BLACK
+        paint.isAntiAlias = true
+
         paint2.strokeWidth = 3F
         paint2.color = Color.BLACK
         paint2.textAlign = Paint.Align.RIGHT
+
         paint3.strokeWidth = 3F
         paint3.color = Color.BLACK
         paint3.textAlign = Paint.Align.CENTER
         paint3.textSize = 16F
 
-        // X
-        canvas?.drawLine(widthP.toFloat() / widthP.toFloat(), heightP.toFloat() / heightP.toFloat(), widthP.toFloat() / widthP.toFloat(), heightP.toFloat(), paint)
-        // Y
-        canvas?.drawLine(widthP.toFloat() / widthP.toFloat(), heightP.toFloat(), widthP.toFloat(), heightP.toFloat(), paint)
 
-        paint.isAntiAlias = true
+        // X
+        canvas?.drawLine(size.toFloat(), heightP.toFloat() / heightP.toFloat(), size.toFloat(), heightP.toFloat(), paint2)
+        // Y
+        canvas?.drawLine(size.toFloat(), heightP.toFloat(), widthP.toFloat(), heightP.toFloat(), paint2)
+
+        canvas?.drawText("Temp",30F,50F,paint3)
+
+        path.moveTo(size.toFloat(),0F)
 
         for (i in data) {
             if (i < -20) {
                 path.lineTo((size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F)
                 canvas?.drawText("$i", (size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F, paint2)
+              //  canvas?.drawText("$i", widthPoint.toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F, paint2)
             }
             if (i > 0) {
                 path.lineTo((size).toFloat(), heightP / (i + data.size) * data.size)
                 canvas?.drawText("$i", (size).toFloat(), heightP / (i + data.size) * data.size, paint2)
+               // canvas?.drawText("$i", widthPoint.toFloat(), heightP / (i + data.size) * data.size, paint2)
             }
             if (i in -20..0) {
                 path.lineTo((size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F)
                 canvas?.drawText("$i", (size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F, paint2)
+               // canvas?.drawText("$i", widthPoint.toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F, paint2)
+
             }
             canvas?.drawText("$iterator", size.toFloat(), heightM.toFloat(), paint3)
             iterator++
             size += widthPoint
             canvas?.drawPath(path, paint)
         }
+
     }
 
     fun setData(data: FloatArray) {

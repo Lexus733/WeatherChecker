@@ -27,7 +27,6 @@ class Repos : IRepos {
         return weatherDataModel
     }
 
-
     override fun getLastData() {
         val weatherDataModel = ArrayList<WeatherDataModel>()
         Thread(Runnable {
@@ -55,11 +54,10 @@ class Repos : IRepos {
     override fun getDataById(id: Int): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
         Thread(Runnable {
-            weatherDataModel.addAll(MainApplication.getDb().getOne(id))
+            weatherDataModel.addAll(MainApplication.getDb().getOneById(id))
         }).start()
         return weatherDataModel
     }
-
 
     override fun insertOneDataToDbFromApi() {
         retrofit = Retrofit.Builder().baseUrl(WeatherApiKeys.BASE_URL)

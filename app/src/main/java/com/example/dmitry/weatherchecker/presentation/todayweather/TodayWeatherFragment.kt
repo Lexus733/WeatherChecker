@@ -28,7 +28,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         today_weather_pressure.text = "${event.pressure} gPa"
         today_weather_tempmax.text = event.temp_max.toString()
         today_weather_tempmin.text = event.temp_min.toString()
-        today_weather_city_name.text = event.id.toString()
+        today_weather_city_name.text = event.city_name
         today_weather_temp.text = event.temp.toString()
         today_weather_description.text = event.weather_description
         today_weather_humidity.text = "${event.humidity} %"
@@ -56,7 +56,6 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
             "13n" -> return R.drawable.darkcloudsnownight
             "50d" -> return R.drawable.atmosphereday
             "50n" -> return R.drawable.atmospherenight
-
         }
         return null
     }
