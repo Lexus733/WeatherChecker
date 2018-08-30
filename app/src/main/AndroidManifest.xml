@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".MainApplication"
@@ -31,15 +30,31 @@
             android:name=".services.ServiceLauncher"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".services.JobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <receiver
             android:name=".services.ServiceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStopped">
             <intent-filter>
-                <action android:name="uk.ac.shef.oak.ActivityRecognition.RestartIntent"/>
+                <action android:name="uk.ac.shef.oak.ActivityRecognition.RestartIntent" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".services.ServiceBroadcastReceiverJob"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="uk.ac.shef.oak.ActivityRecognition.StartIntent" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

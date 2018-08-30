@@ -20,6 +20,8 @@ class MainActivity : MvpAppCompatActivity(), IMainActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //  val broadcastIntent = Intent("uk.ac.shef.oak.ActivityRecognition.StartIntent")
+        // sendBroadcast(broadcastIntent)
     }
 
     override fun onBackPressed() {
