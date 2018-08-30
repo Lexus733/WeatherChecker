@@ -11,17 +11,19 @@ import org.greenrobot.eventbus.Subscribe
 class WeatherGraphsPresenter : MvpPresenter<IWeatherGraphs>() {
     private lateinit var repos: Repos
     private lateinit var list: ArrayList<WeatherDataModel>
+    private lateinit var handler: android.os.Handler
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         repos = Repos()
+        handler = android.os.Handler()
         list = ArrayList()
         list.addAll(repos.getLast10Data())
     }
 
     @Subscribe
     fun onEvent(event: ArrayList<WeatherDataModel>) {
-        var floatArray = floatArrayOf(event[0].temp.toFloat()
+        val floatArray = floatArrayOf(event[0].temp.toFloat()
                 , event[1].temp.toFloat()
                 , event[2].temp.toFloat()
                 , event[3].temp.toFloat()
@@ -31,8 +33,20 @@ class WeatherGraphsPresenter : MvpPresenter<IWeatherGraphs>() {
                 , event[7].temp.toFloat()
                 , event[8].temp.toFloat()
                 , event[9].temp.toFloat())
+        val dateArray = ArrayList<String>()
+        dateArray.add(event[0].dt_text)
+        dateArray.add(event[1].dt_text)
+        dateArray.add(event[2].dt_text)
+        dateArray.add(event[3].dt_text)
+        dateArray.add(event[4].dt_text)
+        dateArray.add(event[5].dt_text)
+        dateArray.add(event[6].dt_text)
+        dateArray.add(event[7].dt_text)
+        dateArray.add(event[8].dt_text)
+        dateArray.add(event[9].dt_text)
 
         viewState.initView(floatArray)
+        handler.postDelayed({ viewState.initLegend(dateArray) }, 2)
     }
 
     fun subs() = EventBus.getDefault().register(this)

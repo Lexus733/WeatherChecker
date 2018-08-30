@@ -29,9 +29,9 @@ class MainApplication : Application() {
         fun destroyDb() = WeatherDataBase.destroyInstance()
 
         fun getNavigatorHolder(): NavigatorHolder =
-                requireNotNull(cicerone, { "Parameter 'cicerone' is missing!" }).navigatorHolder
+                requireNotNull(cicerone) { "Parameter 'cicerone' is missing!" }.navigatorHolder
 
         fun getRouter(): Router =
-                requireNotNull(cicerone, { "Parameter 'cicerone' is missing!" }).router
+                requireNotNull(cicerone) { "Parameter 'cicerone' is missing!" }.router
     }
 }

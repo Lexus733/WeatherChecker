@@ -1,8 +1,7 @@
-package com.example.dmitry.weatherchecker.Util
+package com.example.dmitry.weatherchecker.util
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 

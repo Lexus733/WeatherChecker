@@ -4,4 +4,5 @@ import com.arellomobile.mvp.MvpView
 
 interface IWeatherGraphs : MvpView {
     fun initView(floatArray: FloatArray)
+    fun initLegend(dateArray: ArrayList<String>)
 }
