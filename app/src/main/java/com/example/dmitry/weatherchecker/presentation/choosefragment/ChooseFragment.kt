@@ -1,7 +1,11 @@
 package com.example.dmitry.weatherchecker.presentation.choosefragment
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +14,23 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import kotlinx.android.synthetic.main.choose_fragment.*
 
+
 class ChooseFragment : MvpAppCompatFragment(), IChooseFragment {
+    private lateinit var powerManager: PowerManager
     @InjectPresenter
     lateinit var presenter: ChooseFragmentPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.choose_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (!powerManager.isIgnoringBatteryOptimizations(context!!.packageName)) {
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                    Uri.parse("package:" + activity!!.packageName))
+            startActivity(intent)
+        }
     }
 
     override fun initView(onClickListenerGoToTodayWeatherFragment: View.OnClickListener, onClickListenerGoToWeatherGraphs: View.OnClickListener, onClickListenerStopService: View.OnClickListener) {

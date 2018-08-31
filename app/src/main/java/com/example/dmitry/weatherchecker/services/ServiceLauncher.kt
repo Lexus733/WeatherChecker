@@ -23,7 +23,7 @@ class ServiceLauncher : Service() {
             stopSelf()
         }.start()
         alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        pendingIntent = PendingIntent.getService(this, 0, Intent(this, ServiceForApi::class.java), 0)!!
+        pendingIntent = PendingIntent.getService(this, 0, Intent(this, ServiceForApi::class.java), PendingIntent.FLAG_UPDATE_CURRENT)!!
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 1, pendingIntent)
         return START_STICKY
     }
