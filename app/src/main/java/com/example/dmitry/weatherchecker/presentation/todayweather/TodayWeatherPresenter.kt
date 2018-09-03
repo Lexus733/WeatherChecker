@@ -10,18 +10,21 @@ import org.greenrobot.eventbus.Subscribe
 
 @InjectViewState
 class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
+    private lateinit var adapter: TodayWeatherAdapter
     private lateinit var repos: Repos
     private lateinit var handler: Handler
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         repos = Repos()
+        adapter = TodayWeatherAdapter()
         handler = Handler()
-        repos.getLastData()
+        adapter.setData(repos.getLast10Data())
+        viewState.initData(adapter)
     }
 
     @Subscribe
-    fun onEvent(event: WeatherDataModel) {
+    fun onEvent(event: ArrayList<WeatherDataModel>) {
         handler.post { viewState.initView(event) }
     }
 
