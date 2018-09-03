@@ -1,6 +1,7 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
 import android.graphics.Color
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,9 @@ import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.squareup.picasso.Picasso
 
-class TodayWeatherAdapter() : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>() {
+class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>() {
     private lateinit var data: ArrayList<WeatherDataModel>
+    private lateinit var param: ConstraintLayout.LayoutParams
 
     fun setData(data: ArrayList<WeatherDataModel>) {
         this.data = data
@@ -20,16 +22,19 @@ class TodayWeatherAdapter() : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolde
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.today_weather_item, parent, false))
+                .inflate(R.layout.today_weather_item_constraint, parent, false))
     }
 
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
-        holder.tempTextView.text = data.temp.toString()
+        param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
+        param.setMargins(0, 70 - data.temp.toInt() * 2, 0, 0)
+        holder.tempTextView.text = "${data.temp} °C"
         holder.tempTextView.setBackgroundColor(getTemperatureColor(data.temp.toInt()))
         holder.timeTextView.text = data.dt_text
+        holder.windTextView.text = "${data.wind_speed} m/s"
         Picasso.get()
                 .load(this.setIcon(data.weather_icon)!!)
                 .placeholder(R.drawable.ic_file_download_black_24dp)
@@ -97,10 +102,10 @@ class TodayWeatherAdapter() : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolde
         }
     }
 
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val weatherImageView: ImageView = view.findViewById(R.id.today_weather_item_weather)
         val timeTextView: TextView = view.findViewById(R.id.today_weather_item_time)
         val tempTextView: TextView = view.findViewById(R.id.today_weather_item_temp)
+        val windTextView: TextView = view.findViewById(R.id.today_weather_item_wind)
     }
 }
