@@ -40,6 +40,16 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         today_weather_icon.setImageResource(this.setIcon(event[0].weather_icon)!!)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.subs()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.unsub()
+    }
+
     private fun setIcon(id: String): Int? {
         when (id) {
             "01d" -> return R.drawable.sun
@@ -64,13 +74,4 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         return null
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.subs()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unsub()
-    }
 }

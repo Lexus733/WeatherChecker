@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.R
 import kotlinx.android.synthetic.main.weather_graphs_fragment.*
 
@@ -27,7 +29,19 @@ class WeatherGraphsFragment : MvpAppCompatFragment(), IWeatherGraphs {
         return inflater.inflate(R.layout.weather_graphs_fragment, container, false)
     }
 
-    override fun initView(floatArray: FloatArray) = graph_view.setData(floatArray)
+    override fun initView(floatArray: FloatArray) {
+        try {
+            graph_view.setData(floatArray)
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            MainApplication.getRouter().exit()
+            Toast.makeText(context, "Need more data", Toast.LENGTH_SHORT).show()
+        } catch (e: ArrayIndexOutOfBoundsException){
+            e.printStackTrace()
+            MainApplication.getRouter().exit()
+            Toast.makeText(context, "Need more data", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun initLegend(dateArray: ArrayList<String>) {
         legend.text = """

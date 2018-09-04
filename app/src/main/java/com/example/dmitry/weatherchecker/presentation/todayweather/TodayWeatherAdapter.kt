@@ -16,10 +16,6 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
     private lateinit var data: ArrayList<WeatherDataModel>
     private lateinit var param: ConstraintLayout.LayoutParams
 
-    fun setData(data: ArrayList<WeatherDataModel>) {
-        this.data = data
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.today_weather_item_constraint, parent, false))
@@ -30,7 +26,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
         param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
-        param.setMargins(0, 70 - data.temp.toInt() * 2, 0, 0)
+        getGraphMargin(data.temp.toInt())
         holder.tempTextView.text = "${data.temp} °C"
         holder.tempTextView.setBackgroundColor(getTemperatureColor(data.temp.toInt()))
         holder.timeTextView.text = data.dt_text
@@ -40,6 +36,10 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
                 .placeholder(R.drawable.ic_file_download_black_24dp)
                 .error(R.drawable.ic_error_black_24dp)
                 .into(holder.weatherImageView)
+    }
+
+    fun setData(data: ArrayList<WeatherDataModel>) {
+        this.data = data
     }
 
     private fun setIcon(id: String): Int? {
@@ -99,6 +99,14 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
             Color.argb(125, 0, 0, 255)
         } else {
             Color.argb(125, 0, 25 * temp, 255)
+        }
+    }
+
+    private fun getGraphMargin(temp: Int) {
+        when {
+            temp > 25 -> return param.setMargins(0, 140 - temp * 2, 0, 0)
+            temp in 1..25 -> return param.setMargins(0, 70 - temp * 2, 0, 0)
+            temp <= 0 -> return param.setMargins(0, 20 - temp * 2, 0, 0)
         }
     }
 
