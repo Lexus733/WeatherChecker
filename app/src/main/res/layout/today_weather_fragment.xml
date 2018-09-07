@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -81,10 +82,10 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/today_weather_wind_icon"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_wind_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_description" />
+                    app:layout_constraintTop_toTopOf="@+id/today_weather_wind_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_wind_icon"
@@ -111,10 +112,10 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/today_weather_humidity_icon"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_humidity_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_wind_speed" />
+                    app:layout_constraintTop_toTopOf="@+id/today_weather_humidity_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_tempmin_icon"
@@ -131,10 +132,10 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/today_weather_tempmin_icon"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_tempmin_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_humidity" />
+                    app:layout_constraintTop_toTopOf="@+id/today_weather_tempmin_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_tempmax_icon"
@@ -151,10 +152,10 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
+                    app:layout_constraintBottom_toBottomOf="@+id/today_weather_tempmax_icon"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_tempmax_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_tempmin" />
+                    app:layout_constraintTop_toTopOf="@+id/today_weather_tempmax_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_pressure_icon"
@@ -163,18 +164,17 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconspressure"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_tempmax_icon" />
+                    app:layout_constraintStart_toEndOf="@+id/today_weather_tempmax"
+                    app:layout_constraintTop_toBottomOf="@+id/today_weather_clouds_icon" />
 
                 <TextView
                     android:id="@+id/today_weather_pressure"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
-                    app:layout_constraintStart_toEndOf="@+id/today_weather_pressure_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_tempmax" />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/today_weather_tempmax"
+                    app:layout_constraintStart_toEndOf="@+id/today_weather_pressure_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_sea_level_icon"
@@ -191,11 +191,10 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
 
                     android:textSize="@dimen/today_weather_text_size"
-                    app:layout_constraintStart_toEndOf="@+id/today_weather_sea_level_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_description" />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/today_weather_wind_speed"
+                    app:layout_constraintStart_toEndOf="@+id/today_weather_sea_level_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_ground_level_icon"
@@ -212,10 +211,9 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
-                    app:layout_constraintStart_toEndOf="@+id/today_weather_ground_level_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_sea_level" />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/today_weather_humidity"
+                    app:layout_constraintStart_toEndOf="@+id/today_weather_ground_level_icon" />
 
                 <ImageView
                     android:id="@+id/today_weather_clouds_icon"
@@ -232,46 +230,16 @@
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/today_weather_text_size"
-                    app:layout_constraintStart_toEndOf="@+id/today_weather_clouds_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_ground_level" />
-
-
-                <TextView
-                    android:id="@+id/today_weather_last_update"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="42dp"
-                    android:text="@string/last_date_update"
-                    android:textSize="@dimen/today_weather_text_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_pressure" />
-
-                <TextView
-                    android:id="@+id/today_weather_dt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
-                    android:textSize="@dimen/today_weather_text_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/today_weather_last_update" />
-
+                    app:layout_constraintBaseline_toBaselineOf="@+id/today_weather_tempmin"
+                    app:layout_constraintStart_toEndOf="@+id/today_weather_clouds_icon" />
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/inner_constraint_graphs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/inner_constraint_data">
 
                 <HorizontalScrollView

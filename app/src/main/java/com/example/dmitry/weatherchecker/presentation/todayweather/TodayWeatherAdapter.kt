@@ -1,8 +1,11 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
 import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +18,10 @@ import com.squareup.picasso.Picasso
 class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>() {
     private lateinit var data: ArrayList<WeatherDataModel>
     private lateinit var param: ConstraintLayout.LayoutParams
+    private val linearGradient = LinearGradient(0F,0F,200F,0F, intArrayOf(Color.RED,Color.BLUE), floatArrayOf(1F,2F),Shader.TileMode.CLAMP)
+    private val dataTest = arrayListOf<Int>(50, 40, 30, 20, 10, 0, -10, -20, -30, -40)
+    private val dataTest2 = arrayListOf<Int>(19, 18, 17, 16, 15, 14, 13, 12, 11, 10)
+    private val dataTest3 = arrayListOf<Int>(9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
@@ -27,8 +34,11 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         val data: WeatherDataModel = data[position]
         param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
         getGraphMargin(data.temp.toInt())
-        holder.tempTextView.text = "${data.temp} °C"
-        holder.tempTextView.setBackgroundColor(getTemperatureColor(data.temp.toInt()))
+        //holder.tempTextView.setBackgroundColor(getTemperatureColor(Math.round(data.temp).toInt()))
+        //holder.tempTextView.text = "${data.temp} °C"
+        //holder.tempTextView.setBackgroundColor(interpolate(Math.round(data.temp).toInt()))
+        holder.tempTextView.setBackgroundColor(interpolateNew(dataTest[position]))
+        holder.tempTextView.text = "${dataTest[position]} °C"
         holder.timeTextView.text = data.dt_text
         holder.windTextView.text = "${data.wind_speed} m/s"
         Picasso.get()
@@ -66,40 +76,32 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         return null
     }
 
-    private fun getTemperatureColor(temp: Int): Int {
+    private fun interpolateNew(value: Int): Int {
+        var color: Double = value.toDouble()
+
         return when {
-            temp <= 10 -> getColdTemperatureColor(temp)
-            temp in 11..15 -> getMediumTemperatureColor(temp)
-            temp in 16..20 -> getWarmTemperatureColor(temp)
-            else -> getHotTemperatureColor(temp)
+            color < 10 -> lerpColor(0, 255, 0, 0, 50, 255, Math.abs(color) / 50)
+            color >= 40 -> Color.rgb(255,0,0)
+            else -> lerpColor(220, 230, 0, 250, 250, 0, color / 50)
         }
     }
 
-    private fun getHotTemperatureColor(temp: Int): Int {
-        return if (temp > 40) {
-            Color.argb(125, 255, 0, 0)
-        } else {
-            val green = 255 - (temp - 20) * 12
-            Color.argb(125, 255, green, 0)
+    private fun lerp(start: Double, end: Double, alpha: Double): Double {
+        val alphas: Double = when {
+            alpha < 0 -> 0.0
+            alpha > 1 -> 1.0
+            else -> alpha
         }
+        Log.d("lerp", "${start + (end - start) * alphas}")
+        return start + (end - start) * alphas
     }
 
-    private fun getWarmTemperatureColor(temp: Int): Int {
-        val red = (temp - 15) * 51
-        return Color.argb(125, red, 255, 0)
+    private fun lerpRound(start: Int, end: Int, alpha: Double): Int {
+        return Math.round(lerp(start.toDouble(), end.toDouble(), alpha)).toInt()
     }
 
-    private fun getMediumTemperatureColor(temp: Int): Int {
-        val blue = 255 - (temp - 10) * 51
-        return Color.argb(125, 0, 255, blue)
-    }
-
-    private fun getColdTemperatureColor(temp: Int): Int {
-        return if (temp < 0) {
-            Color.argb(125, 0, 0, 255)
-        } else {
-            Color.argb(125, 0, 25 * temp, 255)
-        }
+    private fun lerpColor(r1: Int, g1: Int, b1: Int, r2: Int, g2: Int, b2: Int, alpha: Double): Int {
+        return Color.rgb(lerpRound(r1, r2, alpha), lerpRound(g1, g2, alpha), lerpRound(b1, b2, alpha))
     }
 
     private fun getGraphMargin(temp: Int) {

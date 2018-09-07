@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="today_weather_text_size">24sp</dimen>
+    <dimen name="today_weather_text_size">20sp</dimen>
     <dimen name="today_weather_margin_top">32dp</dimen>
     <dimen name="today_weather_icon_size">32dp</dimen>
 </resources>

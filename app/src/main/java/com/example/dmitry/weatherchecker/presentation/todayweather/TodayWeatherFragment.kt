@@ -24,7 +24,6 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
     }
 
     override fun initView(event: ArrayList<WeatherDataModel>) {
-        today_weather_dt.text = event[0].dt_text
         today_weather_clouds.text = "${event[0].clouds_all} %"
         today_weather_ground_level.text = event[0].grnd_level.toString()
         today_weather_sea_level.text = event[0].sea_level.toString()

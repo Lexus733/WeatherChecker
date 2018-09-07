@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
-    android:layout_height="200dp">
+    android:layout_height="180dp">
 
     <TextView
         android:id="@+id/today_weather_item_time"
@@ -40,6 +40,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/today_weather_item_weather"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -52,6 +53,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/today_weather_item_wind"
         tools:layout_editor_absoluteX="16dp" />
 </android.support.constraint.ConstraintLayout>
