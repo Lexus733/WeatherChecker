@@ -28,7 +28,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         today_weather_ground_level.text = event[0].grnd_level.toString()
         today_weather_sea_level.text = event[0].sea_level.toString()
         today_weather_city_county.text = event[0].city_contry
-        today_weather_pressure.text = "${event[0].pressure} gPa"
+        today_weather_pressure.text = "${event[0].pressure} Pa"
         today_weather_tempmax.text = "${event[0].temp_max} °C"
         today_weather_tempmin.text = "${event[0].temp_min} °C"
         today_weather_city_name.text = event[0].city_name

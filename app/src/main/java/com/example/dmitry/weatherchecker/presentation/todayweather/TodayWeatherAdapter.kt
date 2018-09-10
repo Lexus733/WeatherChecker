@@ -1,8 +1,6 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
 import android.graphics.Color
-import android.graphics.LinearGradient
-import android.graphics.Shader
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -14,14 +12,16 @@ import android.widget.TextView
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.squareup.picasso.Picasso
+import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>() {
+    private val dataTest = arrayListOf<Int>(50, 40, 30, 20, 10, 0, -10, -20, -30, -40)
     private lateinit var data: ArrayList<WeatherDataModel>
     private lateinit var param: ConstraintLayout.LayoutParams
-    private val linearGradient = LinearGradient(0F,0F,200F,0F, intArrayOf(Color.RED,Color.BLUE), floatArrayOf(1F,2F),Shader.TileMode.CLAMP)
-    private val dataTest = arrayListOf<Int>(50, 40, 30, 20, 10, 0, -10, -20, -30, -40)
-    private val dataTest2 = arrayListOf<Int>(19, 18, 17, 16, 15, 14, 13, 12, 11, 10)
-    private val dataTest3 = arrayListOf<Int>(9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+    private val datePattern = Pattern
+            .compile("^(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})$")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
@@ -33,19 +33,23 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
         param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
-        getGraphMargin(data.temp.toInt())
-        //holder.tempTextView.setBackgroundColor(getTemperatureColor(Math.round(data.temp).toInt()))
-        //holder.tempTextView.text = "${data.temp} °C"
-        //holder.tempTextView.setBackgroundColor(interpolate(Math.round(data.temp).toInt()))
-        holder.tempTextView.setBackgroundColor(interpolateNew(dataTest[position]))
-        holder.tempTextView.text = "${dataTest[position]} °C"
-        holder.timeTextView.text = data.dt_text
+        val m: Matcher = datePattern.matcher(data.dt_text)
+        if (m.find())
+            holder.timeTextView.text = "${m.group(3)}-${m.group(2)}-${m.group(1)} ${m.group(4)}:${m.group(5)}:${m.group(6)}"
+        else
+            holder.timeTextView.text = data.dt_text
+        changeMarginByTemp(Math.round(data.temp).toInt())
+        holder.tempTextView.text = "${data.temp} °C"
+        holder.tempTextView.setBackgroundColor(interpolate(Math.round(data.temp).toInt()))
         holder.windTextView.text = "${data.wind_speed} m/s"
         Picasso.get()
                 .load(this.setIcon(data.weather_icon)!!)
                 .placeholder(R.drawable.ic_file_download_black_24dp)
                 .error(R.drawable.ic_error_black_24dp)
                 .into(holder.weatherImageView)
+        //changeMarginByTemp(dataTest[position])
+        //holder.tempTextView.setBackgroundColor(interpolate(dataTest[position]))
+        //holder.tempTextView.text = "${dataTest[position]} °C"
     }
 
     fun setData(data: ArrayList<WeatherDataModel>) {
@@ -76,13 +80,21 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         return null
     }
 
-    private fun interpolateNew(value: Int): Int {
-        var color: Double = value.toDouble()
-
+    private fun interpolateTemp(value: Int): Int {
+        val color: Double = value.toDouble()
         return when {
-            color < 10 -> lerpColor(0, 255, 0, 0, 50, 255, Math.abs(color) / 50)
-            color >= 40 -> Color.rgb(255,0,0)
+            color <= 0 -> lerpColor(0, 200, 0, 0, 50, 255, Math.abs(color) / 40)
+            color in 40..49 -> lerpColor(0, 0, 0, 255, 255, 0, 1.0)
+            color >= 50 -> lerpColor(0, 0, 0, 255, 0, 0, 1.0)
             else -> lerpColor(220, 230, 0, 250, 250, 0, color / 50)
+        }
+    }
+
+    private fun interpolate(value: Int): Int {
+        val color: Double = value.toDouble()
+        return when {
+            color < 0 -> lerpColor(0, 255, 0, 0, 0, 255, Math.abs(color) / 50)
+            else -> lerpColor(100, 255, 0, 255, 0, 0, color / 50)
         }
     }
 
@@ -92,11 +104,11 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
             alpha > 1 -> 1.0
             else -> alpha
         }
-        Log.d("lerp", "${start + (end - start) * alphas}")
         return start + (end - start) * alphas
     }
 
     private fun lerpRound(start: Int, end: Int, alpha: Double): Int {
+        Log.d("RGB:","${Math.round(lerp(start.toDouble(), end.toDouble(), alpha)).toInt()}")
         return Math.round(lerp(start.toDouble(), end.toDouble(), alpha)).toInt()
     }
 
@@ -104,11 +116,10 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         return Color.rgb(lerpRound(r1, r2, alpha), lerpRound(g1, g2, alpha), lerpRound(b1, b2, alpha))
     }
 
-    private fun getGraphMargin(temp: Int) {
+    private fun changeMarginByTemp(temp: Int) {
         when {
-            temp > 25 -> return param.setMargins(0, 140 - temp * 2, 0, 0)
-            temp in 1..25 -> return param.setMargins(0, 70 - temp * 2, 0, 0)
-            temp <= 0 -> return param.setMargins(0, 20 - temp * 2, 0, 0)
+            temp > 0 -> return param.setMargins(0, 100 - temp * 2, 0, 0)
+            temp <= 0 -> return param.setMargins(0, 100 + Math.abs(temp) * 2, 0, 0)
         }
     }
 
