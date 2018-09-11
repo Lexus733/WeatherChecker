@@ -28,14 +28,14 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         today_weather_ground_level.text = event[0].grnd_level.toString()
         today_weather_sea_level.text = event[0].sea_level.toString()
         today_weather_city_county.text = event[0].city_contry
-        today_weather_pressure.text = "${event[0].pressure} Pa"
+        today_weather_pressure.text = "${event[0].pressure} Па"
         today_weather_tempmax.text = "${event[0].temp_max} °C"
         today_weather_tempmin.text = "${event[0].temp_min} °C"
         today_weather_city_name.text = event[0].city_name
         today_weather_temp.text = "${event[0].temp} °C"
         today_weather_description.text = event[0].weather_description
         today_weather_humidity.text = "${event[0].humidity} %"
-        today_weather_wind_speed.text = "${event[0].wind_speed} m/s"
+        today_weather_wind_speed.text = "${event[0].wind_speed} м/с"
         today_weather_icon.setImageResource(this.setIcon(event[0].weather_icon)!!)
     }
 
