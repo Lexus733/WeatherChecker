@@ -18,7 +18,6 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>() {
-    private val dataTest = arrayListOf<Int>(50, 40, 30, 20, 10, 0, -10, -20, -30, -40)
     private lateinit var data: ArrayList<WeatherDataModel>
     private lateinit var param: ConstraintLayout.LayoutParams
     private val datePattern = Pattern
@@ -40,20 +39,15 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         else
             holder.timeTextView.text = data.dt_text
         changeMarginByTemp(Math.round(data.temp).toInt())
-        //holder.tempTextView.text = "${data.temp} °C"
-        //holder.tempTextView.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()))
-        //holder.constraintLayout.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()).withAlpha(25))
+        holder.tempTextView.text = "${data.temp} °C"
+        holder.tempTextView.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()))
+        holder.constraintLayout.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()).withAlpha(25))
         holder.windTextView.text = "${data.wind_speed} м/с"
-
         Picasso.get()
                 .load(this.setIcon(data.weather_icon)!!)
                 .placeholder(R.drawable.ic_file_download_black_24dp)
                 .error(R.drawable.ic_error_black_24dp)
                 .into(holder.weatherImageView)
-        //changeMarginByTemp(dataTest[position])
-        holder.constraintLayout.setBackgroundColor(colorByTemp(dataTest[position]).withAlpha(25))
-        holder.tempTextView.setBackgroundColor(colorByTemp(dataTest[position]))
-        holder.tempTextView.text = "${dataTest[position]} °C"
     }
 
     fun setData(data: ArrayList<WeatherDataModel>) {
