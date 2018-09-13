@@ -16,6 +16,15 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        //refreshData()
+    }
+
+    @Subscribe
+    fun onEvent(event: ArrayList<WeatherDataModel>) {
+        handler.post { viewState.initView(event) }
+    }
+
+    private fun refreshData(){
         repos = Repos()
         adapter = TodayWeatherAdapter()
         handler = Handler()
@@ -23,9 +32,13 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
         viewState.initData(adapter)
     }
 
-    @Subscribe
-    fun onEvent(event: ArrayList<WeatherDataModel>) {
-        handler.post { viewState.initView(event) }
+    fun refreshDataWithDb(){
+        repos = Repos()
+        repos.insertOneDataToDbFromApi()
+        adapter = TodayWeatherAdapter()
+        handler = Handler()
+        adapter.setData(repos.getLast10Data())
+        viewState.initData(adapter)
     }
 
     fun subs() = EventBus.getDefault().register(this)

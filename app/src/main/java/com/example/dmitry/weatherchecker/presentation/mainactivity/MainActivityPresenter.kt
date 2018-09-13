@@ -36,7 +36,7 @@ class MainActivityPresenter(private val supportFragmentManager: FragmentManager)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        MainApplication.getRouter().navigateTo(ScreenKeys.CHOOSE_FRAGMENT)
+        MainApplication.getRouter().navigateTo(ScreenKeys.TODAY_WEATHER)
     }
 
     fun onBackPressed() = MainApplication.getRouter().exit()

@@ -3,7 +3,6 @@ package com.example.dmitry.weatherchecker.presentation.todayweather
 import android.graphics.Color
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,12 +31,12 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
-        param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
         val m: Matcher = datePattern.matcher(data.dt_text)
         if (m.find())
             holder.timeTextView.text = "${m.group(3)}-${m.group(2)}-${m.group(1)} ${m.group(4)}:${m.group(5)}:${m.group(6)}"
         else
             holder.timeTextView.text = data.dt_text
+        param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
         changeMarginByTemp(Math.round(data.temp).toInt())
         holder.tempTextView.text = "${data.temp} °C"
         holder.tempTextView.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()))
@@ -52,6 +51,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
 
     fun setData(data: ArrayList<WeatherDataModel>) {
         this.data = data
+        notifyDataSetChanged()
     }
 
     private fun setIcon(id: String): Int? {
@@ -75,25 +75,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
             "50d" -> return R.drawable.dry
             "50n" -> return R.drawable.dry
         }
-        return null
-    }
-
-    private fun lerp(start: Double, end: Double, alpha: Double): Double {
-        val alphas: Double = when {
-            alpha < 0 -> 0.0
-            alpha > 1 -> 1.0
-            else -> alpha
-        }
-        return start + (end - start) * alphas
-    }
-
-    private fun lerpRound(start: Int, end: Int, alpha: Double): Int {
-        Log.d("RGB:", "${Math.round(lerp(start.toDouble(), end.toDouble(), alpha)).toInt()}")
-        return Math.round(lerp(start.toDouble(), end.toDouble(), alpha)).toInt()
-    }
-
-    private fun lerpColor(r1: Int, g1: Int, b1: Int, r2: Int, g2: Int, b2: Int, alpha: Double): Int {
-        return Color.rgb(lerpRound(r1, r2, alpha), lerpRound(g1, g2, alpha), lerpRound(b1, b2, alpha))
+        return R.drawable.ic_error_black_24dp
     }
 
     private fun changeMarginByTemp(temp: Int) {

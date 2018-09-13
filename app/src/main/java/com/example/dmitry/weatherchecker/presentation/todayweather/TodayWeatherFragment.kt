@@ -1,6 +1,7 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import kotlinx.android.synthetic.main.today_weather_fragment.*
+import org.jetbrains.anko.doAsync
+import java.util.*
 
-class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
+class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefreshLayout.OnRefreshListener {
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
 
@@ -19,11 +22,24 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
         return inflater.inflate(R.layout.today_weather_fragment, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        swipe_container.setOnRefreshListener(this)
+    }
+
     override fun initData(adapter: TodayWeatherAdapter) {
         list_graphs.adapter = adapter
     }
 
     override fun initView(event: ArrayList<WeatherDataModel>) {
+        today_weather_clouds_icon.visibility = View.VISIBLE
+        today_weather_humidity_icon.visibility = View.VISIBLE
+        today_weather_pressure_icon.visibility = View.VISIBLE
+        today_weather_tempmax_icon.visibility = View.VISIBLE
+        today_weather_sea_level_icon.visibility = View.VISIBLE
+        today_weather_tempmin_icon.visibility = View.VISIBLE
+        today_weather_ground_level_icon.visibility = View.VISIBLE
+        today_weather_wind_icon.visibility = View.VISIBLE
         today_weather_clouds.text = "${event[0].clouds_all} %"
         today_weather_ground_level.text = event[0].grnd_level.toString()
         today_weather_sea_level.text = event[0].sea_level.toString()
@@ -47,6 +63,14 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather {
     override fun onDestroy() {
         super.onDestroy()
         presenter.unsub()
+    }
+
+    override fun onRefresh() {
+        swipe_container.isRefreshing = true
+        swipe_container.postDelayed({
+            presenter.refreshDataWithDb()
+            swipe_container.isRefreshing = false
+        }, 2000)
     }
 
     private fun setIcon(id: String): Int? {
