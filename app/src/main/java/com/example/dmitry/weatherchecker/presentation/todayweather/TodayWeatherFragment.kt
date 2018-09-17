@@ -2,6 +2,7 @@ package com.example.dmitry.weatherchecker.presentation.todayweather
 
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import java.util.*
 class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefreshLayout.OnRefreshListener {
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -25,6 +27,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipe_container.setOnRefreshListener(this)
+        linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        linearLayoutManager.initialPrefetchItemCount = 3
+        list_graphs.layoutManager = linearLayoutManager
     }
 
     override fun initData(adapter: TodayWeatherAdapter) {

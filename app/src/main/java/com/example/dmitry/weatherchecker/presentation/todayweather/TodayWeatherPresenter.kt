@@ -16,7 +16,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        //refreshData()
+        refreshData()
     }
 
     @Subscribe
