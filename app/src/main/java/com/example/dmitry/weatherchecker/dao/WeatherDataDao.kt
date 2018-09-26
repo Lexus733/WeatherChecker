@@ -24,10 +24,10 @@ interface WeatherDataDao {
     @Query("SELECT * FROM weatherData WHERE id=:id")
     fun getOneById(id: Int): List<WeatherDataModel>
 
-    @Query("SELECT * FROM weatherData order by id DESC LIMIT 1")
+    @Query("SELECT * FROM weatherData group by dt order by id DESC LIMIT 1")
     fun getLastData(): List<WeatherDataModel>
 
-    @Query("SELECT * FROM weatherData order by id DESC LIMIT 10")
+    @Query("SELECT * FROM weatherData group by dt order by id DESC LIMIT 10")
     fun getLast10Data(): List<WeatherDataModel>
 
 }
