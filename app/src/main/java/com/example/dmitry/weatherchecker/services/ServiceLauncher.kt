@@ -19,7 +19,7 @@ class ServiceLauncher : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Thread {
-            TimeUnit.MINUTES.sleep(30)
+            TimeUnit.MINUTES.sleep(60)
             stopSelf()
         }.start()
         alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager

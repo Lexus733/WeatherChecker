@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.dmitry.weatherchecker.customviews.CustomSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_container"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/swipe_container">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/inner_constraint"
@@ -45,9 +46,9 @@
                     android:id="@+id/today_weather_temp"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:textSize="@dimen/today_weather_text_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,10 +58,10 @@
                     android:id="@+id/today_weather_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/today_weather_description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_temp"
@@ -70,9 +71,9 @@
                     android:id="@+id/today_weather_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
                     android:textSize="@dimen/today_weather_text_size"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -89,24 +90,24 @@
                     app:layout_constraintTop_toTopOf="@+id/today_weather_wind_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_wind_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconswind"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_description" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_humidity_icon"
                     android:layout_width="@dimen/today_weather_icon_size"
                     android:layout_height="@dimen/today_weather_icon_size"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconshumidity"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_wind_icon" />
 
@@ -121,13 +122,13 @@
                     app:layout_constraintTop_toTopOf="@+id/today_weather_humidity_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_tempmin_icon"
                     android:layout_width="@dimen/today_weather_icon_size"
                     android:layout_height="@dimen/today_weather_icon_size"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconstempmin"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_humidity_icon" />
 
@@ -142,13 +143,13 @@
                     app:layout_constraintTop_toTopOf="@+id/today_weather_tempmin_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_tempmax_icon"
                     android:layout_width="@dimen/today_weather_icon_size"
                     android:layout_height="@dimen/today_weather_icon_size"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconstempmax"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_tempmin_icon" />
 
@@ -163,13 +164,13 @@
                     app:layout_constraintTop_toTopOf="@+id/today_weather_tempmax_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_pressure_icon"
                     android:layout_width="@dimen/today_weather_icon_size"
                     android:layout_height="@dimen/today_weather_icon_size"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconspressure"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_tempmax"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_clouds_icon" />
 
@@ -183,13 +184,13 @@
                     app:layout_constraintStart_toEndOf="@+id/today_weather_pressure_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_sea_level_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconssealevel"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_wind_speed"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_description" />
 
@@ -204,13 +205,13 @@
                     app:layout_constraintStart_toEndOf="@+id/today_weather_sea_level_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_ground_level_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconsgroundlevel"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_humidity"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_sea_level_icon" />
 
@@ -224,13 +225,13 @@
                     app:layout_constraintStart_toEndOf="@+id/today_weather_ground_level_icon" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/today_weather_clouds_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:src="@drawable/iconsclouds"
+                    android:visibility="invisible"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_tempmin"
                     app:layout_constraintTop_toBottomOf="@+id/today_weather_ground_level_icon" />
 
@@ -255,6 +256,7 @@
                     android:id="@+id/horizontal_scrollView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scrollbars="none"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.RecyclerView
@@ -269,4 +271,4 @@
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+</com.example.dmitry.weatherchecker.customviews.CustomSwipeRefreshLayout>

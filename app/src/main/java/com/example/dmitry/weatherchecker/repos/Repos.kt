@@ -59,55 +59,6 @@ class Repos : IRepos {
         return weatherDataModel
     }
 
-    override fun insertOneDataToDbFromApi() {
-        retrofit = Retrofit.Builder().baseUrl(WeatherApiKeys.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        openWeatherApi = retrofit.create(OpenWeatherApi::class.java)
-        openWeatherApi.getWeatherInfoByCity(WeatherApiKeys.CITY_ID
-                , WeatherApiKeys.CNT
-                , WeatherApiKeys.API_KEY
-                , WeatherApiKeys.METRIC_UNITS
-                , WeatherApiKeys.LANGUAGE).enqueue(object : Callback<WeatherData> {
-            override fun onFailure(call: Call<WeatherData>?, t: Throwable?) {
-                Log.d("Error!", "$t")
-            }
-
-            override fun onResponse(call: Call<WeatherData>?, response: Response<WeatherData>?) {
-                response?.let {
-                    val weatherDataModelDb = getLastDataWithoutBus()
-                    TimeUnit.SECONDS.sleep(1)
-                    response.body()!!.list.map {
-                        if (it.dt_txt != weatherDataModelDb[0].dt_text) {
-                            val weatherDataModel = WeatherDataModel(it.dt,
-                                    it.main.temp,
-                                    it.main.temp_min,
-                                    it.main.temp_max,
-                                    it.main.pressure,
-                                    it.main.sea_level,
-                                    it.main.grnd_level,
-                                    it.main.humidity,
-                                    it.main.temp_kf,
-                                    it.weather[0].main,
-                                    it.weather[0].description,
-                                    it.weather[0].icon,
-                                    it.clouds.all,
-                                    it.wind.speed,
-                                    it.wind.deg,
-                                    it.dt_txt,
-                                    response.body()!!.city.name,
-                                    response.body()!!.city.country)
-
-                            insertWeatherDataInDb(weatherDataModel)
-                        } else {
-                            Log.d("DataFromApi", "It has exist")
-                        }
-                    }
-                }
-            }
-        })
-    }
-
     override fun insertEverythingToDbFromApi() {
         retrofit = Retrofit.Builder().baseUrl(WeatherApiKeys.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
