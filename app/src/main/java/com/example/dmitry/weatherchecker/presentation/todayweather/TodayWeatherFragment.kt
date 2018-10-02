@@ -1,5 +1,6 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -29,6 +30,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         return inflater.inflate(R.layout.today_weather_fragment, container, false)
     }
 
+    @SuppressLint("BatteryLife")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -48,6 +50,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         list_graphs.adapter = adapter
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView(event: ArrayList<WeatherDataModel>) {
         today_weather_clouds_icon.visibility = View.VISIBLE
         today_weather_humidity_icon.visibility = View.VISIBLE

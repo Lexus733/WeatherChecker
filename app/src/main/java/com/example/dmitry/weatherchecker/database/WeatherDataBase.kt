@@ -11,6 +11,7 @@ import com.example.dmitry.weatherchecker.other.DataBaseKeys
 @Database(entities = [WeatherDataModel::class], version = 2)
 abstract class WeatherDataBase : RoomDatabase() {
     abstract fun weatherDataDao(): WeatherDataDao
+
     companion object {
         private var INSTANCE: WeatherDataBase? = null
 

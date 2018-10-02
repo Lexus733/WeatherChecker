@@ -1,5 +1,6 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
+import com.example.dmitry.weatherchecker.other.RegexKeys
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.withAlpha
 import java.util.*
@@ -20,7 +22,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
     private lateinit var data: ArrayList<WeatherDataModel>
     private lateinit var param: ConstraintLayout.LayoutParams
     private val datePattern = Pattern
-            .compile("^(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})$")
+            .compile(RegexKeys.DATE_PATTERN)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
@@ -29,6 +31,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
 
     override fun getItemCount(): Int = data.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
         val m: Matcher = datePattern.matcher(data.dt_text)
@@ -40,7 +43,8 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         changeMarginByTemp(Math.round(data.temp).toInt())
         holder.tempTextView.text = "${data.temp} °C"
         holder.tempTextView.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()))
-        holder.constraintLayout.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt()).withAlpha(25))
+        holder.constraintLayout.setBackgroundColor(colorByTemp(Math.round(data.temp).toInt())
+                .withAlpha(25))
         holder.windTextView.text = "${data.wind_speed} м/с"
         Picasso.get()
                 .load(this.setIcon(data.weather_icon)!!)
