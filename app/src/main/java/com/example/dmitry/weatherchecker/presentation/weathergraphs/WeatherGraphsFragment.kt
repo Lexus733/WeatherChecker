@@ -36,7 +36,7 @@ class WeatherGraphsFragment : MvpAppCompatFragment(), IWeatherGraphs {
             e.printStackTrace()
             MainApplication.getRouter().exit()
             Toast.makeText(context, "Need more data", Toast.LENGTH_SHORT).show()
-        } catch (e: ArrayIndexOutOfBoundsException){
+        } catch (e: ArrayIndexOutOfBoundsException) {
             e.printStackTrace()
             MainApplication.getRouter().exit()
             Toast.makeText(context, "Need more data", Toast.LENGTH_SHORT).show()

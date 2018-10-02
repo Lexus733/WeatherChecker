@@ -26,21 +26,8 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
         handler.post { viewState.initView(event) }
     }
 
-    private fun refreshView(){
+    fun refreshView() {
         repos = Repos()
-        adapter = TodayWeatherAdapter()
-        handler = Handler()
-        doAsync {
-           adapter.setData(repos.getLast10Data())
-            uiThread {
-                viewState.initData(adapter)
-            }
-        }
-    }
-
-    fun refreshDataWithDb(){
-        repos = Repos()
-        repos.insertEverythingToDbFromApi()
         adapter = TodayWeatherAdapter()
         handler = Handler()
         doAsync {

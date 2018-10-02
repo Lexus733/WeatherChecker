@@ -25,12 +25,7 @@ class ChooseFragment : MvpAppCompatFragment(), IChooseFragment {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
-        if (!powerManager.isIgnoringBatteryOptimizations(context!!.packageName)) {
-            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                    Uri.parse("package:" + activity!!.packageName))
-            startActivity(intent)
-        }
+
     }
 
     override fun initView(onClickListenerGoToTodayWeatherFragment: View.OnClickListener, onClickListenerGoToWeatherGraphs: View.OnClickListener, onClickListenerStopService: View.OnClickListener) {

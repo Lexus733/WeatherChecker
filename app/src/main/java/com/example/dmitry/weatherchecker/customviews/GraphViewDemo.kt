@@ -56,25 +56,25 @@ class GraphViewDemo(context: Context, attributeSet: AttributeSet) : View(context
         // Y
         canvas?.drawLine(size.toFloat(), heightP.toFloat(), widthP.toFloat(), heightP.toFloat(), paint2)
 
-        canvas?.drawText("Temp",30F,50F,paint3)
+        canvas?.drawText("Temp", 30F, 50F, paint3)
 
-        path.moveTo(size.toFloat(),0F)
+        path.moveTo(size.toFloat(), 0F)
 
         for (i in data) {
             if (i < -20) {
                 path.lineTo((size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F)
                 canvas?.drawText("$i", (size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F, paint2)
-              //  canvas?.drawText("$i", widthPoint.toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F, paint2)
+                //  canvas?.drawText("$i", widthPoint.toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 2F, paint2)
             }
             if (i > 0) {
                 path.lineTo((size).toFloat(), heightP / (i + data.size) * data.size)
                 canvas?.drawText("$i", (size).toFloat(), heightP / (i + data.size) * data.size, paint2)
-               // canvas?.drawText("$i", widthPoint.toFloat(), heightP / (i + data.size) * data.size, paint2)
+                // canvas?.drawText("$i", widthPoint.toFloat(), heightP / (i + data.size) * data.size, paint2)
             }
             if (i in -20..0) {
                 path.lineTo((size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F)
                 canvas?.drawText("$i", (size).toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F, paint2)
-               // canvas?.drawText("$i", widthPoint.toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F, paint2)
+                // canvas?.drawText("$i", widthPoint.toFloat(), heightP - (heightP / abs(i + data.size) * data.size) / 8F, paint2)
 
             }
             canvas?.drawText("$iterator", size.toFloat(), heightM.toFloat(), paint3)

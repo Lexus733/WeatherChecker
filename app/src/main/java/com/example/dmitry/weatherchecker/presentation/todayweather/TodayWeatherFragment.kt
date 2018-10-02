@@ -1,6 +1,11 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -11,14 +16,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import kotlinx.android.synthetic.main.today_weather_fragment.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.util.*
 
 class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefreshLayout.OnRefreshListener {
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var powerManager: PowerManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -27,14 +31,20 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (!powerManager.isIgnoringBatteryOptimizations(context!!.packageName)) {
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                    Uri.parse("package:" + activity!!.packageName))
+            startActivity(intent)
+        }
         swipe_container.setOnRefreshListener(this)
+    }
+
+    override fun initData(adapter: TodayWeatherAdapter) {
         linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         linearLayoutManager.initialPrefetchItemCount = 3
         list_graphs.layoutManager = linearLayoutManager
-    }
-
-    override fun initData(adapter: TodayWeatherAdapter) {
         list_graphs.adapter = adapter
     }
 
@@ -62,6 +72,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         today_weather_icon.setImageResource(this.setIcon(event[0].weather_icon)!!)
     }
 
+    override fun refreshScroll() {
+        presenter.refreshView()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.subs()
@@ -74,10 +88,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
 
     override fun onRefresh() {
         swipe_container.isRefreshing = true
-        swipe_container.postDelayed({
-            presenter.refreshDataWithDb()
+        swipe_container.post {
+            refreshScroll()
             swipe_container.isRefreshing = false
-        }, 2000)
+        }
     }
 
     private fun setIcon(id: String): Int? {

@@ -33,12 +33,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <service
-            android:name=".services.JobService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <receiver
             android:name=".services.ServiceBroadcastReceiver"
             android:enabled="true"
@@ -46,14 +40,6 @@
             android:label="RestartServiceWhenStopped">
             <intent-filter>
                 <action android:name="uk.ac.shef.oak.ActivityRecognition.RestartIntent" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".services.ServiceBroadcastReceiverJob"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="uk.ac.shef.oak.ActivityRecognition.StartIntent" />
             </intent-filter>
         </receiver>
 
