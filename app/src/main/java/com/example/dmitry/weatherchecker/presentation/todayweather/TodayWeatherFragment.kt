@@ -76,7 +76,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     }
 
     override fun refreshScroll() {
-        presenter.refreshView()
+        presenter.refreshViewAndGetData()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +95,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
             refreshScroll()
             swipe_container.isRefreshing = false
         }
+    }
+
+    override fun setLoadingFalse() {
+        swipe_container.isRefreshing = false
     }
 
     private fun setIcon(id: String): Int? {

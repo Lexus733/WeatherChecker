@@ -7,4 +7,5 @@ interface ITodayWeather : MvpView {
     fun initView(event: ArrayList<WeatherDataModel>)
     fun initData(adapter: TodayWeatherAdapter)
     fun refreshScroll()
+    fun setLoadingFalse()
 }

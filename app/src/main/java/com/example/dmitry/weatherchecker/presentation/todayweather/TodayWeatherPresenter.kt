@@ -12,9 +12,9 @@ import org.jetbrains.anko.uiThread
 
 @InjectViewState
 class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
-    private lateinit var adapter: TodayWeatherAdapter
-    private lateinit var repos: Repos
-    private lateinit var handler: Handler
+    private var adapter: TodayWeatherAdapter = TodayWeatherAdapter()
+    private val repos: Repos = Repos()
+    private val handler: Handler = Handler()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -26,13 +26,20 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
         handler.post { viewState.initView(event) }
     }
 
-    fun refreshView() {
-        repos = Repos()
-        adapter = TodayWeatherAdapter()
-        handler = Handler()
+    private fun refreshView() {
         doAsync {
             adapter.setData(repos.getLast10Data())
             uiThread {
+                viewState.initData(adapter)
+            }
+        }
+    }
+
+    fun refreshViewAndGetData() {
+        doAsync {
+            repos.insertEverythingToDbFromApi()
+            uiThread {
+                adapter.setData(repos.getLast10Data())
                 viewState.initData(adapter)
             }
         }
