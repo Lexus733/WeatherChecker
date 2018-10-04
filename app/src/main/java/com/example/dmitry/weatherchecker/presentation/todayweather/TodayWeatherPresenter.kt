@@ -14,27 +14,21 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     private val repos: Repos = Repos()
     private val handler: Handler = Handler()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        refreshView()
+    init {
+        adapter.setData(repos.getLast10Data())
     }
 
     @Subscribe
     fun onEvent(event: ArrayList<WeatherDataModel>) {
         handler.post {
-            viewState.initView(event)
-            viewState.initData(adapter)
-            viewState.setLoadingFalse()
+            viewState.initView(event, adapter)
         }
-    }
-
-    private fun refreshView() {
-        adapter.setData(repos.getLast10Data())
     }
 
     fun refreshViewAndGetData() {
         repos.insertEverythingToDbFromApi()
         adapter.setData(repos.getLast10Data())
+        viewState.setLoadingFalse()
     }
 
     fun subs() = EventBus.getDefault().register(this)

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +16,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import kotlinx.android.synthetic.main.today_weather_fragment.*
-import java.util.*
+import kotlin.collections.ArrayList
 
 class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefreshLayout.OnRefreshListener {
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
-    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var powerManager: PowerManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +31,6 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     @SuppressLint("BatteryLife")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        linearLayoutManager.initialPrefetchItemCount = 3
-        list_graphs.layoutManager = linearLayoutManager
         powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
         if (!powerManager.isIgnoringBatteryOptimizations(context!!.packageName)) {
             val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
@@ -46,12 +40,9 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         swipe_container.setOnRefreshListener(this)
     }
 
-    override fun initData(adapter: TodayWeatherAdapter) {
-        list_graphs.adapter = adapter
-    }
-
     @SuppressLint("SetTextI18n")
-    override fun initView(event: ArrayList<WeatherDataModel>) {
+    override fun initView(event: ArrayList<WeatherDataModel>, adapter: TodayWeatherAdapter) {
+        list_graphs.adapter = adapter
         today_weather_clouds_icon.visibility = View.VISIBLE
         today_weather_humidity_icon.visibility = View.VISIBLE
         today_weather_pressure_icon.visibility = View.VISIBLE
