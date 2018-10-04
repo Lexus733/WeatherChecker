@@ -6,7 +6,6 @@ import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
-import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,42 +18,25 @@ class Repos : IRepos {
 
     override fun getLast10Data(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        Thread(Runnable {
-            weatherDataModel.addAll(MainApplication.getDb().getLast10Data())
-            EventBus.getDefault().post(weatherDataModel)
-        }).start()
+        weatherDataModel.addAll(MainApplication.getDb().getLast10Data())
         return weatherDataModel
     }
 
-    override fun getLastData() {
+    override fun getLastData(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        Thread(Runnable {
-            weatherDataModel.addAll(MainApplication.getDb().getLastData())
-            EventBus.getDefault().post(weatherDataModel[0])
-        }).start()
-    }
-
-    override fun getLastDataWithoutBus(): ArrayList<WeatherDataModel> {
-        val weatherDataModel = ArrayList<WeatherDataModel>()
-        Thread(Runnable {
-            weatherDataModel.addAll(MainApplication.getDb().getLastData())
-        }).start()
+        weatherDataModel.addAll(MainApplication.getDb().getLastData())
         return weatherDataModel
     }
 
     override fun getData(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        Thread(Runnable {
-            weatherDataModel.addAll(MainApplication.getDb().getAll())
-        }).start()
+        weatherDataModel.addAll(MainApplication.getDb().getAll())
         return weatherDataModel
     }
 
     override fun getDataById(id: Int): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        Thread(Runnable {
-            weatherDataModel.addAll(MainApplication.getDb().getOneById(id))
-        }).start()
+        weatherDataModel.addAll(MainApplication.getDb().getOneById(id))
         return weatherDataModel
     }
 
@@ -94,7 +76,7 @@ class Repos : IRepos {
                                 response.body()!!.city.name,
                                 response.body()!!.city.country)
 
-                        insertWeatherDataInDb(weatherDataModel)
+                        Thread(Runnable { insertWeatherDataInDb(weatherDataModel) })
                     }
                 }
             }
@@ -103,10 +85,9 @@ class Repos : IRepos {
     }
 
     private fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) =
-            Thread(Runnable { MainApplication.getDb().insert(weatherDataModel) }).start()
+            MainApplication.getDb().insert(weatherDataModel)
 
-    private fun deleteWeatherDataInDb(id: Int) =
-            Thread(Runnable { MainApplication.getDb().deleteOne(id) }).start()
+    private fun deleteWeatherDataInDb(id: Int) = MainApplication.getDb().deleteOne(id)
 
     private fun destroyHandlerAndInstance() = MainApplication.destroyDb()
 }

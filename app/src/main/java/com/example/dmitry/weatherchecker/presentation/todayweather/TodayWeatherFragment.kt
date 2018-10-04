@@ -16,7 +16,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import kotlinx.android.synthetic.main.today_weather_fragment.*
-import kotlin.collections.ArrayList
 
 class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefreshLayout.OnRefreshListener {
     @InjectPresenter
@@ -40,9 +39,9 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         swipe_container.setOnRefreshListener(this)
     }
 
+
     @SuppressLint("SetTextI18n")
-    override fun initView(event: ArrayList<WeatherDataModel>, adapter: TodayWeatherAdapter) {
-        list_graphs.adapter = adapter
+    override fun initView(event: ArrayList<WeatherDataModel>) {
         today_weather_clouds_icon.visibility = View.VISIBLE
         today_weather_humidity_icon.visibility = View.VISIBLE
         today_weather_pressure_icon.visibility = View.VISIBLE
@@ -66,18 +65,12 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         today_weather_icon.setImageResource(this.setIcon(event[0].weather_icon)!!)
     }
 
+    override fun initAdapter(adapter: TodayWeatherAdapter) {
+        list_graphs.adapter = adapter
+    }
+
     override fun refreshScroll() {
         presenter.refreshViewAndGetData()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.subs()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.unsub()
     }
 
     override fun onRefresh() {
