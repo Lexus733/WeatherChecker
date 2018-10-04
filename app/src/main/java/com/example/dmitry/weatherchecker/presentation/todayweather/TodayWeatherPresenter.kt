@@ -7,12 +7,10 @@ import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.repos.Repos
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 @InjectViewState
 class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
-    private var adapter: TodayWeatherAdapter = TodayWeatherAdapter()
+    private val adapter: TodayWeatherAdapter = TodayWeatherAdapter()
     private val repos: Repos = Repos()
     private val handler: Handler = Handler()
 
@@ -23,26 +21,20 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     @Subscribe
     fun onEvent(event: ArrayList<WeatherDataModel>) {
-        handler.post { viewState.initView(event) }
+        handler.post {
+            viewState.initView(event)
+            viewState.initData(adapter)
+            viewState.setLoadingFalse()
+        }
     }
 
     private fun refreshView() {
-        doAsync {
-            adapter.setData(repos.getLast10Data())
-            uiThread {
-                viewState.initData(adapter)
-            }
-        }
+        adapter.setData(repos.getLast10Data())
     }
 
     fun refreshViewAndGetData() {
-        doAsync {
-            repos.insertEverythingToDbFromApi()
-            uiThread {
-                adapter.setData(repos.getLast10Data())
-                viewState.initData(adapter)
-            }
-        }
+        repos.insertEverythingToDbFromApi()
+        adapter.setData(repos.getLast10Data())
     }
 
     fun subs() = EventBus.getDefault().register(this)

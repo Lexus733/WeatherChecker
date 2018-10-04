@@ -33,6 +33,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     @SuppressLint("BatteryLife")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        linearLayoutManager.initialPrefetchItemCount = 3
+        list_graphs.layoutManager = linearLayoutManager
         powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
         if (!powerManager.isIgnoringBatteryOptimizations(context!!.packageName)) {
             val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
@@ -43,10 +47,6 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     }
 
     override fun initData(adapter: TodayWeatherAdapter) {
-        linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        linearLayoutManager.initialPrefetchItemCount = 3
-        list_graphs.layoutManager = linearLayoutManager
         list_graphs.adapter = adapter
     }
 
@@ -93,7 +93,6 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         swipe_container.isRefreshing = true
         swipe_container.post {
             refreshScroll()
-            swipe_container.isRefreshing = false
         }
     }
 

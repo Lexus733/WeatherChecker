@@ -10,7 +10,7 @@ class ServiceForApi : Service() {
     override fun onCreate() {
         super.onCreate()
         repos = Repos()
-        Thread { insertDataToDb() }.start()
+        Thread { repos.insertEverythingToDbFromApi() }.start()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -20,9 +20,5 @@ class ServiceForApi : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         stopSelf()
         return START_STICKY
-    }
-
-    private fun insertDataToDb() {
-        repos.insertEverythingToDbFromApi()
     }
 }

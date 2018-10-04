@@ -58,16 +58,6 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         notifyDataSetChanged()
     }
 
-    fun clear(){
-        this.data.clear()
-        notifyDataSetChanged()
-    }
-
-    fun addAll(data: ArrayList<WeatherDataModel>){
-       this.data.addAll(data)
-        notifyDataSetChanged()
-    }
-
     private fun setIcon(id: String): Int? {
         when (id) {
             "01d" -> return R.drawable.sun
