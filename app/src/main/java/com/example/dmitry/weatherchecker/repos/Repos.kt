@@ -76,7 +76,7 @@ class Repos : IRepos {
                                 response.body()!!.city.name,
                                 response.body()!!.city.country)
 
-                        Thread(Runnable { insertWeatherDataInDb(weatherDataModel) })
+                        Thread(Runnable { insertWeatherDataInDb(weatherDataModel) }).start()
                     }
                 }
             }

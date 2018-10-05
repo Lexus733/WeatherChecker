@@ -28,6 +28,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
             var list = repos.getLast10Data()
             handler.post {
                 adapter.setData(list)
+                viewState.initView(list)
                 viewState.setLoadingFalse()
             }
         }).start()
