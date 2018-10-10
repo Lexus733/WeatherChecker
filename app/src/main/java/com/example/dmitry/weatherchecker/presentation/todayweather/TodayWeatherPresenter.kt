@@ -12,6 +12,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     private val handler: Handler = Handler()
 
     init {
+        repos.insertEverythingToDbFromApi()
         Thread(Runnable {
             var list = repos.getLast10Data()
             handler.post {
