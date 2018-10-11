@@ -6,6 +6,7 @@ import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
+import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
@@ -21,6 +22,10 @@ class Repos : IRepos {
     private lateinit var retrofit: Retrofit
     private lateinit var retrofitRx: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
+
+    override fun getLast10DataRx(): Maybe<List<WeatherDataModel>> {
+     return MainApplication.getDb().getLast10DataRx()
+    }
 
     override fun getLast10Data(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()

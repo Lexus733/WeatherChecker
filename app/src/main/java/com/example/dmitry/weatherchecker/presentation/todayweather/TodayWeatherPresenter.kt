@@ -2,7 +2,6 @@ package com.example.dmitry.weatherchecker.presentation.todayweather
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.repos.Repos
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,7 +14,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     init {
         repos.insertEverythingToDbFromApiRx()
-        MainApplication.getDb().getLast10DataRx()
+        repos.getLast10DataRx()
                 .subscribeOn(Schedulers.newThread())
                 .map {
                     val arrayList = ArrayList<WeatherDataModel>()
@@ -32,7 +31,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     fun refreshViewAndGetData() {
         repos.insertEverythingToDbFromApiRx()
-        MainApplication.getDb().getLast10DataRx()
+        repos.getLast10DataRx()
                 .subscribeOn(Schedulers.newThread())
                 .map {
                     val arrayList = ArrayList<WeatherDataModel>()
