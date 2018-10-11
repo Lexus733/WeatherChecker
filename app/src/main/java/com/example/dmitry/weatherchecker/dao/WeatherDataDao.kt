@@ -6,6 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.ApiQuery
+import io.reactivex.Maybe
 
 
 @Dao
@@ -30,5 +31,8 @@ interface WeatherDataDao {
 
     @Query(ApiQuery.GET_10_LAST_DATA)
     fun getLast10Data(): List<WeatherDataModel>
+
+    @Query(ApiQuery.GET_10_LAST_DATA)
+    fun getLast10DataRx(): Maybe<List<WeatherDataModel>>
 
 }

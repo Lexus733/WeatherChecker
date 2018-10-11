@@ -1,28 +1,23 @@
 package com.example.dmitry.weatherchecker.repos
 
-import android.annotation.SuppressLint
 import android.util.Log
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import io.reactivex.android.schedulers.AndroidSchedulers
-
 
 
 class Repos : IRepos {
-    private lateinit var weatherData:Single<WeatherData>
+    private lateinit var weatherData: Single<WeatherData>
     private lateinit var retrofit: Retrofit
     private lateinit var retrofitRx: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
@@ -95,7 +90,6 @@ class Repos : IRepos {
 
     }
 
-    @SuppressLint("CheckResult")
     override fun insertEverythingToDbFromApiRx() {
         retrofitRx = Retrofit.Builder().addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -108,26 +102,28 @@ class Repos : IRepos {
                 , WeatherApiKeys.METRIC_UNITS
                 , WeatherApiKeys.LANGUAGE)
         weatherData.subscribeOn(Schedulers.newThread())
-                .map { weatherData -> weatherData.list.map {
-                    WeatherDataModel(it.dt,
-                            it.main.temp,
-                            it.main.temp_min,
-                            it.main.temp_max,
-                            it.main.pressure,
-                            it.main.sea_level,
-                            it.main.grnd_level,
-                            it.main.humidity,
-                            it.main.temp_kf,
-                            it.weather[0].main,
-                            it.weather[0].description,
-                            it.weather[0].icon,
-                            it.clouds.all,
-                            it.wind.speed,
-                            it.wind.deg,
-                            it.dt_txt,
-                            weatherData.city.name,
-                            weatherData.city.country)
-                }}.subscribe { it -> it.map { insertWeatherDataInDb(it) }}
+                .map { weatherData ->
+                    weatherData.list.map {
+                        WeatherDataModel(it.dt,
+                                it.main.temp,
+                                it.main.temp_min,
+                                it.main.temp_max,
+                                it.main.pressure,
+                                it.main.sea_level,
+                                it.main.grnd_level,
+                                it.main.humidity,
+                                it.main.temp_kf,
+                                it.weather[0].main,
+                                it.weather[0].description,
+                                it.weather[0].icon,
+                                it.clouds.all,
+                                it.wind.speed,
+                                it.wind.deg,
+                                it.dt_txt,
+                                weatherData.city.name,
+                                weatherData.city.country)
+                    }
+                }.subscribe { it -> it.map { insertWeatherDataInDb(it) } }
     }
 
 
