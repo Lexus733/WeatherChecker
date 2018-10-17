@@ -13,7 +13,8 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     private val repos: Repos = Repos()
 
     init {
-        repos.insertEverythingToDbFromApiRx()
+        /*repos.insertEverythingToDbFromApiRx()*/
+        repos.insertEverythingToDbFromApi()
         repos.getLast10DataRx()
                 .subscribeOn(Schedulers.newThread())
                 .map {
@@ -30,7 +31,8 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     }
 
     fun refreshViewAndGetData() {
-        repos.insertEverythingToDbFromApiRx()
+        /*repos.insertEverythingToDbFromApiRx()*/
+        repos.insertEverythingToDbFromApi()
         repos.getLast10DataRx()
                 .subscribeOn(Schedulers.newThread())
                 .map {
