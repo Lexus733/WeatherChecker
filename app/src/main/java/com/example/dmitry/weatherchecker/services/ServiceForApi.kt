@@ -10,7 +10,7 @@ class ServiceForApi : Service() {
     override fun onCreate() {
         super.onCreate()
         repos = Repos()
-        repos.insertEverythingToDbFromApiRx()
+        repos.insertEverythingToDbFromApiRxForService()
     }
 
     override fun onBind(intent: Intent): IBinder? {

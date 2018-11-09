@@ -8,4 +8,5 @@ interface ITodayWeather : MvpView {
     fun refreshScroll()
     fun setLoadingFalse()
     fun initAdapter(adapter: TodayWeatherAdapter)
+    fun showMessage(message: String)
 }

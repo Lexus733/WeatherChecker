@@ -1,12 +1,13 @@
 package com.example.dmitry.weatherchecker.repos
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
-import io.reactivex.Maybe
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
@@ -23,8 +24,12 @@ class Repos : IRepos {
     private lateinit var retrofitRx: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
 
-    override fun getLast10DataRx(): Maybe<List<WeatherDataModel>> {
-     return MainApplication.getDb().getLast10DataRx()
+    override fun getTodayData(): List<WeatherDataModel> {
+        return MainApplication.getDb().getTodayData()
+    }
+
+    override fun getLast10DataRx(): Flowable<List<WeatherDataModel>> {
+        return MainApplication.getDb().getLast10DataRx()
     }
 
     override fun getLast10Data(): ArrayList<WeatherDataModel> {
@@ -88,6 +93,7 @@ class Repos : IRepos {
                                 response.body()!!.city.country)
 
                         Thread(Runnable { insertWeatherDataInDb(weatherDataModel) }).start()
+
                     }
                 }
             }
@@ -95,7 +101,23 @@ class Repos : IRepos {
 
     }
 
-    override fun insertEverythingToDbFromApiRx() {
+    @SuppressLint("CheckResult")
+    override fun insertEverythingToDbFromApiRx(): Single<WeatherData> {
+        retrofitRx = Retrofit.Builder().addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(WeatherApiKeys.BASE_URL)
+                .build()
+        openWeatherApi = retrofitRx.create(OpenWeatherApi::class.java)
+        weatherData = openWeatherApi.getWeatherInfoByCityRx(WeatherApiKeys.CITY_ID
+                , WeatherApiKeys.CNT
+                , WeatherApiKeys.API_KEY
+                , WeatherApiKeys.METRIC_UNITS
+                , WeatherApiKeys.LANGUAGE)
+        return weatherData
+    }
+
+    @SuppressLint("CheckResult")
+    internal fun insertEverythingToDbFromApiRxForService() {
         retrofitRx = Retrofit.Builder().addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(WeatherApiKeys.BASE_URL)
@@ -128,11 +150,14 @@ class Repos : IRepos {
                                 weatherData.city.name,
                                 weatherData.city.country)
                     }
-                }.subscribe { it -> it.map { insertWeatherDataInDb(it) } }
+                }.subscribe { it ->
+                    it.map {
+                        insertWeatherDataInDb(it)
+                    }
+                }
     }
 
-
-    private fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) =
+    internal fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) =
             MainApplication.getDb().insert(weatherDataModel)
 
     private fun deleteWeatherDataInDb(id: Int) = MainApplication.getDb().deleteOne(id)

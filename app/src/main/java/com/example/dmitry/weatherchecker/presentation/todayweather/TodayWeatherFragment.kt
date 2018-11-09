@@ -8,23 +8,35 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.support.v4.widget.SwipeRefreshLayout
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import kotlinx.android.synthetic.main.today_weather_fragment.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefreshLayout.OnRefreshListener {
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
     private lateinit var powerManager: PowerManager
+    private val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.today_weather_fragment, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.date_menu, menu)
+        menu!!.findItem(R.id.action_date_text).title = simpleDateFormat.format(Date())
     }
 
     @SuppressLint("BatteryLife")
@@ -39,7 +51,6 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         swipe_container.setOnRefreshListener(this)
     }
 
-
     @SuppressLint("SetTextI18n")
     override fun initView(event: ArrayList<WeatherDataModel>) {
         today_weather_clouds_icon.visibility = View.VISIBLE
@@ -50,19 +61,19 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         today_weather_tempmin_icon.visibility = View.VISIBLE
         today_weather_ground_level_icon.visibility = View.VISIBLE
         today_weather_wind_icon.visibility = View.VISIBLE
-        today_weather_clouds.text = "${event[0].clouds_all} %"
-        today_weather_ground_level.text = event[0].grnd_level.toString()
-        today_weather_sea_level.text = event[0].sea_level.toString()
-        today_weather_city_county.text = event[0].city_contry
-        today_weather_pressure.text = "${event[0].pressure} Па"
-        today_weather_tempmax.text = "${event[0].temp_max} °C"
-        today_weather_tempmin.text = "${event[0].temp_min} °C"
-        today_weather_city_name.text = event[0].city_name
-        today_weather_temp.text = "${event[0].temp} °C"
-        today_weather_description.text = event[0].weather_description
-        today_weather_humidity.text = "${event[0].humidity} %"
-        today_weather_wind_speed.text = "${event[0].wind_speed} м/с"
-        today_weather_icon.setImageResource(this.setIcon(event[0].weather_icon)!!)
+        today_weather_clouds.text = "${event[event.size - 1].clouds_all} %"
+        today_weather_ground_level.text = event[event.size - 1].grnd_level.toString()
+        today_weather_sea_level.text = event[event.size - 1].sea_level.toString()
+        today_weather_city_county.text = event[event.size - 1].city_contry
+        today_weather_pressure.text = "${event[event.size - 1].pressure} Па"
+        today_weather_tempmax.text = "${event[event.size - 1].temp_max} °C"
+        today_weather_tempmin.text = "${event[event.size - 1].temp_min} °C"
+        today_weather_city_name.text = event[event.size - 1].city_name
+        today_weather_temp.text = "${event[event.size - 1].temp} °C"
+        today_weather_description.text = event[event.size - 1].weather_description
+        today_weather_humidity.text = "${event[event.size - 1].humidity} %"
+        today_weather_wind_speed.text = "${event[event.size - 1].wind_speed} м/с"
+        today_weather_icon.setImageResource(this.setIcon(event[event.size - 1].weather_icon)!!)
     }
 
     override fun initAdapter(adapter: TodayWeatherAdapter) {
@@ -82,6 +93,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
 
     override fun setLoadingFalse() {
         swipe_container.isRefreshing = false
+    }
+
+    override fun showMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setIcon(id: String): Int? {

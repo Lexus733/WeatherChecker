@@ -14,7 +14,6 @@ import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.RegexKeys
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.withAlpha
-import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
