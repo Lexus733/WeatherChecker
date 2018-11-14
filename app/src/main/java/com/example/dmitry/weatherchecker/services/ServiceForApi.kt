@@ -11,6 +11,7 @@ class ServiceForApi : Service() {
         super.onCreate()
         repos = Repos()
         repos.insertEverythingToDbFromApiRxForService()
+        stopSelf()
     }
 
     override fun onBind(intent: Intent): IBinder? {
