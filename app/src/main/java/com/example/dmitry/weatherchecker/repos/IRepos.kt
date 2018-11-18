@@ -14,4 +14,9 @@ interface IRepos {
     fun getLast10Data(): ArrayList<WeatherDataModel>
     fun getLast10DataRx(): Flowable<List<WeatherDataModel>>
     fun getTodayData(): List<WeatherDataModel>
+    fun getTodayDataRx(): Flowable<List<WeatherDataModel>>
+    fun getNowDataRx(): Flowable<List<WeatherDataModel>>
+    fun getNowData(): List<WeatherDataModel>
+    fun getForwardData(days: String): List<WeatherDataModel>
+    fun getForwardDataRX(days: String): Flowable<List<WeatherDataModel>>
 }

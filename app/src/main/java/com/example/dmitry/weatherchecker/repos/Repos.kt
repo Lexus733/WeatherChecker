@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.api.OpenWeatherApi
+import com.example.dmitry.weatherchecker.model.Main
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
@@ -23,6 +24,27 @@ class Repos : IRepos {
     private lateinit var retrofit: Retrofit
     private lateinit var retrofitRx: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
+
+    override fun getForwardDataRX(days: String): Flowable<List<WeatherDataModel>> {
+        return MainApplication.getDb().getForwardDataRX(days = days)
+    }
+
+    override fun getForwardData(days: String): List<WeatherDataModel> {
+        return MainApplication.getDb().getForwardData(days = days)
+    }
+
+
+    override fun getNowData(): List<WeatherDataModel> {
+        return MainApplication.getDb().getNowData()
+    }
+
+    override fun getNowDataRx(): Flowable<List<WeatherDataModel>> {
+        return MainApplication.getDb().getNowDataRX()
+    }
+
+    override fun getTodayDataRx(): Flowable<List<WeatherDataModel>> {
+     return MainApplication.getDb().getTodayDataRX()
+    }
 
     override fun getTodayData(): List<WeatherDataModel> {
         return MainApplication.getDb().getTodayData()

@@ -28,7 +28,7 @@ class ServiceLauncher : Service() {
         repos.insertEverythingToDbFromApi()
         listener = {
             alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            pendingIntent = PendingIntent.getService(this, 0, Intent(this, IntentServiceForApi::class.java), PendingIntent.FLAG_UPDATE_CURRENT)!!
+            pendingIntent = PendingIntent.getService(this, 0, Intent(this, ServiceForApi::class.java), PendingIntent.FLAG_UPDATE_CURRENT)!!
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3 * 3600000, pendingIntent)
         }
 

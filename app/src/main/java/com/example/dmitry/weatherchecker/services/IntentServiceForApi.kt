@@ -12,7 +12,7 @@ class IntentServiceForApi : IntentService("IntentServiceForApi") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        repos.insertEverythingToDbFromApiRxForService()
+        Thread(Runnable {repos.insertEverythingToDbFromApi() })
         ServiceLauncher.listener?.invoke()
     }
 }

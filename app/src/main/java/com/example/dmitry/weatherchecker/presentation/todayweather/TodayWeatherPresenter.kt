@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     private val adapter: TodayWeatherAdapter = TodayWeatherAdapter()
     private val repos: Repos = Repos()
+    private var daysCount: Int = 0
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -49,16 +50,15 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                         repos.insertWeatherDataInDb(it)
                     }
                 }.map {
-                    repos.getTodayData()
+                    return@map arrayListOf(repos.getTodayData(), repos.getNowData())
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    adapter.setData(it as ArrayList<WeatherDataModel>)
-                    viewState.initView(it)
-                    viewState.initAdapter(adapter)
+                    createAdapter(it[0], it[1])
                 }, {
                     it.printStackTrace()
-                    viewState.showMessage("Error!!!")
+                    viewState.showMessage("Don't have internet connection")
+                    getTodayDataFromDb()
                 })
     }
 
@@ -93,16 +93,41 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                         repos.insertWeatherDataInDb(it)
                     }
                 }.map {
-                    repos.getTodayData()
+                    return@map arrayListOf(repos.getTodayData(), repos.getNowData())
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    adapter.setData(it as ArrayList<WeatherDataModel>)
-                    viewState.initView(it)
-                    viewState.setLoadingFalse()
+                    refreshAdapter(it[0], it[1])
                 }, {
                     it.printStackTrace()
-                    viewState.showMessage("Error!!!")
+                    viewState.showMessage("Don't have internet connection")
+                })
+    }
+
+    private fun createAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
+        adapter.setData(it as ArrayList<WeatherDataModel>)
+        viewState.initView(it2 as ArrayList<WeatherDataModel>)
+        viewState.initAdapter(adapter)
+    }
+
+    private fun refreshAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
+        adapter.setData(it as ArrayList<WeatherDataModel>)
+        viewState.initView(it2 as ArrayList<WeatherDataModel>)
+        viewState.setLoadingFalse()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getTodayDataFromDb() {
+        repos.getTodayDataRx()
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map {
+                    return@map arrayListOf(it, repos.getNowData())
+                }
+                .subscribe({
+                    createAdapter(it[0], it[1])
+                }, {
+                    viewState.showMessage("Don't have data in database")
                 })
     }
 }

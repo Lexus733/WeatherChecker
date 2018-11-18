@@ -10,7 +10,7 @@ class ServiceForApi : Service() {
     override fun onCreate() {
         super.onCreate()
         repos = Repos()
-        repos.insertEverythingToDbFromApiRxForService()
+        repos.insertEverythingToDbFromApi()
         stopSelf()
     }
 
@@ -20,6 +20,7 @@ class ServiceForApi : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         ServiceLauncher.listener?.invoke()
+        repos.insertEverythingToDbFromApi()
         stopSelf()
         return START_STICKY
     }
