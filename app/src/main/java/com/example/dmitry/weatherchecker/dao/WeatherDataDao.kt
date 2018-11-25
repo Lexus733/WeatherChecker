@@ -46,10 +46,10 @@ interface WeatherDataDao {
     @Query(ApiQuery.GET_NOW_DATA)
     fun getNowDataRX(): Flowable<List<WeatherDataModel>>
 
-    @Query("SELECT * FROM weatherData WHERE date(dt_text) == date(\"now\",:days) group by dt_text")
+    @Query(ApiQuery.GET_FORWARD_DATA)
     fun getForwardData(days: String): List<WeatherDataModel>
 
-    @Query("SELECT * FROM weatherData WHERE date(dt_text) == date(\"now\",:days) group by dt_text")
+    @Query(ApiQuery.GET_FORWARD_DATA)
     fun getForwardDataRX(days: String): Flowable<List<WeatherDataModel>>
 
     @Query(ApiQuery.GET_10_LAST_DATA)

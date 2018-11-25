@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.constraint.ConstraintLayout
+            <com.example.dmitry.weatherchecker.customviews.CustomConstraintLayout
                 android:id="@+id/inner_constraint_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -243,7 +243,7 @@
                     android:textSize="@dimen/today_weather_text_size"
                     app:layout_constraintBaseline_toBaselineOf="@+id/today_weather_tempmin"
                     app:layout_constraintStart_toEndOf="@+id/today_weather_clouds_icon" />
-            </android.support.constraint.ConstraintLayout>
+            </com.example.dmitry.weatherchecker.customviews.CustomConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/inner_constraint_graphs"

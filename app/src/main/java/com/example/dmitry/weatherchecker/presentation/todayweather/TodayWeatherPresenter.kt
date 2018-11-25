@@ -122,7 +122,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map {
-                    return@map arrayListOf(it, repos.getNowData())
+                    return@map arrayListOf(it,it)
                 }
                 .subscribe({
                     createAdapter(it[0], it[1])

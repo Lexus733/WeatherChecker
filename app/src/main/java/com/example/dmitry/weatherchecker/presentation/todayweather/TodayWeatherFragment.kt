@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import android.support.v4.view.GestureDetectorCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.*
 import android.widget.Toast
@@ -22,6 +23,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     @InjectPresenter
     lateinit var presenter: TodayWeatherPresenter
     private lateinit var powerManager: PowerManager
+    private lateinit var gestureDetectorCompat: GestureDetectorCompat
     private val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
 
     override fun onCreate(savedInstanceState: Bundle?) {

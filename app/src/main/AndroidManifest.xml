@@ -41,10 +41,6 @@
                 <action android:name="uk.ac.shef.oak.ActivityRecognition.RestartIntent" />
             </intent-filter>
         </receiver>
-
-        <service
-            android:name=".services.IntentServiceForApi"
-            android:exported="false" />
     </application>
 
 </manifest>
