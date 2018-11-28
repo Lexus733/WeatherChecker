@@ -24,6 +24,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     lateinit var presenter: TodayWeatherPresenter
     private lateinit var powerManager: PowerManager
     private lateinit var gestureDetectorCompat: GestureDetectorCompat
+    private lateinit var customConstraintLayout: View
     private val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +45,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
     @SuppressLint("BatteryLife")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        gestureDetectorCompat = GestureDetectorCompat(context, inner_constraint_data)
         powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
         if (!powerManager.isIgnoringBatteryOptimizations(context!!.packageName)) {
             val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
@@ -51,6 +53,11 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
             startActivity(intent)
         }
         swipe_container.setOnRefreshListener(this)
+        customConstraintLayout = inner_constraint_data
+        customConstraintLayout.setOnTouchListener { _, event ->
+            gestureDetectorCompat.onTouchEvent(event)
+            return@setOnTouchListener true
+        }
     }
 
     @SuppressLint("SetTextI18n")
