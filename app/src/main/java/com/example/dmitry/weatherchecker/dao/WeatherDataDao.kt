@@ -7,8 +7,6 @@ import android.arch.persistence.room.Query
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.ApiQuery
 import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.Observable
 
 
 @Dao
@@ -37,17 +35,17 @@ interface WeatherDataDao {
     @Query(ApiQuery.GET_TODAY_DATA)
     fun getTodayData(): List<WeatherDataModel>
 
-    @Query(ApiQuery.GET_TODAY_DATA)
-    fun getTodayDataRX(): Flowable<List<WeatherDataModel>>
-
     @Query(ApiQuery.GET_NOW_DATA)
     fun getNowData(): List<WeatherDataModel>
+
+    @Query(ApiQuery.GET_FORWARD_DATA)
+    fun getForwardData(days: String): List<WeatherDataModel>
 
     @Query(ApiQuery.GET_NOW_DATA)
     fun getNowDataRX(): Flowable<List<WeatherDataModel>>
 
-    @Query(ApiQuery.GET_FORWARD_DATA)
-    fun getForwardData(days: String): List<WeatherDataModel>
+    @Query(ApiQuery.GET_TODAY_DATA)
+    fun getTodayDataRX(): Flowable<List<WeatherDataModel>>
 
     @Query(ApiQuery.GET_FORWARD_DATA)
     fun getForwardDataRX(days: String): Flowable<List<WeatherDataModel>>

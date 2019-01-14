@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
+import com.example.dmitry.weatherchecker.customviews.CustomConstraintLayout
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import kotlinx.android.synthetic.main.today_weather_fragment.*
 import java.text.SimpleDateFormat
@@ -54,6 +55,8 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         }
         swipe_container.setOnRefreshListener(this)
         customConstraintLayout = inner_constraint_data
+        (customConstraintLayout as CustomConstraintLayout?)!!.setSwipe({ presenter.swipeDaysForward() }
+                , { presenter.swipeDaysBack() })
         customConstraintLayout.setOnTouchListener { _, event ->
             gestureDetectorCompat.onTouchEvent(event)
             return@setOnTouchListener true

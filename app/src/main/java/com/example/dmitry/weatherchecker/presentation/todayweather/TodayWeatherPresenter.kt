@@ -19,6 +19,33 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
         onFirstAttach()
     }
 
+    private fun createAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
+        adapter.setData(it as ArrayList<WeatherDataModel>)
+        viewState.initView(it2 as ArrayList<WeatherDataModel>)
+        viewState.initAdapter(adapter)
+    }
+
+    private fun refreshAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
+        adapter.setData(it as ArrayList<WeatherDataModel>)
+        viewState.initView(it2 as ArrayList<WeatherDataModel>)
+        viewState.setLoadingFalse()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getTodayDataFromDb() {
+        repos.getTodayDataRx()
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map {
+                    return@map arrayListOf(it, it)
+                }
+                .subscribe({
+                    createAdapter(it[0], it[1])
+                }, {
+                    viewState.showMessage("Don't have data in database")
+                })
+    }
+
     @SuppressLint("CheckResult")
     private fun onFirstAttach() {
         repos.insertEverythingToDbFromApiRx()
@@ -104,25 +131,30 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                 })
     }
 
-    private fun createAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
-        adapter.setData(it as ArrayList<WeatherDataModel>)
-        viewState.initView(it2 as ArrayList<WeatherDataModel>)
-        viewState.initAdapter(adapter)
-    }
-
-    private fun refreshAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
-        adapter.setData(it as ArrayList<WeatherDataModel>)
-        viewState.initView(it2 as ArrayList<WeatherDataModel>)
-        viewState.setLoadingFalse()
-    }
-
     @SuppressLint("CheckResult")
-    private fun getTodayDataFromDb() {
-        repos.getTodayDataRx()
+    fun swipeDaysBack() {
+        daysCount--
+        repos.getForwardDataRX("$daysCount days")
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map {
-                    return@map arrayListOf(it,it)
+                    return@map arrayListOf(it, it)
+                }
+                .subscribe({
+                    createAdapter(it[0], it[1])
+                }, {
+                    viewState.showMessage("Don't have data in database")
+                })
+    }
+
+    @SuppressLint("CheckResult")
+    fun swipeDaysForward() {
+        daysCount++
+        repos.getForwardDataRX("$daysCount days")
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map {
+                    return@map arrayListOf(it, it)
                 }
                 .subscribe({
                     createAdapter(it[0], it[1])
