@@ -47,7 +47,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     }
 
     @SuppressLint("CheckResult")
-    private fun onFirstAttach() {
+     private fun onFirstAttach() {
         repos.insertEverythingToDbFromApiRx()
                 .subscribeOn(Schedulers.single())
                 .map {
@@ -92,7 +92,6 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     @SuppressLint("CheckResult")
     fun refreshViewAndGetData() {
         repos.insertEverythingToDbFromApiRx()
-                .subscribeOn(Schedulers.single())
                 .map {
                     it.list.map { its ->
                         return@map WeatherDataModel(its.dt,
@@ -123,10 +122,13 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                     return@map arrayListOf(repos.getTodayData(), repos.getNowData())
                 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.single())
                 .subscribe({
+                    daysCount = 0
                     refreshAdapter(it[0], it[1])
                 }, {
                     it.printStackTrace()
+                    viewState.setLoadingFalse()
                     viewState.showMessage("Don't have internet connection")
                 })
     }
@@ -141,7 +143,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                     return@map arrayListOf(it, it)
                 }
                 .subscribe({
-                    createAdapter(it[0], it[1])
+                    refreshAdapter(it[0], it[1])
                 }, {
                     viewState.showMessage("Don't have data in database")
                 })
@@ -157,7 +159,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                     return@map arrayListOf(it, it)
                 }
                 .subscribe({
-                    createAdapter(it[0], it[1])
+                    refreshAdapter(it[0], it[1])
                 }, {
                     viewState.showMessage("Don't have data in database")
                 })
