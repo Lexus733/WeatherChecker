@@ -90,7 +90,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     }
 
     @SuppressLint("CheckResult")
-    fun refreshViewAndGetData() {
+    fun onRefreshScroll() {
         repos.insertEverythingToDbFromApiRx()
                 .map {
                     it.list.map { its ->
@@ -118,11 +118,12 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                     it.map {
                         repos.insertWeatherDataInDb(it)
                     }
-                }.map {
+                }
+                .map {
                     return@map arrayListOf(repos.getTodayData(), repos.getNowData())
                 }
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.single())
                 .subscribe({
                     daysCount = 0
                     refreshAdapter(it[0], it[1])
@@ -134,7 +135,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     }
 
     @SuppressLint("CheckResult")
-    fun swipeDaysBack() {
+    fun onSwipeDaysBack() {
         daysCount--
         repos.getForwardDataRX("$daysCount days")
                 .subscribeOn(Schedulers.single())
@@ -150,7 +151,7 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     }
 
     @SuppressLint("CheckResult")
-    fun swipeDaysForward() {
+    fun onSwipeDaysForward() {
         daysCount++
         repos.getForwardDataRX("$daysCount days")
                 .subscribeOn(Schedulers.single())

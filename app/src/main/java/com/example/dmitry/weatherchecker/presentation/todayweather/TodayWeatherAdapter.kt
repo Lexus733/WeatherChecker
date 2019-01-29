@@ -35,7 +35,8 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         val data: WeatherDataModel = data[position]
         val m: Matcher = datePattern.matcher(data.dt_text)
         if (m.find())
-            holder.timeTextView.text = "${m.group(3)}-${m.group(2)}-${m.group(1)} ${m.group(4)}:${m.group(5)}:${m.group(6)}"
+            holder.timeTextView.text = "${m.group(3)}-${m.group(2)}-${m.group(1)} " +
+                    "${m.group(4)}:${m.group(5)}:${m.group(6)}"
         else
             holder.timeTextView.text = data.dt_text
         param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
@@ -54,11 +55,6 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
 
     fun setData(data: ArrayList<WeatherDataModel>) {
         this.data = data
-        notifyDataSetChanged()
-    }
-
-    fun clearData(){
-        this.data.clear()
         notifyDataSetChanged()
     }
 

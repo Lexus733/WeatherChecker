@@ -7,9 +7,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.other.ScreenKeys
-import com.example.dmitry.weatherchecker.presentation.choosefragment.ChooseFragment
 import com.example.dmitry.weatherchecker.presentation.todayweather.TodayWeatherFragment
-import com.example.dmitry.weatherchecker.presentation.weathergraphs.WeatherGraphsFragment
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
 
 @InjectViewState
@@ -19,8 +17,6 @@ class MainActivityPresenter(private val supportFragmentManager: FragmentManager)
             override fun createFragment(screenKey: String?, data: Any?): Fragment {
                 return when (screenKey) {
                     ScreenKeys.TODAY_WEATHER -> TodayWeatherFragment()
-                    ScreenKeys.CHOOSE_FRAGMENT -> ChooseFragment()
-                    ScreenKeys.WEATHER_GRAPHS -> WeatherGraphsFragment()
                     else -> throw RuntimeException()
                 }
             }

@@ -55,8 +55,8 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         }
         swipe_container.setOnRefreshListener(this)
         customConstraintLayout = inner_constraint_data
-        (customConstraintLayout as CustomConstraintLayout?)!!.setSwipe({ presenter.swipeDaysForward() }
-                , { presenter.swipeDaysBack() })
+        (customConstraintLayout as CustomConstraintLayout?)!!.setSwipe({ presenter.onSwipeDaysForward() }
+                , { presenter.onSwipeDaysBack() })
         customConstraintLayout.setOnTouchListener { _, event ->
             gestureDetectorCompat.onTouchEvent(event)
             return@setOnTouchListener true
@@ -92,14 +92,10 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         list_graphs.adapter = adapter
     }
 
-    override fun refreshScroll() {
-        presenter.refreshViewAndGetData()
-    }
-
     override fun onRefresh() {
         swipe_container.isRefreshing = true
         swipe_container.post {
-            refreshScroll()
+            presenter.onRefreshScroll()
         }
     }
 
