@@ -19,7 +19,8 @@ abstract class WeatherDataBase : RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(WeatherDataBase::class) {
                     INSTANCE = Room
-                            .databaseBuilder(context.applicationContext, WeatherDataBase::class.java
+                            .databaseBuilder(context.applicationContext
+                                    , WeatherDataBase::class.java
                                     , DataBaseKeys.WEATHER_DB)
                             .build()
                 }

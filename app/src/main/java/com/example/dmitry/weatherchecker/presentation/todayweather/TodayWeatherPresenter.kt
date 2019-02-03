@@ -3,10 +3,14 @@ package com.example.dmitry.weatherchecker.presentation.todayweather
 import android.annotation.SuppressLint
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.repos.Repos
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 @InjectViewState
 class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
@@ -16,7 +20,18 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        EventBus.getDefault().register(this)
         onFirstAttach()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun event(it: ArrayList<List<WeatherDataModel>>) {
+        refreshAdapter(it[0], it[1])
     }
 
     private fun createAdapter(it: List<WeatherDataModel>, it2: List<WeatherDataModel>) {
@@ -29,6 +44,31 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
         adapter.setData(it as ArrayList<WeatherDataModel>)
         viewState.initView(it2 as ArrayList<WeatherDataModel>)
         viewState.setLoadingFalse()
+    }
+
+    private fun insertDataInDb(it: WeatherData) {
+        var dataModel: WeatherDataModel
+        it.list.map { its ->
+            dataModel = WeatherDataModel(its.dt,
+                    its.main.temp,
+                    its.main.temp_min,
+                    its.main.temp_max,
+                    its.main.pressure,
+                    its.main.sea_level,
+                    its.main.grnd_level,
+                    its.main.humidity,
+                    its.main.temp_kf,
+                    its.weather[0].main,
+                    its.weather[0].description,
+                    its.weather[0].icon,
+                    its.clouds.all,
+                    its.wind.speed,
+                    its.wind.deg,
+                    its.dt_txt,
+                    it.city.name,
+                    it.city.country)
+            repos.insertWeatherDataInDb(dataModel)
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -47,36 +87,13 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     }
 
     @SuppressLint("CheckResult")
-     private fun onFirstAttach() {
+    private fun onFirstAttach() {
         repos.insertEverythingToDbFromApiRx()
-                .subscribeOn(Schedulers.single())
+                .subscribeOn(Schedulers.newThread())
                 .map {
-                    it.list.map { its ->
-                        return@map WeatherDataModel(its.dt,
-                                its.main.temp,
-                                its.main.temp_min,
-                                its.main.temp_max,
-                                its.main.pressure,
-                                its.main.sea_level,
-                                its.main.grnd_level,
-                                its.main.humidity,
-                                its.main.temp_kf,
-                                its.weather[0].main,
-                                its.weather[0].description,
-                                its.weather[0].icon,
-                                its.clouds.all,
-                                its.wind.speed,
-                                its.wind.deg,
-                                its.dt_txt,
-                                it.city.name,
-                                it.city.country)
-                    }
+                    insertDataInDb(it)
                 }
-                .map { it ->
-                    it.map {
-                        repos.insertWeatherDataInDb(it)
-                    }
-                }.map {
+                .map {
                     return@map arrayListOf(repos.getTodayData(), repos.getNowData())
                 }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -91,46 +108,23 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
 
     @SuppressLint("CheckResult")
     fun onRefreshScroll() {
+        daysCount = 0
         repos.insertEverythingToDbFromApiRx()
                 .map {
-                    it.list.map { its ->
-                        return@map WeatherDataModel(its.dt,
-                                its.main.temp,
-                                its.main.temp_min,
-                                its.main.temp_max,
-                                its.main.pressure,
-                                its.main.sea_level,
-                                its.main.grnd_level,
-                                its.main.humidity,
-                                its.main.temp_kf,
-                                its.weather[0].main,
-                                its.weather[0].description,
-                                its.weather[0].icon,
-                                its.clouds.all,
-                                its.wind.speed,
-                                its.wind.deg,
-                                its.dt_txt,
-                                it.city.name,
-                                it.city.country)
-                    }
-                }
-                .map { it ->
-                    it.map {
-                        repos.insertWeatherDataInDb(it)
-                    }
+                    insertDataInDb(it)
                 }
                 .map {
                     return@map arrayListOf(repos.getTodayData(), repos.getNowData())
                 }
-                .subscribeOn(Schedulers.newThread())
+                .map {
+                    EventBus.getDefault().post(it)
+                }
+                .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    daysCount = 0
-                    refreshAdapter(it[0], it[1])
-                }, {
-                    it.printStackTrace()
-                    viewState.setLoadingFalse()
+                .subscribe({ it.toString() }, {
                     viewState.showMessage("Don't have internet connection")
+                    getTodayDataFromDb()
+                    viewState.setLoadingFalse()
                 })
     }
 
@@ -138,13 +132,10 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     fun onSwipeDaysBack() {
         daysCount--
         repos.getForwardDataRX("$daysCount days")
-                .subscribeOn(Schedulers.single())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map {
-                    return@map arrayListOf(it, it)
-                }
                 .subscribe({
-                    refreshAdapter(it[0], it[1])
+                    refreshAdapter(it, it)
                 }, {
                     viewState.showMessage("Don't have data in database")
                 })
@@ -154,16 +145,14 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
     fun onSwipeDaysForward() {
         daysCount++
         repos.getForwardDataRX("$daysCount days")
-                .subscribeOn(Schedulers.single())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map {
-                    return@map arrayListOf(it, it)
-                }
                 .subscribe({
-                    refreshAdapter(it[0], it[1])
+                    refreshAdapter(it, it)
                 }, {
                     viewState.showMessage("Don't have data in database")
                 })
     }
+
 }
 

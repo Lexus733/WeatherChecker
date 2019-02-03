@@ -112,7 +112,9 @@ class Repos : IRepos {
                                 response.body()!!.city.name,
                                 response.body()!!.city.country)
 
-                        Thread(Runnable { insertWeatherDataInDb(weatherDataModel) }).start()
+                        Thread(Runnable {
+                            insertWeatherDataInDb(weatherDataModel)
+                        }).start()
 
                     }
                 }
@@ -177,10 +179,12 @@ class Repos : IRepos {
                 }
     }
 
-    internal fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) =
-            MainApplication.getDb().insert(weatherDataModel)
+    internal fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) {
+        MainApplication.getDb().insert(weatherDataModel)
+    }
 
     private fun deleteWeatherDataInDb(id: Int) = MainApplication.getDb().deleteOne(id)
 
     private fun destroyHandlerAndInstance() = MainApplication.destroyDb()
 }
+

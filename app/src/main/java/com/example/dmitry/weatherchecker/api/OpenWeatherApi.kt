@@ -2,8 +2,6 @@ package com.example.dmitry.weatherchecker.api
 
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.other.ApiQueryKeys
-import com.google.android.gms.common.api.Api
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET

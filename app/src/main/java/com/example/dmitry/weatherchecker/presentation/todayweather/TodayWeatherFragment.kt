@@ -94,9 +94,7 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
 
     override fun onRefresh() {
         swipe_container.isRefreshing = true
-        swipe_container.post {
-            presenter.onRefreshScroll()
-        }
+        presenter.onRefreshScroll()
     }
 
     override fun setLoadingFalse() {
@@ -130,5 +128,4 @@ class TodayWeatherFragment : MvpAppCompatFragment(), ITodayWeather, SwipeRefresh
         }
         return null
     }
-
 }
