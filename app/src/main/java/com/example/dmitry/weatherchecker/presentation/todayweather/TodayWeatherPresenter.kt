@@ -119,9 +119,9 @@ class TodayWeatherPresenter : MvpPresenter<ITodayWeather>() {
                 .map {
                     EventBus.getDefault().post(it)
                 }
-                .subscribeOn(Schedulers.single())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ it.toString() }, {
+                .subscribe({}, {
                     viewState.showMessage("Don't have internet connection")
                     getTodayDataFromDb()
                     viewState.setLoadingFalse()
