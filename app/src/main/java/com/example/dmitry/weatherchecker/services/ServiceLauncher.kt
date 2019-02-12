@@ -10,7 +10,6 @@ import android.util.Log
 import com.example.dmitry.weatherchecker.repos.Repos
 
 class ServiceLauncher : Service() {
-
     companion object {
         var listener: (() -> Unit)? = null
     }

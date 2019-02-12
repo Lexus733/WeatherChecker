@@ -54,11 +54,13 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
     }
 
     fun setData(data: ArrayList<WeatherDataModel>) {
-        this.data = data
-        notifyDataSetChanged()
+        if (data.size > 0) {
+            this.data = data
+            notifyDataSetChanged()
+        }
     }
 
-    fun clearData(){
+    fun clearData() {
         this.data.clear()
         notifyDataSetChanged()
     }

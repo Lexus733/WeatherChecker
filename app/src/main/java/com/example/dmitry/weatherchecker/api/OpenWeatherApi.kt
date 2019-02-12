@@ -17,9 +17,9 @@ interface OpenWeatherApi {
 
     @GET(ApiQueryKeys.FORECAST)
     fun getWeatherInfoByCityRx(@Query(ApiQueryKeys.ID) id: Int,
-                             @Query(ApiQueryKeys.CNT) cnt: Int,
-                             @Query(ApiQueryKeys.APPID) appid: String,
-                             @Query(ApiQueryKeys.UNITS) units: String,
-                             @Query(ApiQueryKeys.LANG) lang: String): Single<WeatherData>
+                               @Query(ApiQueryKeys.CNT) cnt: Int,
+                               @Query(ApiQueryKeys.APPID) appid: String,
+                               @Query(ApiQueryKeys.UNITS) units: String,
+                               @Query(ApiQueryKeys.LANG) lang: String): Single<WeatherData>
 
 }

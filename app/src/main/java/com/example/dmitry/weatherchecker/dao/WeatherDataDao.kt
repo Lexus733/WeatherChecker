@@ -8,7 +8,6 @@ import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.ApiQuery
 import io.reactivex.Flowable
 
-
 @Dao
 interface WeatherDataDao {
     @Query(ApiQuery.GET_ALL)

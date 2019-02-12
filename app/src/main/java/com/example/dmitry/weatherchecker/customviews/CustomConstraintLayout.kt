@@ -9,7 +9,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 
 class CustomConstraintLayout(context: Context, attributeSet: AttributeSet) : ConstraintLayout(context, attributeSet), GestureDetector.OnGestureListener {
-
     private val SWIPE_MIN_DISTANCE = 120
     private val SWIPE_THRESHOLD_VELOCITY = 150
     private val gestureDetectorCompat: GestureDetectorCompat = GestureDetectorCompat(context, this)

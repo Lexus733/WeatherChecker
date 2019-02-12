@@ -4,9 +4,6 @@ import android.app.Application
 import android.content.Intent
 import com.example.dmitry.weatherchecker.database.WeatherDataBase
 import com.example.dmitry.weatherchecker.services.ServiceLauncher
-import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Router
 
 class MainApplication : Application() {
     override fun onCreate() {
