@@ -9,8 +9,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 
 class CustomConstraintLayout(context: Context, attributeSet: AttributeSet) : ConstraintLayout(context, attributeSet), GestureDetector.OnGestureListener {
-    private val SWIPE_MIN_DISTANCE = 120
-    private val SWIPE_THRESHOLD_VELOCITY = 150
+    private val swipeMinDistance = 120
+    private val swipeThresholdVelocity = 150
     private val gestureDetectorCompat: GestureDetectorCompat = GestureDetectorCompat(context, this)
     private var swipeTomorrow: (() -> Unit)? = null
     private var swipeYesterday: (() -> Unit)? = null
@@ -39,11 +39,11 @@ class CustomConstraintLayout(context: Context, attributeSet: AttributeSet) : Con
     }
 
     override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
-        if (p0!!.x - p1!!.x > SWIPE_MIN_DISTANCE && Math.abs(p2) > SWIPE_THRESHOLD_VELOCITY) {
+        if (p0!!.x - p1!!.x > swipeMinDistance && Math.abs(p2) > swipeThresholdVelocity) {
             //from right to left
             swipeYesterday!!.invoke()
             return false
-        } else if (p1.x - p0.x > SWIPE_MIN_DISTANCE && Math.abs(p2) > SWIPE_THRESHOLD_VELOCITY) {
+        } else if (p1.x - p0.x > swipeMinDistance && Math.abs(p2) > swipeThresholdVelocity) {
             //from left to right
             swipeTomorrow!!.invoke()
             return false

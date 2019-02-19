@@ -21,7 +21,8 @@ class TodayWeatherFragmentVpPresenter : MvpPresenter<ITodayWeatherVP>() {
                     insertDataInDb(it)
                 }
                 .map {
-                    return@map repos.getForwardData("$days days") as ArrayList<WeatherDataModel>
+                    return@map repos.getForwardData("$days days")
+                            as ArrayList<WeatherDataModel>
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -34,14 +35,12 @@ class TodayWeatherFragmentVpPresenter : MvpPresenter<ITodayWeatherVP>() {
 
     @SuppressLint("CheckResult")
     private fun noInternet(days: Int) {
-        repos.getForwardDataRX("")
+        repos.getForwardDataRX("$days days")
                 .subscribeOn(Schedulers.newThread())
-                .map {
-                    repos.getForwardDataRX("$days days") as ArrayList<WeatherDataModel>
-                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.initView(it)
+                    viewState.initView(it
+                            as ArrayList<WeatherDataModel>)
                     viewState.setLoadingFalse()
                 }, {
                     it.printStackTrace()

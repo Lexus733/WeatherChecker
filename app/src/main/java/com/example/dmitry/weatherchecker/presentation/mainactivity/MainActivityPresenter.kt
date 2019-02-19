@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
-class MainActivityPresenter() : MvpPresenter<IMainActivity>() {
+class MainActivityPresenter : MvpPresenter<IMainActivity>() {
     private val repos: Repos = Repos()
 
     override fun onFirstViewAttach() {

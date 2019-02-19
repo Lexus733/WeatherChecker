@@ -16,12 +16,6 @@ interface WeatherDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(weatherData: WeatherDataModel)
 
-    @Query(ApiQuery.DELETE_ALL)
-    fun deleteAll()
-
-    @Query(ApiQuery.DELETE_ONE)
-    fun deleteOne(id: Int)
-
     @Query(ApiQuery.GET_ONE_BY_ID)
     fun getOneById(id: Int): List<WeatherDataModel>
 

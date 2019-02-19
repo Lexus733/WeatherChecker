@@ -17,10 +17,6 @@ class MainApplication : Application() {
         private var db: WeatherDataBase? = null
         private var intent: Intent? = null
 
-        fun getIntent() = intent
-
         fun getDb() = db!!.weatherDataDao()
-
-        fun destroyDb() = WeatherDataBase.destroyInstance()
     }
 }
