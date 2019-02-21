@@ -9,4 +9,10 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
+    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">#000</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="android:minHeight">120dp</item>
+    </style>
+
 </resources>

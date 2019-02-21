@@ -1,6 +1,7 @@
 package com.example.dmitry.weatherchecker.presentation.mainactivity
 
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -20,6 +21,7 @@ class MainActivity : MvpAppCompatActivity(), IMainActivity {
 
     override fun setAdapter(it: ArrayList<List<WeatherDataModel>>) {
         view_page.adapter = AdapterVPTW(supportFragmentManager, it)
+        progressBar.visibility = ProgressBar.GONE
     }
 
     override fun showMessage(message: String) {

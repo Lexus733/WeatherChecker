@@ -65,21 +65,22 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun initView(data: ArrayList<WeatherDataModel>) {
-        cloudss.text = "${data[0].clouds_all} %"
-        groundLevels.text = data[0].grnd_level.toString()
-        seaLevels.text = data[0].sea_level.toString()
-        cityCountrys.text = data[0].city_contry
-        pressures.text = "${data[0].pressure} Па"
-        tempMaxs.text = "${data[0].temp_max} °C"
-        tempMins.text = "${data[0].temp_min} °C"
-        cityNames.text = data[0].city_name
-        temps.text = "${data[0].temp} °C"
-        descriptions.text = data[0].weather_description
-        humiditys.text = "${data[0].humidity} %"
-        windSpeeds.text = "${data[0].wind_speed} м/с"
-        weatherIcons.setImageResource(this.setIcon(data[0].weather_icon)!!)
-        adapter.setData(data)
+    @SuppressLint("SetTextI18n")
+    override fun initView(arrayList: ArrayList<WeatherDataModel>) {
+        cloudss.text = "${arrayList[0].clouds_all} %"
+        groundLevels.text = arrayList[0].grnd_level.toString()
+        seaLevels.text = arrayList[0].sea_level.toString()
+        cityCountrys.text = arrayList[0].city_contry
+        pressures.text = "${arrayList[0].pressure} Па"
+        tempMaxs.text = "${arrayList[0].temp_max} °C"
+        tempMins.text = "${arrayList[0].temp_min} °C"
+        cityNames.text = arrayList[0].city_name
+        temps.text = "${arrayList[0].temp} °C"
+        descriptions.text = arrayList[0].weather_description
+        humiditys.text = "${arrayList[0].humidity} %"
+        windSpeeds.text = "${arrayList[0].wind_speed} м/с"
+        weatherIcons.setImageResource(this.setIcon(arrayList[0].weather_icon)!!)
+        adapter.setData(arrayList)
         setLoadingFalse()
     }
 
@@ -90,7 +91,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         list = if (arguments != null) arguments!!.getParcelableArrayList("list")
-        else ArrayList<WeatherDataModel>()
+        else ArrayList()
         days = if (arguments != null) arguments!!.getInt("days") else 0
         setHasOptionsMenu(true)
     }
