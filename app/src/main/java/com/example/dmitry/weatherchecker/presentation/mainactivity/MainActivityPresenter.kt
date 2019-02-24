@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
-class MainActivityPresenter : MvpPresenter<IMainActivity>() {
+class MainActivityPresenter : MvpPresenter<MainView>() {
     private val repos: Repos = Repos()
 
     override fun onFirstViewAttach() {
@@ -26,7 +26,7 @@ class MainActivityPresenter : MvpPresenter<IMainActivity>() {
                     insertDataInDb(it)
                 }
                 .map {
-                    return@map arrayListOf(repos.getForwardData("0 days")
+                    arrayListOf(repos.getForwardData("0 days")
                             , repos.getForwardData("1 days")
                             , repos.getForwardData("2 days")
                             , repos.getForwardData("3 days")

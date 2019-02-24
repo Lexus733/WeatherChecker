@@ -17,6 +17,6 @@ class MainApplication : Application() {
         private var db: WeatherDataBase? = null
         private var intent: Intent? = null
 
-        fun getDb() = db!!.weatherDataDao()
+        fun getDb() = db?.weatherDataDao()
     }
 }

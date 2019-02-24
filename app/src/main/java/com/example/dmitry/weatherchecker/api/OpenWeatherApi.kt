@@ -1,7 +1,7 @@
 package com.example.dmitry.weatherchecker.api
 
 import com.example.dmitry.weatherchecker.model.WeatherData
-import com.example.dmitry.weatherchecker.other.ApiQueryKeys
+import com.example.dmitry.weatherchecker.domain.net.ApiQueryKeys
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET

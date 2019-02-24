@@ -15,9 +15,9 @@ class CustomConstraintLayout(context: Context, attributeSet: AttributeSet) : Con
     private var swipeTomorrow: (() -> Unit)? = null
     private var swipeYesterday: (() -> Unit)? = null
 
-    fun setSwipe(spYes: () -> Unit, spTmrw: () -> Unit) {
-        swipeTomorrow = spTmrw
-        swipeYesterday = spYes
+    fun setSwipe(swipeYesterday: () -> Unit, swipeTomorrow: () -> Unit) {
+        this.swipeTomorrow = swipeTomorrow
+        this.swipeYesterday = swipeYesterday
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -10,7 +10,7 @@ import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.presentation.viewpagetodayweather.AdapterVPTW
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : MvpAppCompatActivity(), IMainActivity {
+class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var presenter: MainActivityPresenter
 

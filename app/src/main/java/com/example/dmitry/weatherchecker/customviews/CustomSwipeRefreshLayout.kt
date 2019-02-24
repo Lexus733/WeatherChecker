@@ -1,6 +1,5 @@
 package com.example.dmitry.weatherchecker.customviews
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
@@ -15,7 +14,6 @@ class CustomSwipeRefreshLayout(context: Context, attr: AttributeSet) : SwipeRefr
         touchSlop = ViewConfiguration.get(context).scaledTouchSlop
     }
 
-    @SuppressLint("Recycle")
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         ev.let {
             when (ev!!.action) {

@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
-class TodayWeatherFragmentVpPresenter : MvpPresenter<ITodayWeatherVP>() {
+class TodayWeatherFragmentVpPresenter : MvpPresenter<TodayWeatherVPMain>() {
     private val repos: Repos = Repos()
 
     @SuppressLint("CheckResult")

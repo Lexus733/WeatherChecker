@@ -1,4 +1,4 @@
-package com.example.dmitry.weatherchecker.other
+package com.example.dmitry.weatherchecker.domain.net
 
 class ApiQueryKeys {
     companion object {

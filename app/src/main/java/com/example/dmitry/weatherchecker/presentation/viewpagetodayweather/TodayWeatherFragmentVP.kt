@@ -1,6 +1,5 @@
 package com.example.dmitry.weatherchecker.presentation.viewpagetodayweather
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
@@ -13,19 +12,19 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.customviews.CustomSwipeRefreshLayout
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
+import com.example.dmitry.weatherchecker.other.Utils.Utils
 import com.example.dmitry.weatherchecker.presentation.todayweather.TodayWeatherAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefreshListener, ITodayWeatherVP {
+class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefreshListener, TodayWeatherVPMain {
     @InjectPresenter
     lateinit var presenter: TodayWeatherFragmentVpPresenter
 
     private val adapter = TodayWeatherAdapter()
     private var list = ArrayList<WeatherDataModel>()
     private var days: Int = 0
-    private val simpleDateFormat: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
     private lateinit var tempMins: TextView
     private lateinit var cloudsIcon: ImageView
     private lateinit var humidityIcon: ImageView
@@ -65,22 +64,8 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    @SuppressLint("SetTextI18n")
     override fun initView(arrayList: ArrayList<WeatherDataModel>) {
-        cloudss.text = "${arrayList[0].clouds_all} %"
-        groundLevels.text = arrayList[0].grnd_level.toString()
-        seaLevels.text = arrayList[0].sea_level.toString()
-        cityCountrys.text = arrayList[0].city_contry
-        pressures.text = "${arrayList[0].pressure} Па"
-        tempMaxs.text = "${arrayList[0].temp_max} °C"
-        tempMins.text = "${arrayList[0].temp_min} °C"
-        cityNames.text = arrayList[0].city_name
-        temps.text = "${arrayList[0].temp} °C"
-        descriptions.text = arrayList[0].weather_description
-        humiditys.text = "${arrayList[0].humidity} %"
-        windSpeeds.text = "${arrayList[0].wind_speed} м/с"
-        weatherIcons.setImageResource(this.setIcon(arrayList[0].weather_icon)!!)
-        adapter.setData(arrayList)
+        setData(arrayList)
         setLoadingFalse()
     }
 
@@ -103,10 +88,9 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.date_menu, menu)
-        menu!!.findItem(R.id.action_date_text).title = simpleDateFormat.format(Date())
+        menu!!.findItem(R.id.action_date_text).title = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT).format(Date())
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val result = inflater.inflate(R.layout.view_page_frame_today_weather, container, false)
         cloudsIcon = result.findViewById(R.id.today_weather_clouds_icon) as ImageView
@@ -133,6 +117,32 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         adapterVP = result.findViewById(R.id.list_graphs) as RecyclerView
         swipeRefreshLayout = result.findViewById(R.id.swipe_container) as CustomSwipeRefreshLayout
 
+        swipeRefreshLayout.setOnRefreshListener(this)
+        adapterVP.adapter = adapter
+        viewsVisible()
+        setData(list)
+
+        return result
+    }
+
+    private fun setData(arrayList: ArrayList<WeatherDataModel>) {
+        cloudss.text = "${arrayList[0].clouds_all} %"
+        groundLevels.text = arrayList[0].grnd_level.toString()
+        seaLevels.text = arrayList[0].sea_level.toString()
+        cityCountrys.text = arrayList[0].city_contry
+        pressures.text = "${arrayList[0].pressure} Па"
+        tempMaxs.text = "${arrayList[0].temp_max} °C"
+        tempMins.text = "${arrayList[0].temp_min} °C"
+        cityNames.text = arrayList[0].city_name
+        temps.text = "${arrayList[0].temp} °C"
+        descriptions.text = arrayList[0].weather_description
+        humiditys.text = "${arrayList[0].humidity} %"
+        windSpeeds.text = "${arrayList[0].wind_speed} м/с"
+        weatherIcons.setImageResource(Utils.setIcon(arrayList[0].weather_icon)!!)
+        adapter.setData(arrayList)
+    }
+
+    private fun viewsVisible() {
         cloudsIcon.visibility = View.VISIBLE
         humidityIcon.visibility = View.VISIBLE
         pressureIcon.visibility = View.VISIBLE
@@ -141,48 +151,5 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         tempMinIcon.visibility = View.VISIBLE
         grndLevelIcon.visibility = View.VISIBLE
         windIcon.visibility = View.VISIBLE
-        cloudss.text = "${list[0].clouds_all} %"
-        groundLevels.text = list[0].grnd_level.toString()
-        seaLevels.text = list[0].sea_level.toString()
-        cityCountrys.text = list[0].city_contry
-        pressures.text = "${list[0].pressure} Па"
-        tempMaxs.text = "${list[0].temp_max} °C"
-        tempMins.text = "${list[0].temp_min} °C"
-        cityNames.text = list[0].city_name
-        temps.text = "${list[0].temp} °C"
-        descriptions.text = list[0].weather_description
-        humiditys.text = "${list[0].humidity} %"
-        windSpeeds.text = "${list[0].wind_speed} м/с"
-        weatherIcons.setImageResource(this.setIcon(list[0].weather_icon)!!)
-        adapterVP.adapter = adapter
-        adapter.setData(list)
-        swipeRefreshLayout.setOnRefreshListener(this)
-
-        return result
     }
-
-    private fun setIcon(id: String): Int? {
-        when (id) {
-            "01d" -> return R.drawable.sun
-            "01n" -> return R.drawable.moon
-            "02d" -> return R.drawable.cloudsun
-            "02n" -> return R.drawable.cloudnight
-            "03d" -> return R.drawable.clouds
-            "03n" -> return R.drawable.cloudsnight
-            "04d" -> return R.drawable.twoclouds
-            "04n" -> return R.drawable.twocloudsnight
-            "09d" -> return R.drawable.rain
-            "09n" -> return R.drawable.rainnight
-            "10d" -> return R.drawable.cloudrainsun
-            "10n" -> return R.drawable.cloudrainsunnight
-            "11d" -> return R.drawable.lightning
-            "11n" -> return R.drawable.lightningnight
-            "13d" -> return R.drawable.snow
-            "13n" -> return R.drawable.snownight
-            "50d" -> return R.drawable.dry
-            "50n" -> return R.drawable.dry
-        }
-        return null
-    }
-
 }

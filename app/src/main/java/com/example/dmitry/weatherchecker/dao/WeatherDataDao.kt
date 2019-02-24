@@ -4,8 +4,8 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
+import com.example.dmitry.weatherchecker.domain.net.ApiQuery
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.other.ApiQuery
 import io.reactivex.Flowable
 
 @Dao
