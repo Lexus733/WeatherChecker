@@ -9,12 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.other.RegexKeys
 import com.example.dmitry.weatherchecker.other.Utils.Utils
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.today_weather_item_constraint.view.*
 import org.jetbrains.anko.withAlpha
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>() {
     private var data: ArrayList<WeatherDataModel> = ArrayList()
@@ -29,11 +27,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
-        val m: Matcher = Pattern.compile(RegexKeys.DATE_PATTERN).matcher(data.dt_text)
-        if (m.find())
-            holder.timeTextView.text = Utils.dateEdit(m)
-        else
-            holder.timeTextView.text = data.dt_text
+        holder.timeTextView.text = Utils.dateTimeEdit(data.dt_text)
         param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
         changeMarginByTemp(Math.round(data.temp).toInt())
         holder.tempTextView.text = "${data.temp} °C"
@@ -63,10 +57,10 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val weatherImageView: ImageView = view.findViewById(R.id.today_weather_item_weather)
-        val timeTextView: TextView = view.findViewById(R.id.today_weather_item_time)
-        val tempTextView: TextView = view.findViewById(R.id.today_weather_item_temp)
-        val windTextView: TextView = view.findViewById(R.id.today_weather_item_wind)
-        val constraintLayout: ConstraintLayout = view.findViewById(R.id.constraint_item)
+        val weatherImageView: ImageView = view.today_weather_item_weather
+        val timeTextView: TextView = view.today_weather_item_time
+        val tempTextView: TextView = view.today_weather_item_temp
+        val windTextView: TextView = view.today_weather_item_wind
+        val constraintLayout: ConstraintLayout = view.constraint_item
     }
 }

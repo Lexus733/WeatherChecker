@@ -1,57 +1,63 @@
-package com.example.dmitry.weatherchecker.presentation.viewpagetodayweather
+package com.example.dmitry.weatherchecker.presentation.vpfragment
 
 import android.annotation.SuppressLint
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.other.ScreenKeys
 import com.example.dmitry.weatherchecker.repos.Repos
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
-class TodayWeatherFragmentVpPresenter : MvpPresenter<TodayWeatherVPMain>() {
+class VpFragmentPresenter : MvpPresenter<VpFragmentView>() {
     private val repos: Repos = Repos()
 
-    fun onEditPress() {
-        MainApplication.getRouter().navigateTo(ScreenKeys.CONFIG_FRAGMENT)
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        onFirstAttach()
     }
 
     @SuppressLint("CheckResult")
-    fun onRefreshScroll(days: Int) {
+    private fun onFirstAttach() {
         repos.insertEverythingToDbFromApiRx()
                 .subscribeOn(Schedulers.newThread())
                 .map {
                     insertDataInDb(it)
                 }
                 .map {
-                    return@map repos.getForwardData("$days days")
-                            as ArrayList<WeatherDataModel>
+                    arrayListOf(repos.getForwardData("0 days")
+                            , repos.getForwardData("1 days")
+                            , repos.getForwardData("2 days")
+                            , repos.getForwardData("3 days")
+                            , repos.getForwardData("4 days"))
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.initView(it)
+                    viewState.setAdapter(it)
                 }, {
                     it.printStackTrace()
-                    noInternet(days)
+                    noInternet()
                 })
     }
 
     @SuppressLint("CheckResult")
-    private fun noInternet(days: Int) {
-        repos.getForwardDataRX("$days days")
+    private fun noInternet() {
+        repos.getForwardDataRX("")
                 .subscribeOn(Schedulers.newThread())
+                .map {
+                    arrayListOf(repos.getForwardData("0 days")
+                            , repos.getForwardData("1 days")
+                            , repos.getForwardData("2 days")
+                            , repos.getForwardData("3 days")
+                            , repos.getForwardData("4 days"))
+                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.initView(it
-                            as ArrayList<WeatherDataModel>)
-                    viewState.setLoadingFalse()
+                    viewState.setAdapter(it)
                 }, {
                     it.printStackTrace()
                     viewState.showMessage("Don't have data in databse")
-                    viewState.setLoadingFalse()
                 })
     }
 
@@ -79,5 +85,4 @@ class TodayWeatherFragmentVpPresenter : MvpPresenter<TodayWeatherVPMain>() {
             repos.insertWeatherDataInDb(dataModel)
         }
     }
-
 }

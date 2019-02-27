@@ -2,14 +2,27 @@ package com.example.dmitry.weatherchecker.other.Utils
 
 import android.graphics.Color
 import com.example.dmitry.weatherchecker.R
+import com.example.dmitry.weatherchecker.other.RegexKeys
 import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class Utils {
     companion object {
+        fun dateTimeEdit(dt_text: String): String {
+            val m: Matcher = Pattern.compile(RegexKeys.DATE_PATTERN).matcher(dt_text)
+            if (m.find())
+                return "${m.group(3)}-${m.group(2)}-${m.group(1)} " +
+                        "${m.group(4)}:${m.group(5)}:${m.group(6)}"
+            else
+                return dt_text
+        }
 
-        fun dateEdit(m: Matcher): String {
-           return "${m.group(3)}-${m.group(2)}-${m.group(1)} " +
-                    "${m.group(4)}:${m.group(5)}:${m.group(6)}"
+        fun dateEdit(dt_text: String): String {
+            val m: Matcher = Pattern.compile(RegexKeys.DATE_PATTERN).matcher(dt_text)
+            if (m.find())
+                return "${m.group(3)}-${m.group(2)}-${m.group(1)} "
+            else
+                return dt_text
         }
 
         fun setIcon(id: String): Int? {

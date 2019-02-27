@@ -1,88 +1,45 @@
 package com.example.dmitry.weatherchecker.presentation.mainactivity
 
-import android.annotation.SuppressLint
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.example.dmitry.weatherchecker.model.WeatherData
-import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.repos.Repos
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.example.dmitry.weatherchecker.MainApplication
+import com.example.dmitry.weatherchecker.R
+import com.example.dmitry.weatherchecker.other.ScreenKeys
+import com.example.dmitry.weatherchecker.presentation.configfragment.ConfigFragment
+import com.example.dmitry.weatherchecker.presentation.vpfragment.VpFragment
+import ru.terrakok.cicerone.android.SupportFragmentNavigator
 
 @InjectViewState
-class MainActivityPresenter : MvpPresenter<MainView>() {
-    private val repos: Repos = Repos()
+class MainActivityPresenter(private val supportFragmentManager: FragmentManager) : MvpPresenter<MainView>() {
+    private val navigators: SupportFragmentNavigator
+        get() = object : SupportFragmentNavigator(supportFragmentManager, R.id.frame_layout) {
+            override fun createFragment(screenKey: String?, data: Any?): Fragment {
+                return when (screenKey) {
+                    ScreenKeys.VP_FRAGMENT -> VpFragment()
+                    ScreenKeys.CONFIG_FRAGMENT -> ConfigFragment()
+                    else -> throw RuntimeException()
+                }
+            }
+
+            override fun exit() {
+                viewState.finish()
+            }
+
+            override fun showSystemMessage(message: String?) {
+                viewState.showMessage("Error!!! Can't access to fragment")
+            }
+        }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        onFirstAttach()
+        MainApplication.getRouter().navigateTo(ScreenKeys.VP_FRAGMENT)
     }
 
-    @SuppressLint("CheckResult")
-    private fun onFirstAttach() {
-        repos.insertEverythingToDbFromApiRx()
-                .subscribeOn(Schedulers.newThread())
-                .map {
-                    insertDataInDb(it)
-                }
-                .map {
-                    arrayListOf(repos.getForwardData("0 days")
-                            , repos.getForwardData("1 days")
-                            , repos.getForwardData("2 days")
-                            , repos.getForwardData("3 days")
-                            , repos.getForwardData("4 days"))
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    viewState.setAdapter(it)
-                }, {
-                    it.printStackTrace()
-                    noInternet()
-                })
-    }
+    fun onBackPressed() = MainApplication.getRouter().exit()
 
-    @SuppressLint("CheckResult")
-    private fun noInternet() {
-        repos.getForwardDataRX("")
-                .subscribeOn(Schedulers.newThread())
-                .map {
-                    arrayListOf(repos.getForwardData("0 days")
-                            , repos.getForwardData("1 days")
-                            , repos.getForwardData("2 days")
-                            , repos.getForwardData("3 days")
-                            , repos.getForwardData("4 days"))
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    viewState.setAdapter(it)
-                }, {
-                    it.printStackTrace()
-                    viewState.showMessage("Don't have data in databse")
-                })
-    }
+    fun onResume() = MainApplication.getNavigatorHolder().setNavigator(navigators)
 
-    private fun insertDataInDb(it: WeatherData) {
-        var dataModel: WeatherDataModel
-        it.list.map { its ->
-            dataModel = WeatherDataModel(its.dt,
-                    its.main.temp,
-                    its.main.temp_min,
-                    its.main.temp_max,
-                    its.main.pressure,
-                    its.main.sea_level,
-                    its.main.grnd_level,
-                    its.main.humidity,
-                    its.main.temp_kf,
-                    its.weather[0].main,
-                    its.weather[0].description,
-                    its.weather[0].icon,
-                    its.clouds.all,
-                    its.wind.speed,
-                    its.wind.deg,
-                    its.dt_txt,
-                    it.city.name,
-                    it.city.country)
-            repos.insertWeatherDataInDb(dataModel)
-        }
-    }
+    fun onPause() = MainApplication.getNavigatorHolder().removeNavigator()
 }

@@ -10,13 +10,11 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
-import com.example.dmitry.weatherchecker.customviews.CustomSwipeRefreshLayout
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.Utils.Utils
 import com.example.dmitry.weatherchecker.presentation.todayweather.TodayWeatherAdapter
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.view_page_frame_today_weather.view.*
+
 
 class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefreshListener, TodayWeatherVPMain {
     @InjectPresenter
@@ -26,6 +24,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
     private var list = ArrayList<WeatherDataModel>()
     private var days: Int = 0
     private lateinit var tempMins: TextView
+    private lateinit var date: TextView
     private lateinit var cloudsIcon: ImageView
     private lateinit var humidityIcon: ImageView
     private lateinit var pressureIcon: ImageView
@@ -88,34 +87,45 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.date_menu, menu)
-        menu!!.findItem(R.id.action_date_text).title = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT).format(Date())
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            when (it.itemId) {
+                R.id.action_configuration -> {
+                    presenter.onEditPress()
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val result = inflater.inflate(R.layout.view_page_frame_today_weather, container, false)
-        cloudsIcon = result.findViewById(R.id.today_weather_clouds_icon) as ImageView
-        humidityIcon = result.findViewById(R.id.today_weather_humidity_icon) as ImageView
-        pressureIcon = result.findViewById(R.id.today_weather_pressure_icon) as ImageView
-        tempMaxIcon = result.findViewById(R.id.today_weather_tempmax_icon) as ImageView
-        seaLevelIcon = result.findViewById(R.id.today_weather_sea_level_icon) as ImageView
-        tempMinIcon = result.findViewById(R.id.today_weather_tempmin_icon) as ImageView
-        grndLevelIcon = result.findViewById(R.id.today_weather_ground_level_icon) as ImageView
-        windIcon = result.findViewById(R.id.today_weather_wind_icon) as ImageView
-        cloudss = result.findViewById(R.id.today_weather_clouds) as TextView
-        groundLevels = result.findViewById(R.id.today_weather_ground_level) as TextView
-        seaLevels = result.findViewById(R.id.today_weather_sea_level) as TextView
-        cityCountrys = result.findViewById(R.id.today_weather_city_county) as TextView
-        pressures = result.findViewById(R.id.today_weather_pressure) as TextView
-        tempMaxs = result.findViewById(R.id.today_weather_tempmax) as TextView
-        tempMins = result.findViewById(R.id.today_weather_tempmin) as TextView
-        cityNames = result.findViewById(R.id.today_weather_city_name) as TextView
-        temps = result.findViewById(R.id.today_weather_temp) as TextView
-        descriptions = result.findViewById(R.id.today_weather_description) as TextView
-        humiditys = result.findViewById(R.id.today_weather_humidity) as TextView
-        windSpeeds = result.findViewById(R.id.today_weather_wind_speed) as TextView
-        weatherIcons = result.findViewById(R.id.today_weather_icon) as ImageView
-        adapterVP = result.findViewById(R.id.list_graphs) as RecyclerView
-        swipeRefreshLayout = result.findViewById(R.id.swipe_container) as CustomSwipeRefreshLayout
+        cloudsIcon = result.today_weather_clouds_icon
+        humidityIcon = result.today_weather_humidity_icon
+        pressureIcon = result.today_weather_pressure_icon
+        tempMaxIcon = result.today_weather_tempmax_icon
+        seaLevelIcon = result.today_weather_sea_level_icon
+        tempMinIcon = result.today_weather_tempmin_icon
+        grndLevelIcon = result.today_weather_ground_level_icon
+        windIcon = result.today_weather_wind_icon
+        cloudss = result.today_weather_clouds
+        groundLevels = result.today_weather_ground_level
+        seaLevels = result.today_weather_sea_level
+        cityCountrys = result.today_weather_city_county
+        pressures = result.today_weather_pressure
+        tempMaxs = result.today_weather_tempmax
+        tempMins = result.today_weather_tempmin
+        cityNames = result.today_weather_city_name
+        temps = result.today_weather_temp
+        descriptions = result.today_weather_description
+        humiditys = result.today_weather_humidity
+        windSpeeds = result.today_weather_wind_speed
+        weatherIcons = result.today_weather_icon
+        adapterVP = result.list_graphs
+        date = result.today_weather_date
+        swipeRefreshLayout = result.swipe_container
 
         swipeRefreshLayout.setOnRefreshListener(this)
         adapterVP.adapter = adapter
@@ -139,6 +149,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         humiditys.text = "${arrayList[0].humidity} %"
         windSpeeds.text = "${arrayList[0].wind_speed} м/с"
         weatherIcons.setImageResource(Utils.setIcon(arrayList[0].weather_icon)!!)
+        date.text = "${Utils.dateEdit(arrayList[0].dt_text)}"
         adapter.setData(arrayList)
     }
 

@@ -10,4 +10,7 @@
     <string name="get_data_from_api">Getting data from servers every 1 minute</string>
     <string name="last_date_update">Date the last update:</string>
     <string name="stop_service">Stop service</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

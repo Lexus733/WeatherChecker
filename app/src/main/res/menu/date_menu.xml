@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_date_text"
-        android:title="date"
-        app:showAsAction="always" />
+        android:id="@+id/action_configuration"
+        android:icon="@drawable/ic_edit_black_24dp"
+        android:title="Configuration" />
 </menu>
