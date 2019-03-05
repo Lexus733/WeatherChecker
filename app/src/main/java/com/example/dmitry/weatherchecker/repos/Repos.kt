@@ -6,6 +6,7 @@ import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
+import com.example.dmitry.weatherchecker.other.Utils.Utils
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -23,54 +24,54 @@ class Repos : IRepos {
     private lateinit var openWeatherApi: OpenWeatherApi
 
     override fun getForwardDataRX(days: String): Flowable<List<WeatherDataModel>> {
-        return MainApplication.getDb()?.getForwardDataRX(days = days)!!
+        return MainApplication.getDb().getForwardDataRX(days = days)
     }
 
     override fun getForwardData(days: String): List<WeatherDataModel> {
-        return MainApplication.getDb()?.getForwardData(days = days)!!
+        return MainApplication.getDb().getForwardData(days = days)
     }
 
     override fun getNowData(): List<WeatherDataModel> {
-        return MainApplication.getDb()?.getNowData()!!
+        return MainApplication.getDb().getNowData()
     }
 
     override fun getNowDataRx(): Flowable<List<WeatherDataModel>> {
-        return MainApplication.getDb()?.getNowDataRX()!!
+        return MainApplication.getDb().getNowDataRX()
     }
 
     override fun getTodayDataRx(): Flowable<List<WeatherDataModel>> {
-        return MainApplication.getDb()?.getTodayDataRX()!!
+        return MainApplication.getDb().getTodayDataRX()
     }
 
     override fun getTodayData(): List<WeatherDataModel> {
-        return MainApplication.getDb()?.getTodayData()!!
+        return MainApplication.getDb().getTodayData()
     }
 
     override fun getLast10DataRx(): Flowable<List<WeatherDataModel>> {
-        return MainApplication.getDb()?.getLast10DataRx()!!
+        return MainApplication.getDb().getLast10DataRx()
     }
 
     override fun getLast10Data(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        MainApplication.getDb()?.getLast10Data()?.let { weatherDataModel.addAll(it) }
+        MainApplication.getDb().getLast10Data().let { weatherDataModel.addAll(it) }
         return weatherDataModel
     }
 
     override fun getLastData(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        MainApplication.getDb()?.getLastData()?.let { weatherDataModel.addAll(it) }
+        MainApplication.getDb().getLastData().let { weatherDataModel.addAll(it) }
         return weatherDataModel
     }
 
     override fun getData(): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        MainApplication.getDb()?.getAll()?.let { weatherDataModel.addAll(it) }
+        MainApplication.getDb().getAll().let { weatherDataModel.addAll(it) }
         return weatherDataModel
     }
 
     override fun getDataById(id: Int): ArrayList<WeatherDataModel> {
         val weatherDataModel = ArrayList<WeatherDataModel>()
-        MainApplication.getDb()?.getOneById(id)?.let { weatherDataModel.addAll(it) }
+        MainApplication.getDb().getOneById(id).let { weatherDataModel.addAll(it) }
         return weatherDataModel
     }
 
@@ -79,7 +80,7 @@ class Repos : IRepos {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         openWeatherApi = retrofit.create(OpenWeatherApi::class.java)
-        openWeatherApi.getWeatherInfoByCity(WeatherApiKeys.CITY_ID
+        openWeatherApi.getWeatherInfoByCity(Utils.loadSettings()
                 , WeatherApiKeys.CNT
                 , WeatherApiKeys.API_KEY
                 , WeatherApiKeys.METRIC_UNITS
@@ -128,7 +129,7 @@ class Repos : IRepos {
                 .baseUrl(WeatherApiKeys.BASE_URL)
                 .build()
         openWeatherApi = retrofitRx.create(OpenWeatherApi::class.java)
-        weatherData = openWeatherApi.getWeatherInfoByCityRx(WeatherApiKeys.CITY_ID
+        weatherData = openWeatherApi.getWeatherInfoByCityRx(Utils.loadSettings()
                 , WeatherApiKeys.CNT
                 , WeatherApiKeys.API_KEY
                 , WeatherApiKeys.METRIC_UNITS
@@ -137,7 +138,7 @@ class Repos : IRepos {
     }
 
     internal fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) {
-        MainApplication.getDb()?.insert(weatherDataModel)
+        MainApplication.getDb().insert(weatherDataModel)
     }
 }
 

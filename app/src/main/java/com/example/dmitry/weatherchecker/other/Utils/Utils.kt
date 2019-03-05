@@ -1,28 +1,43 @@
 package com.example.dmitry.weatherchecker.other.Utils
 
+import android.content.SharedPreferences
 import android.graphics.Color
+import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.other.RegexKeys
+import com.example.dmitry.weatherchecker.other.SharedPreferencesKeys
+import com.example.dmitry.weatherchecker.other.WeatherApiKeys
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class Utils {
     companion object {
+        fun loadSettings(): Int {
+            return MainApplication.getSP()
+                    .getInt(SharedPreferencesKeys.CITY_ID, WeatherApiKeys.CITY_ID)
+        }
+
+        fun saveSettings(id: Int) {
+            val editor: SharedPreferences.Editor = MainApplication.getSP().edit()
+            editor.putInt(SharedPreferencesKeys.CITY_ID, id)
+            editor.apply()
+        }
+
         fun dateTimeEdit(dt_text: String): String {
             val m: Matcher = Pattern.compile(RegexKeys.DATE_PATTERN).matcher(dt_text)
-            if (m.find())
-                return "${m.group(3)}-${m.group(2)}-${m.group(1)} " +
+            return if (m.find())
+                "${m.group(3)}-${m.group(2)}-${m.group(1)} " +
                         "${m.group(4)}:${m.group(5)}:${m.group(6)}"
             else
-                return dt_text
+                dt_text
         }
 
         fun dateEdit(dt_text: String): String {
             val m: Matcher = Pattern.compile(RegexKeys.DATE_PATTERN).matcher(dt_text)
-            if (m.find())
-                return "${m.group(3)}-${m.group(2)}-${m.group(1)} "
+            return if (m.find())
+                "${m.group(3)}-${m.group(2)}-${m.group(1)} "
             else
-                return dt_text
+                dt_text
         }
 
         fun setIcon(id: String): Int? {

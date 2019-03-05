@@ -8,13 +8,20 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
+import kotlinx.android.synthetic.main.fragment_confing.*
 
 class ConfigFragment : MvpAppCompatFragment(), ConfigView {
     @InjectPresenter
-    lateinit var presenter : ConfigPresenter
+    lateinit var presenter: ConfigPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_confing, container, false)
     }
+
+    override fun initView(click: View.OnClickListener) {
+        config_apply_button.setOnClickListener(click)
+    }
+
+
 }
