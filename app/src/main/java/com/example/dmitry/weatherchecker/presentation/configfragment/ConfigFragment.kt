@@ -21,6 +21,15 @@ class ConfigFragment : MvpAppCompatFragment(), ConfigView {
 
     override fun initView(click: View.OnClickListener) {
         config_apply_button.setOnClickListener(click)
+//        Thread(Runnable {
+//            JsonHelper().getDataFromJson(this!!.context!!)!!.map {
+//                var model = CityIdModel(it.id,it.name,it.country,it.coord.lon,it.coord.lat)
+//                repos.insertCityIdDataInDb(model)
+//                count++
+//                Log.d("Count","Count:${count}")
+//            }
+//        }).start()
+
     }
 
 

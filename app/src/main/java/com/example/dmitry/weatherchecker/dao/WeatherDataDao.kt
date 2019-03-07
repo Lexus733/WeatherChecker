@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.example.dmitry.weatherchecker.domain.net.ApiQuery
+import com.example.dmitry.weatherchecker.model.CityIdModel
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import io.reactivex.Flowable
 
@@ -15,6 +16,9 @@ interface WeatherDataDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(weatherData: WeatherDataModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(cityId: CityIdModel)
 
     @Query(ApiQuery.GET_ONE_BY_ID)
     fun getOneById(id: Int): List<WeatherDataModel>

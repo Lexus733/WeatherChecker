@@ -14,7 +14,7 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         sharedPreferences = getSharedPreferences("MainApplication"
-                ,Context.MODE_PRIVATE)
+                , Context.MODE_PRIVATE)
         cicerone = Cicerone.create()
         db = WeatherDataBase.getInstance(this)
         intent = Intent(this, ServiceLauncher::class.java)

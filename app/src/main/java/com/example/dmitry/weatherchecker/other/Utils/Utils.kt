@@ -1,17 +1,54 @@
 package com.example.dmitry.weatherchecker.other.Utils
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.util.Log
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.other.RegexKeys
 import com.example.dmitry.weatherchecker.other.SharedPreferencesKeys
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class Utils {
     companion object {
+        fun copyAttachedDatabase(context: Context, databaseName: String) {
+            val dbPath = context.getDatabasePath(databaseName)
+
+            if (dbPath.exists()) {
+                return
+            }
+
+            dbPath.parentFile.mkdirs()
+
+            try {
+                val inputStream = context.assets.open(databaseName)
+                val output = FileOutputStream(dbPath)
+
+                val buffer = ByteArray(8192)
+                var length: Int
+
+                while (inputStream.read(buffer, 0, 8192).let {
+                            length = it
+                            it > 0
+                        }) {
+                    output.write(buffer, 0, length);
+                }
+
+                output.flush()
+                output.close()
+                inputStream.close()
+            } catch (e: IOException) {
+                Log.d("TAG", "Failed to open file", e)
+                e.printStackTrace()
+            }
+
+        }
+
         fun loadSettings(): Int {
             return MainApplication.getSP()
                     .getInt(SharedPreferencesKeys.CITY_ID, WeatherApiKeys.CITY_ID)
