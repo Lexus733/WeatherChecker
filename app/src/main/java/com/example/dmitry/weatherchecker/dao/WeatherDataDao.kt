@@ -14,6 +14,12 @@ interface WeatherDataDao {
     @Query(ApiQuery.GET_ALL)
     fun getAll(): List<WeatherDataModel>
 
+    @Query(ApiQuery.GET_CITYID)
+    fun getCityId(cityName: String): List<CityIdModel>
+
+    @Query(ApiQuery.GET_CITYID)
+    fun getCityIdRx(cityName: String): Flowable<List<CityIdModel>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(weatherData: WeatherDataModel)
 

@@ -12,5 +12,6 @@ class ApiQuery {
                 "group by dt_text order by id DESC LIMIT 10"
         const val GET_FORWARD_DATA = "SELECT * FROM weatherData WHERE date(dt_text) == date(\"now\",:days) " +
                 "group by dt_text"
+        const val GET_CITYID = "select * from cityId where name like :cityName ORDER BY name DESC LIMIT 15"
     }
 }

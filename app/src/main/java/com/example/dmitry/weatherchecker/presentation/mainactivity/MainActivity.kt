@@ -23,7 +23,7 @@ class MainActivity : MvpAppCompatActivity(),MainView{
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 1)
-            presenter.onBackPressed()
+            presenter.onBackNewScreenChain()
         else finish()
     }
 

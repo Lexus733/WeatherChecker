@@ -24,6 +24,14 @@ class Repos : IRepos {
     private lateinit var retrofitRx: Retrofit
     private lateinit var openWeatherApi: OpenWeatherApi
 
+    override fun getCityId(cityName: String): List<CityIdModel> {
+        return MainApplication.getDb().getCityId(cityName)
+    }
+
+    override fun getCityIdRx(cityName: String): Flowable<List<CityIdModel>> {
+        return MainApplication.getDb().getCityIdRx(cityName)
+    }
+
     override fun getForwardDataRX(days: String): Flowable<List<WeatherDataModel>> {
         return MainApplication.getDb().getForwardDataRX(days = days)
     }

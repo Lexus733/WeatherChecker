@@ -2,12 +2,16 @@ package com.example.dmitry.weatherchecker.presentation.configfragment
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
+import com.example.dmitry.weatherchecker.presentation.configfragment.adapters.ConfigRVAdapter
 import kotlinx.android.synthetic.main.fragment_confing.*
 
 class ConfigFragment : MvpAppCompatFragment(), ConfigView {
@@ -19,8 +23,28 @@ class ConfigFragment : MvpAppCompatFragment(), ConfigView {
         return inflater.inflate(R.layout.fragment_confing, container, false)
     }
 
-    override fun initView(click: View.OnClickListener) {
-        config_apply_button.setOnClickListener(click)
+    override fun showMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun setAdapter(adapter: ConfigRVAdapter) {
+        config_list.adapter = adapter
+    }
+
+
+    override fun initView() {
+        configEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                presenter.getCityNames(p0.toString())
+            }
+        })
+
 //        Thread(Runnable {
 //            JsonHelper().getDataFromJson(this!!.context!!)!!.map {
 //                var model = CityIdModel(it.id,it.name,it.country,it.coord.lon,it.coord.lat)

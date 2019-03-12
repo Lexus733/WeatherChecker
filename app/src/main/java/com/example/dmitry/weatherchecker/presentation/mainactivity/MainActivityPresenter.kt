@@ -42,4 +42,6 @@ class MainActivityPresenter(private val supportFragmentManager: FragmentManager)
     fun onResume() = MainApplication.getNavigatorHolder().setNavigator(navigators)
 
     fun onPause() = MainApplication.getNavigatorHolder().removeNavigator()
+
+    fun onBackNewScreenChain() = MainApplication.getRouter().newScreenChain(ScreenKeys.VP_FRAGMENT)
 }

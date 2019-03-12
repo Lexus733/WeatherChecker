@@ -1,8 +1,10 @@
 package com.example.dmitry.weatherchecker.presentation.configfragment
 
-import android.view.View
 import com.arellomobile.mvp.MvpView
+import com.example.dmitry.weatherchecker.presentation.configfragment.adapters.ConfigRVAdapter
 
 interface ConfigView : MvpView {
-    fun initView(click: View.OnClickListener)
+    fun initView()
+    fun setAdapter(adapter: ConfigRVAdapter)
+    fun showMessage(message: String)
 }

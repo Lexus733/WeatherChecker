@@ -1,11 +1,14 @@
 package com.example.dmitry.weatherchecker.repos
 
+import com.example.dmitry.weatherchecker.model.CityIdModel
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface IRepos {
+    fun getCityId(cityName: String): List<CityIdModel>
+    fun getCityIdRx(cityName: String):Flowable<List<CityIdModel>>
     fun getDataById(id: Int): ArrayList<WeatherDataModel>
     fun getData(): ArrayList<WeatherDataModel>
     fun getLastData(): ArrayList<WeatherDataModel>
