@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.other.RegexKeys
@@ -14,8 +16,22 @@ import java.io.IOException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+
 class Utils {
     companion object {
+        fun darkenColor(color: Int): Int {
+            val hsv = FloatArray(3)
+            Color.colorToHSV(color, hsv)
+            hsv[2] *= 0.8f
+            return Color.HSVToColor(hsv)
+        }
+
+        fun darkenStatusBar(window: Window?, color: Int) {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.statusBarColor = color
+        }
+
         fun copyAttachedDatabase(context: Context, databaseName: String) {
             val dbPath = context.getDatabasePath(databaseName)
 

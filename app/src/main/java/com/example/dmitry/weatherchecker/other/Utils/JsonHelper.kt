@@ -17,12 +17,10 @@ class JsonHelper {
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            if (inputStreamReader != null) {
-                try {
-                    inputStreamReader.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+            try {
+                inputStreamReader.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
         return null

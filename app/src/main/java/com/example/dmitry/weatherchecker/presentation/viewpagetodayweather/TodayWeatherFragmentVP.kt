@@ -1,7 +1,10 @@
 package com.example.dmitry.weatherchecker.presentation.viewpagetodayweather
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
@@ -15,7 +18,6 @@ import com.example.dmitry.weatherchecker.other.Utils.Utils
 import com.example.dmitry.weatherchecker.presentation.todayweather.TodayWeatherAdapter
 import kotlinx.android.synthetic.main.view_page_frame_today_weather.view.*
 
-
 class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefreshListener, TodayWeatherVPMain {
     @InjectPresenter
     lateinit var presenter: TodayWeatherFragmentVpPresenter
@@ -23,6 +25,8 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
     private val adapter = TodayWeatherAdapter()
     private var list = ArrayList<WeatherDataModel>()
     private var days: Int = 0
+    private var window: Window? = null
+    private var actionBar: ActionBar? = null
     private lateinit var tempMins: TextView
     private lateinit var date: TextView
     private lateinit var cloudsIcon: ImageView
@@ -66,6 +70,10 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
     override fun initView(arrayList: ArrayList<WeatherDataModel>) {
         setData(arrayList)
         setLoadingFalse()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
     }
 
     override fun setLoadingFalse() {
@@ -126,6 +134,9 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         adapterVP = result.list_graphs
         date = result.today_weather_date
         swipeRefreshLayout = result.swipe_container
+        actionBar = (activity as AppCompatActivity).supportActionBar
+        window = (activity as AppCompatActivity).window
+
 
         swipeRefreshLayout.setOnRefreshListener(this)
         adapterVP.adapter = adapter
@@ -150,6 +161,8 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         windSpeeds.text = "${arrayList[0].wind_speed} м/с"
         weatherIcons.setImageResource(Utils.setIcon(arrayList[0].weather_icon)!!)
         date.text = "${Utils.dateEdit(arrayList[0].dt_text)}"
+        actionBar!!.setBackgroundDrawable(ColorDrawable(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt())))
+        Utils.darkenStatusBar(window, Utils.darkenColor(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt())))
         adapter.setData(arrayList)
     }
 
