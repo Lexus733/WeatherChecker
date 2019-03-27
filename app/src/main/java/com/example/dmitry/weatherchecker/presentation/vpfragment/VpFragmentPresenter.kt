@@ -26,7 +26,8 @@ class VpFragmentPresenter : MvpPresenter<VpFragmentView>() {
                     insertDataInDb(it)
                 }
                 .map {
-                    arrayListOf(repos.getNowData().reversed()
+                    arrayListOf(
+                            repos.getNowData().reversed()
                             , repos.getForwardData("1 days")
                             , repos.getForwardData("2 days")
                             , repos.getForwardData("3 days")

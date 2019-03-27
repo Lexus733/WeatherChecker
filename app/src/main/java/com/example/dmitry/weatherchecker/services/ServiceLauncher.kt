@@ -25,6 +25,7 @@ class ServiceLauncher : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         repos = Repos()
         repos.insertEverythingToDbFromApi()
+
         listener = {
             alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             pendingIntent = PendingIntent.getService(this

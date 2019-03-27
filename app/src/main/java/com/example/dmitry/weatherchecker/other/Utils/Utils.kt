@@ -70,6 +70,17 @@ class Utils {
                     .getInt(SharedPreferencesKeys.CITY_ID, WeatherApiKeys.CITY_ID)
         }
 
+        fun loadNotificationStatus(): Boolean {
+            return MainApplication.getSP()
+                    .getBoolean(SharedPreferencesKeys.NOTIFICATION_STATUS, false)
+        }
+
+        fun saveNotificationStatus(check: Boolean) {
+            val editor: SharedPreferences.Editor = MainApplication.getSP().edit()
+            editor.putBoolean(SharedPreferencesKeys.NOTIFICATION_STATUS, check)
+            editor.apply()
+        }
+
         fun saveSettings(id: Int) {
             val editor: SharedPreferences.Editor = MainApplication.getSP().edit()
             editor.putInt(SharedPreferencesKeys.CITY_ID, id)

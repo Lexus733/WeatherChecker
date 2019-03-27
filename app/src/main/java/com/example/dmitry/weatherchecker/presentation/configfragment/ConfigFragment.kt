@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
+import com.example.dmitry.weatherchecker.other.Utils.Utils
 import com.example.dmitry.weatherchecker.presentation.configfragment.adapters.ConfigRVAdapter
 import kotlinx.android.synthetic.main.fragment_confing.*
 
@@ -21,6 +22,11 @@ class ConfigFragment : MvpAppCompatFragment(), ConfigView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_confing, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        config_item_checkNotification.isChecked = Utils.loadNotificationStatus()
     }
 
     override fun showMessage(message: String) {
@@ -44,6 +50,10 @@ class ConfigFragment : MvpAppCompatFragment(), ConfigView {
                 presenter.getCityNames(p0.toString())
             }
         })
+
+        config_item_checkNotification.setOnCheckedChangeListener { buttonView, isChecked ->
+            presenter.onClick(buttonView, isChecked, context!!)
+        }
 
 //        Thread(Runnable {
 //            JsonHelper().getDataFromJson(this!!.context!!)!!.map {

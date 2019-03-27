@@ -29,7 +29,6 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         val data: WeatherDataModel = data[position]
         holder.timeTextView.text = Utils.dateTimeEdit(data.dt_text)
         param = holder.tempTextView.layoutParams as ConstraintLayout.LayoutParams
-        changeMarginByTemp(Math.round(data.temp).toInt())
         holder.tempTextView.text = "${data.temp} °C"
         holder.tempTextView.setBackgroundColor(Utils.colorByTemp(Math.round(data.temp).toInt()))
         holder.constraintLayout.setBackgroundColor(Utils.colorByTemp(Math.round(data.temp).toInt())

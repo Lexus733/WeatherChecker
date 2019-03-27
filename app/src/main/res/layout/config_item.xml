@@ -25,5 +25,4 @@
         android:textSize="@dimen/today_weather_text_size"
         app:layout_constraintLeft_toRightOf="@id/config_item_city_name"
         app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>
