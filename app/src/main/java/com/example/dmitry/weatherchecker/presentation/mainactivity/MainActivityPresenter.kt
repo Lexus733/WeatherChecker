@@ -7,6 +7,8 @@ import com.arellomobile.mvp.MvpPresenter
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.other.ScreenKeys
+import com.example.dmitry.weatherchecker.other.utils.Utils
+import com.example.dmitry.weatherchecker.other.WeatherApiKeys
 import com.example.dmitry.weatherchecker.presentation.configfragment.ConfigFragment
 import com.example.dmitry.weatherchecker.presentation.vpfragment.VpFragment
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
@@ -34,7 +36,10 @@ class MainActivityPresenter(private val supportFragmentManager: FragmentManager)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        MainApplication.getRouter().navigateTo(ScreenKeys.VP_FRAGMENT)
+        if (Utils.loadSettings() != WeatherApiKeys.FIRST_START)
+            MainApplication.getRouter().navigateTo(ScreenKeys.VP_FRAGMENT)
+        else
+            MainApplication.getRouter().navigateTo(ScreenKeys.CONFIG_FRAGMENT)
     }
 
     fun onBackPressed() = MainApplication.getRouter().exit()
@@ -42,6 +47,4 @@ class MainActivityPresenter(private val supportFragmentManager: FragmentManager)
     fun onResume() = MainApplication.getNavigatorHolder().setNavigator(navigators)
 
     fun onPause() = MainApplication.getNavigatorHolder().removeNavigator()
-
-    fun onBackNewScreenChain() = MainApplication.getRouter().newScreenChain(ScreenKeys.VP_FRAGMENT)
 }

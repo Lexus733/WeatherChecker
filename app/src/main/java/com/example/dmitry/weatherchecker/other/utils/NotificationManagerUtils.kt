@@ -1,4 +1,4 @@
-package com.example.dmitry.weatherchecker.other.Utils
+package com.example.dmitry.weatherchecker.other.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,7 +12,7 @@ import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.presentation.mainactivity.MainActivity
 
-class NotificationManagerUtils() {
+class NotificationManagerUtils {
     companion object {
         private const val NOTIFY_ID = 101
         private const val CHANNEL_ID = "WEATHER"
@@ -36,13 +36,13 @@ class NotificationManagerUtils() {
             notificationManager.createNotificationChannel(channel)
 
             val remote = RemoteViews(context.packageName, R.layout.notification)
-            remote.setTextViewText(R.id.inner_city, "${list[0].city_name}")
+            remote.setTextViewText(R.id.inner_city, list[0].city_name)
             remote.setTextViewText(R.id.inner_temp, "Temp: ${list[0].temp}")
             remote.setTextViewText(R.id.inner_wind, "Wind: ${list[0].wind_speed}")
             remote.setImageViewResource(R.id.weather_icon, Utils.setIcon(list[0].weather_icon)!!)
             remote.setOnClickPendingIntent(R.id.config_icons, resultPendingIntent)
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            builder.setSmallIcon(android.R.drawable.ic_dialog_email)
+            builder.setSmallIcon(Utils.setIcon(list[0].weather_icon)!!)
             builder.priority = NotificationCompat.PRIORITY_DEFAULT
             builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
             builder.setUsesChronometer(true)

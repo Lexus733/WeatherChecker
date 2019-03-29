@@ -8,8 +8,8 @@ import com.arellomobile.mvp.MvpPresenter
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.model.CityIdModel
 import com.example.dmitry.weatherchecker.other.ScreenKeys
-import com.example.dmitry.weatherchecker.other.Utils.NotificationManagerUtils
-import com.example.dmitry.weatherchecker.other.Utils.Utils
+import com.example.dmitry.weatherchecker.other.utils.NotificationManagerUtils
+import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.presentation.configfragment.adapters.ConfigRVAdapter
 import com.example.dmitry.weatherchecker.repos.Repos
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,7 +60,7 @@ class ConfigPresenter : MvpPresenter<ConfigView>() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         Utils.saveNotificationStatus(checked)
-                        NotificationManagerUtils.createNotification(context, it)
+                        NotificationManagerUtils.createNotification(context, it.reversed())
                     }
         } else {
             NotificationManagerUtils.cancelNotification(context)

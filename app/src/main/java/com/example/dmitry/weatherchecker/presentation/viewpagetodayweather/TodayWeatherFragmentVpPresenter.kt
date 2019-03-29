@@ -27,8 +27,12 @@ class TodayWeatherFragmentVpPresenter : MvpPresenter<TodayWeatherVPMain>() {
                     insertDataInDb(it)
                 }
                 .map {
-                    return@map repos.getForwardData("$days days")
-                            as ArrayList<WeatherDataModel>
+                    if (days == 0) {
+                        return@map repos.getNowData().reversed() as ArrayList<WeatherDataModel>
+                    } else {
+                        return@map repos.getForwardData("$days days")
+                                as ArrayList<WeatherDataModel>
+                    }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

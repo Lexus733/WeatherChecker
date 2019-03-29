@@ -1,4 +1,4 @@
-package com.example.dmitry.weatherchecker.other.Utils
+package com.example.dmitry.weatherchecker.other.utils
 
 import android.content.Context
 import com.example.dmitry.weatherchecker.model.CityId

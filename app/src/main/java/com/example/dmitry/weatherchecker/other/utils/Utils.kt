@@ -1,4 +1,4 @@
-package com.example.dmitry.weatherchecker.other.Utils
+package com.example.dmitry.weatherchecker.other.utils
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -52,7 +52,7 @@ class Utils {
                             length = it
                             it > 0
                         }) {
-                    output.write(buffer, 0, length);
+                    output.write(buffer, 0, length)
                 }
 
                 output.flush()
@@ -67,7 +67,7 @@ class Utils {
 
         fun loadSettings(): Int {
             return MainApplication.getSP()
-                    .getInt(SharedPreferencesKeys.CITY_ID, WeatherApiKeys.CITY_ID)
+                    .getInt(SharedPreferencesKeys.CITY_ID, WeatherApiKeys.FIRST_START)
         }
 
         fun loadNotificationStatus(): Boolean {

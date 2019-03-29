@@ -7,7 +7,7 @@ import com.example.dmitry.weatherchecker.api.OpenWeatherApi
 import com.example.dmitry.weatherchecker.model.CityIdModel
 import com.example.dmitry.weatherchecker.model.WeatherData
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.other.Utils.Utils
+import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.other.WeatherApiKeys
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -148,10 +148,6 @@ class Repos : IRepos {
 
     internal fun insertWeatherDataInDb(weatherDataModel: WeatherDataModel) {
         MainApplication.getDb().insert(weatherDataModel)
-    }
-
-    internal fun insertCityIdDataInDb(cityId: CityIdModel) {
-        MainApplication.getDb().insert(cityId)
     }
 }
 

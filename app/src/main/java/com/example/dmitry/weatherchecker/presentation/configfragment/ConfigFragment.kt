@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
-import com.example.dmitry.weatherchecker.other.Utils.Utils
+import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.presentation.configfragment.adapters.ConfigRVAdapter
 import kotlinx.android.synthetic.main.fragment_confing.*
 

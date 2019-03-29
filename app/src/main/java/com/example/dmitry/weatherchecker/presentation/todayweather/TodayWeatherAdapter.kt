@@ -1,5 +1,6 @@
 package com.example.dmitry.weatherchecker.presentation.todayweather
 
+import android.annotation.SuppressLint
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.other.Utils.Utils
+import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.today_weather_item_constraint.view.*
 import org.jetbrains.anko.withAlpha
@@ -25,6 +26,7 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
 
     override fun getItemCount(): Int = data.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: WeatherDataModel = data[position]
         holder.timeTextView.text = Utils.dateTimeEdit(data.dt_text)
@@ -45,13 +47,6 @@ class TodayWeatherAdapter : RecyclerView.Adapter<TodayWeatherAdapter.ViewHolder>
         if (data.size > 0) {
             this.data = data
             notifyDataSetChanged()
-        }
-    }
-
-    private fun changeMarginByTemp(temp: Int) {
-        when {
-            temp > 0 -> return param.setMargins(0, 100 - temp * 2, 0, 0)
-            temp <= 0 -> return param.setMargins(0, 100 + Math.abs(temp) * 2, 0, 0)
         }
     }
 

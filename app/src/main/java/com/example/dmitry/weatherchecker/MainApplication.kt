@@ -27,13 +27,9 @@ class MainApplication : Application() {
         private var intent: Intent? = null
         private lateinit var sharedPreferences: SharedPreferences
 
-        fun getIntent() = intent
-
         fun getDb() = db!!.weatherDataDao()
 
         fun getSP() = sharedPreferences
-
-        fun destroyDb() = WeatherDataBase.destroyInstance()
 
         fun getNavigatorHolder(): NavigatorHolder =
                 requireNotNull(cicerone) { "Parameter 'cicerone' is missing!" }

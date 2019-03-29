@@ -8,7 +8,7 @@ import com.example.dmitry.weatherchecker.dao.WeatherDataDao
 import com.example.dmitry.weatherchecker.model.CityIdModel
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.DataBaseKeys
-import com.example.dmitry.weatherchecker.other.Utils.Utils
+import com.example.dmitry.weatherchecker.other.utils.Utils
 
 
 @Database(entities = [WeatherDataModel::class, CityIdModel::class], version = 3)

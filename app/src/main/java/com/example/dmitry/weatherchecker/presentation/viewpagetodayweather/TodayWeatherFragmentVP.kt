@@ -1,5 +1,6 @@
 package com.example.dmitry.weatherchecker.presentation.viewpagetodayweather
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
@@ -14,7 +15,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
-import com.example.dmitry.weatherchecker.other.Utils.Utils
+import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.presentation.todayweather.TodayWeatherAdapter
 import kotlinx.android.synthetic.main.view_page_frame_today_weather.view.*
 
@@ -139,6 +140,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
 
 
         swipeRefreshLayout.setOnRefreshListener(this)
+
         adapterVP.adapter = adapter
         viewsVisible()
         setData(list)
@@ -146,6 +148,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         return result
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setData(arrayList: ArrayList<WeatherDataModel>) {
         cloudss.text = "${arrayList[0].clouds_all} %"
         groundLevels.text = arrayList[0].grnd_level.toString()
@@ -160,10 +163,11 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         humiditys.text = "${arrayList[0].humidity} %"
         windSpeeds.text = "${arrayList[0].wind_speed} м/с"
         weatherIcons.setImageResource(Utils.setIcon(arrayList[0].weather_icon)!!)
-        date.text = "${Utils.dateEdit(arrayList[0].dt_text)}"
+        date.text = Utils.dateEdit(arrayList[0].dt_text)
         actionBar!!.setBackgroundDrawable(ColorDrawable(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt())))
         Utils.darkenStatusBar(window, Utils.darkenColor(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt())))
         adapter.setData(arrayList)
+        swipeRefreshLayout.setColorSchemeColors(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt()))
     }
 
     private fun viewsVisible() {
