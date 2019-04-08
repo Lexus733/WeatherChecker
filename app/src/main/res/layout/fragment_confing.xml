@@ -10,6 +10,9 @@
         android:layout_height="wrap_content"
         android:text="@string/notification_off"
         android:textSize="@dimen/today_weather_text_size"
+        android:checked="false"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         app:layout_constraintBottom_toTopOf="@id/configEditText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

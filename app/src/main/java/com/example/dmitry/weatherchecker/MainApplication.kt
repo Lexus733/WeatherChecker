@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import com.example.dmitry.weatherchecker.database.WeatherDataBase
+import com.example.dmitry.weatherchecker.other.notification.NotificationHelper
 import com.example.dmitry.weatherchecker.services.ServiceLauncher
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
@@ -18,6 +19,7 @@ class MainApplication : Application() {
         cicerone = Cicerone.create()
         db = WeatherDataBase.getInstance(this)
         intent = Intent(this, ServiceLauncher::class.java)
+        notification = NotificationHelper.getInstance(this)
         startService(intent)
     }
 
@@ -25,11 +27,14 @@ class MainApplication : Application() {
         private var cicerone: Cicerone<Router>? = null
         private var db: WeatherDataBase? = null
         private var intent: Intent? = null
+        private var notification : NotificationHelper? = null
         private lateinit var sharedPreferences: SharedPreferences
 
         fun getDb() = db!!.weatherDataDao()
 
         fun getSP() = sharedPreferences
+
+        fun getNotify() = notification
 
         fun getNavigatorHolder(): NavigatorHolder =
                 requireNotNull(cicerone) { "Parameter 'cicerone' is missing!" }

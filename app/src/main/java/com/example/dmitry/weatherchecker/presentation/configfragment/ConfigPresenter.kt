@@ -1,14 +1,12 @@
 package com.example.dmitry.weatherchecker.presentation.configfragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.widget.CompoundButton
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.model.CityIdModel
 import com.example.dmitry.weatherchecker.other.ScreenKeys
-import com.example.dmitry.weatherchecker.other.utils.NotificationManagerUtils
 import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.presentation.configfragment.adapters.ConfigRVAdapter
 import com.example.dmitry.weatherchecker.repos.Repos
@@ -17,8 +15,8 @@ import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
 class ConfigPresenter : MvpPresenter<ConfigView>() {
-    lateinit var repos: Repos
-    lateinit var adapter: ConfigRVAdapter
+    private lateinit var repos: Repos
+    private lateinit var adapter: ConfigRVAdapter
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -26,7 +24,7 @@ class ConfigPresenter : MvpPresenter<ConfigView>() {
         viewState.initView()
     }
 
-    fun initView() {
+    private fun initView() {
         repos = Repos()
         adapter = ConfigRVAdapter(getOnItemListener())
         viewState.setAdapter(adapter)
@@ -44,7 +42,7 @@ class ConfigPresenter : MvpPresenter<ConfigView>() {
 
     @SuppressLint("CheckResult")
     fun getCityNames(name: String) {
-        repos.getCityIdRx("${name}%")
+        repos.getCityIdRx("$name%")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
@@ -53,17 +51,17 @@ class ConfigPresenter : MvpPresenter<ConfigView>() {
     }
 
     @SuppressLint("SetTextI18n", "CheckResult")
-    fun onClick(buttonView: CompoundButton?, checked: Boolean, context: Context) {
+    fun onClick(buttonView: CompoundButton?, checked: Boolean) {
         if (checked) {
             repos.getNowDataRx()
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         Utils.saveNotificationStatus(checked)
-                        NotificationManagerUtils.createNotification(context, it.reversed())
+                        MainApplication.getNotify()?.createNotification(it.reversed())
                     }
         } else {
-            NotificationManagerUtils.cancelNotification(context)
+            MainApplication.getNotify()?.cancelNotification()
             Utils.saveNotificationStatus(checked)
         }
     }

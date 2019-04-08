@@ -17,6 +17,7 @@ import com.example.dmitry.weatherchecker.R
 import com.example.dmitry.weatherchecker.model.WeatherDataModel
 import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.presentation.todayweather.TodayWeatherAdapter
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.view_page_frame_today_weather.view.*
 
 class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefreshListener, TodayWeatherVPMain {
@@ -29,6 +30,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
     private var window: Window? = null
     private var actionBar: ActionBar? = null
     private lateinit var tempMins: TextView
+    private lateinit var countryIcon: ImageView
     private lateinit var date: TextView
     private lateinit var cloudsIcon: ImageView
     private lateinit var humidityIcon: ImageView
@@ -117,6 +119,7 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         tempMaxIcon = result.today_weather_tempmax_icon
         seaLevelIcon = result.today_weather_sea_level_icon
         tempMinIcon = result.today_weather_tempmin_icon
+        countryIcon = result.today_weather_country_icon
         grndLevelIcon = result.today_weather_ground_level_icon
         windIcon = result.today_weather_wind_icon
         cloudss = result.today_weather_clouds
@@ -162,7 +165,16 @@ class TodayWeatherFragmentVP : MvpAppCompatFragment(), SwipeRefreshLayout.OnRefr
         descriptions.text = arrayList[0].weather_description
         humiditys.text = "${arrayList[0].humidity} %"
         windSpeeds.text = "${arrayList[0].wind_speed} м/с"
-        weatherIcons.setImageResource(Utils.setIcon(arrayList[0].weather_icon)!!)
+        Picasso.get()
+                .load(Utils.setIcon(arrayList[0].weather_icon)!!)
+                .placeholder(R.drawable.ic_file_download_black_24dp)
+                .error(R.drawable.ic_error_black_24dp)
+                .into(weatherIcons)
+        Picasso.get()
+                .load(Utils.setCountryIcon(arrayList[0].city_contry))
+                .placeholder(R.drawable.ic_file_download_black_24dp)
+                .error(R.drawable.ic_error_black_24dp)
+                .into(countryIcon)
         date.text = Utils.dateEdit(arrayList[0].dt_text)
         actionBar!!.setBackgroundDrawable(ColorDrawable(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt())))
         Utils.darkenStatusBar(window, Utils.darkenColor(Utils.colorByTemp(Math.round(arrayList[0].temp).toInt())))

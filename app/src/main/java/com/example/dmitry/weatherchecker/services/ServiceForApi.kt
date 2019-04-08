@@ -3,7 +3,7 @@ package com.example.dmitry.weatherchecker.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.example.dmitry.weatherchecker.other.utils.NotificationManagerUtils
+import com.example.dmitry.weatherchecker.MainApplication
 import com.example.dmitry.weatherchecker.other.utils.Utils
 import com.example.dmitry.weatherchecker.repos.Repos
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,7 +24,7 @@ class ServiceForApi : Service() {
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {
-                            NotificationManagerUtils.createNotification(applicationContext, it.reversed())
+                            MainApplication.getNotify()?.createNotification(it.reversed())
                         }
             }
         }
@@ -44,7 +44,7 @@ class ServiceForApi : Service() {
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {
-                            NotificationManagerUtils.createNotification(applicationContext, it.reversed())
+                            MainApplication.getNotify()?.createNotification(it.reversed())
                         }
             }
         }

@@ -52,7 +52,7 @@ class ConfigFragment : MvpAppCompatFragment(), ConfigView {
         })
 
         config_item_checkNotification.setOnCheckedChangeListener { buttonView, isChecked ->
-            presenter.onClick(buttonView, isChecked, context!!)
+            presenter.onClick(buttonView, isChecked)
         }
 
 //        Thread(Runnable {
